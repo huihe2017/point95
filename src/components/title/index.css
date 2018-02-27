@@ -1,0 +1,6 @@
+:local(.ptitle){
+    width: 100%;
+    height: 24px;
+    line-height: 24px;
+    text-align: left;
+}

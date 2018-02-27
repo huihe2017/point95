@@ -1,0 +1,29 @@
+
+:local(.contentlist){
+
+}
+:local(.content){
+    margin-top: 50px;
+
+}
+:local(.title){
+    font-size: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #dfdce4;
+    color: transparent;
+}
+:local(.title)>span{
+    color: #656b6f;
+    font-weight: 600;
+}
+:local(.list){
+    margin-left: 20px;
+    padding-top: 20px;
+    font-size: 18px;
+}
+:local(.item){
+    list-style: disc;
+    margin-bottom: 20px;
+    color: #656b6f;
+    line-height: 32px;
+}

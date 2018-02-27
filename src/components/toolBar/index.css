@@ -1,0 +1,57 @@
+:local(.wrap){
+    width: 80px;
+    height: auto;
+}
+:local(.wrap)>div{
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    position: relative;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    padding-top: 55px;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+:local(.gotop){
+
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    background-color: rgba(170,170,170,0.5);
+    background-image: url("./images/goTop.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.5s;
+}
+:local(.gotop:hover){
+    background-color: rgb(170,170,170);
+}
+:local(.speedaccount){
+    background-image: url("./images/speedAccount.png");
+    background-color: rgba(170,170,170,0.5);
+    background-repeat: no-repeat;
+    background-position: 20px 10px;
+    transition: all 0.5s;
+}
+:local(.speedaccount:hover){
+    background-color: rgb(170,170,170);
+}
+:local(.contactus){
+    background-image: url("./images/contactUs.png");
+    background-color: rgba(170,170,170,0.5);
+    background-repeat: no-repeat;
+    background-position: 20px 10px;
+    transition: all 0.5s;
+}
+:local(.contactus:hover){
+    background-color: rgb(170,170,170);
+}
+.ant-back-top {
+    right: 0!important;
+    bottom: 222px!important;
+    width: 80px!important;
+    height: 80px!important;
+    border-radius: 5px;
+}

@@ -1,0 +1,128 @@
+:local(.accountWithdrawView){
+    padding: 0 15px;
+}
+:local(.header){
+    margin-bottom: 80px;
+}
+:local(.input){
+    position: relative;
+}
+:local(.red){
+    color: #f59294;
+}
+
+:local(.icon){
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    z-index: 5;
+}
+:local(.dollar){
+    font-size: 16px;
+    color: #5262ff;
+}
+
+:local(.accountWithdrawView){
+
+}
+:local(.tcontent){
+
+}
+:local(.tctitle){
+    margin-bottom: 20px;
+
+}
+:local(.tccontent){
+    overflow: hidden;
+}
+:local(.bcontent){
+    margin-top: 20px;
+    border-top: 1px solid #dfdce4;
+    padding-top: 20px;
+}
+:local(.input){
+    float: left;
+    width: 260px;
+    height: 40px;
+}
+:local(.withdraw){
+    float: left;
+    font-size: 18px;
+    margin-left: 20px;
+    width: 120px;
+    height: 40px;
+}
+:local(.withdraw)>button{
+    width: 120px;
+    height: 40px;
+    border: 1px solid #5262ff;
+    background-color: transparent;
+    color: #5262ff;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+:local(.withdraw)>button:hover{
+    background-color: #5262ff;
+    color: #fff;
+    transition: 0.5s all;
+}
+
+:local(.ttip){
+    float: left;
+    width: 740px;
+    margin-left: 20px;
+    overflow: hidden;
+}
+:local(.tltip){
+    float: left;
+    font-size: 14px;
+}
+:local(.tltip)>li{
+    color: #aaa;
+    line-height: 20px;
+}
+:local(.tltip)>li>span{
+    color: #5262ff;
+}
+:local(.ttbank){
+    float: right;
+    overflow: hidden;
+    font-size: 14px;
+    padding-top: 20px;
+}
+:local(.ttbank)>li{
+    float: left;
+    color: #aaa;
+    line-height: 20px;
+}
+:local(.ttbank)>li:first-child{
+    margin-right: 20px;
+}
+:local(.but){
+    width: 160px;
+    height: 40px;
+    font-size: 24px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+:local(.but)>button{
+
+
+    width: 160px;
+    height: 40px;
+    background-color: #5262ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+:local(.butt):hover{
+    background-color: #5262ff!important;
+    color: #fff!important;
+}
+:local(.butt){
+    color: #5262ff!important;
+    border-color: #5262ff!important;
+    font-size: 14px!important;
+}

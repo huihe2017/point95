@@ -1,0 +1,23 @@
+
+:local(.aboutus){
+    width: 100%;
+    /*background-color: rgb(245, 245, 246);*/
+    /*min-height: 556px;*/
+}
+:local(.wlop){
+
+    width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    padding: 0 30px;
+    padding-top: 48px;
+    padding-bottom: 50px;
+    background-color: #fff;
+    margin-bottom: 30px;
+}
+:local(.page){
+    width: 390px;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}

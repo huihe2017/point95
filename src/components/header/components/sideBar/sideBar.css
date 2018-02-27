@@ -1,0 +1,35 @@
+:local(.sideBar) {
+    width: 420px;
+    position: fixed;
+    right: 0;
+    top: 67px;
+    transition: right 0.5s, 0.5s ease-out;
+    background-color: rgba(59, 61, 64, 0.5);
+
+}
+
+:local(.sideBar a)  {
+    color: #fff;
+
+}
+
+:local(.sideBar.hide)  {
+    right: -420px;
+}
+
+:local(.sideBar div)  {
+    line-height: 60px;
+    font-size: 18px;
+    text-align: left;
+    padding-left: 30px;
+}
+
+:local(.sideBar div:hover)  {
+    background: rgba(54, 59, 93, 0.5);
+}
+
+:local(.sideBar div.checked)  {
+
+}
+
+

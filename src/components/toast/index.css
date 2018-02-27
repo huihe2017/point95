@@ -1,0 +1,83 @@
+:local(.toastInit) {
+  display: none !important;
+}
+
+:local(.toastBox) {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: justify;
+  pointer-events: none;
+  font-family: "Microsoft YaHei";
+
+}
+
+:local(.toastInnerImg) {
+  width: 30px;
+  height: 30px;
+  margin: 10px auto;
+
+
+}
+:local(.toastInnerImg img) {
+  width: 100%;
+  height: 100%;
+}
+
+:local(.toastLoadingImg) {
+  width: 40px;
+  height: 40px;
+  margin: 5px auto;
+  /*background-image: url("../Img/loading.svg");*/
+  background-size: 100%;
+  animation: toastLoading 1s steps(12) infinite;
+}
+
+:local(.toastEnter) {
+  opacity: 0;
+  transform: translate(0, -30%);
+}
+
+:local(.toastInnerBox){
+  padding: 5px 10px;
+
+
+}
+:local(.toastInnerText) {
+  width: 100%;
+  text-align: center;
+}
+
+
+:local(.toastContent) {
+  max-width: 42%;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 1;
+  transition-property: opacity, transform;
+  transition-duration: 0.2s;
+  transform: translate(0, -50%);
+}
+
+:local(.toastOut) {
+  display: none !important;
+}
+
+:local(@keyframes toastLoading) {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg)
+  }
+  to {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn)
+  }
+}

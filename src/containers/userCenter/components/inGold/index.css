@@ -1,0 +1,147 @@
+:local(.wrap){
+    padding: 0 15px;
+
+}
+
+:local(.header){
+    margin-bottom: 80px;
+}
+:local(.red){
+    color: #f59294;
+}
+:local(.accountDepositView){
+
+}
+:local(.accheader){
+    padding-bottom: 20px;
+    border-bottom: 1px solid #dfdce4;
+    overflow: hidden;
+}
+:local(.acccontent){
+    font-size: 14px;
+}
+:local(.title){
+    font-size: 14px;
+    margin-right: 40px;
+    position: relative;
+}
+:local(.tttip){
+    color: #f59294;
+    position: absolute;
+    left: 120px;
+    top:7px;
+}
+:local(.inputc){
+    float: left;
+    width: 260px;
+    margin-top: 20px;
+    margin-right: 20px;
+    position: relative;
+}
+:local(.putjin){
+    height: 40px;
+    overflow: hidden;
+}
+:local(.dollar){
+    font-size: 16px;
+    color: #5262ff;
+}
+:local(.icon){
+    position: absolute;
+    z-index: 5;
+    right: 10px;
+    top: 8px;
+}
+:local(.tip){
+    margin-top: 20px;
+    float: left;
+    color: #aaa;
+    font-size: 14px;
+    line-height: 20px;
+}
+:local(.ttip){
+    display: block;
+}
+:local(.btip){
+    display: block;
+}
+:local(.tip)>span>span{
+    color: #5262ff;
+}
+:local(.btitle){
+    font-size: 14px;
+    margin-top: 20px;
+}
+:local(.error){
+    color: #f59294;
+}
+:local(.default){
+    color: #3b3d40;
+}
+:local(.banklist){
+    overflow: hidden;
+}
+:local(.banklist)>:local(.active){
+    border: 1px solid #5262ff;
+}
+:local(.banklist)>li{
+    width: 216px;
+    height: 60px;
+    float: left;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #dfdce4;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+:local(.banklist)>li:nth-child(5){
+    margin-right: 0;
+}
+:local(.banklist)>li:nth-child(10){
+    margin-right: 0;
+}
+:local(.banklist)>li:nth-child(15){
+    margin-right: 0;
+}
+:local(.banklist)>li:nth-child(20){
+    margin-right: 0;
+}
+:local(.banklist)>li:nth-child(25){
+    margin-right: 0;
+}
+:local(.banklist)>li:hover{
+    border: 1px solid #5262ff;
+}
+:local(.banklist)>li>img{
+    display: block;
+    top: 0;
+    left: 0;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+:local(.tipcontent){
+    height: 38px!important;
+    line-height: 38px!important;
+    font-size: 14px!important;
+    color: #aaa;
+}
+:local(.but){
+    font-size: 18px;
+    width: 160px;
+    height: 40px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+:local(.button){
+
+    width: 160px;
+    height: 40px;
+    background-color: #5262ff;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}

@@ -1,0 +1,25 @@
+:local(.wrap){
+    width: 1200px;
+    margin: 0 auto;
+    line-height: 50px;
+    font-size: 14px;
+    color: #aaa;
+}
+:local(.wrap)>div{
+    display: inline-block;
+
+}
+.ant-breadcrumb{
+    font-size: 14px!important;
+}
+.ant-breadcrumb>span:last-child {
+    color: #3b3d40!important;
+}
+.ant-breadcrumb a {
+    color: #aaa!important;
+
+}
+.ant-breadcrumb>span:last-child>a {
+    color: #3b3d40!important;
+    cursor: inherit;
+}

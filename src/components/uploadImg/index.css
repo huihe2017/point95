@@ -1,0 +1,15 @@
+:local(.uploadTip){
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 198px;
+    height: 30px;
+    line-height: 30px;
+    color: #3b3d40;
+    font-size: 14px;
+    text-align: center;
+    background-color: #dfdce4;
+}
+.ant-upload.ant-upload-select-picture-card{
+    overflow: hidden;
+}
