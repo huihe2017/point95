@@ -76,4 +76,31 @@
 :local(.blueLine ){
     height: 10px;
     background: #5262ff;
+    margin-bottom: 44px;
+}
+:local(.foottitle){
+    font-size:16px;
+    color:rgba(168,168,168,1);
+    line-height:20px;
+    text-align: center;
+    margin-bottom: 8px;
+}
+:local(.footcon){
+    font-size:14px;
+    color:rgba(168,168,168,1);
+    line-height:18px;
+    text-align: center;
+}
+:local(.footline){
+    width:206px;
+    height:1px;
+    margin: 0 auto;
+    background-color: rgba(168,168,168,1);
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+:local(.footcopy){
+    font-size:14px;
+    color:rgba(168,168,168,1);
+    text-align: center;
 }

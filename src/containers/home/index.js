@@ -8,6 +8,7 @@ import ToolBar from '../../components/toolBar'
 import {hashHistory} from 'react-router'
 import PageTable from './components/pageTable'
 import Qcode from '../../components/Qcode'
+import homeSwiper from './homeSwiper'
 
 class Home extends React.Component {
     constructor() {
@@ -54,6 +55,7 @@ class Home extends React.Component {
                             <p className={style.supcontent1}>
                                 我们结合了超过25年的金融行业经验与市场洞察力，
                                 关系网络，交易敏锐，以及复杂的交易策略
+
                             </p>
                             <p className={style.supcontent2}>
                                 The OSL team is led by industry veterans with comprehensive knowledge on Digital Assets and financial trading. The team is well structured with expertise in trading, infrastructure, onboarding support and security acumen, substantiating our position as the leading OTC trading desk for cryptocurrencies.
@@ -61,84 +63,39 @@ class Home extends React.Component {
                         </div>
                     </div>
                     <div className={style.mt4}>
-                        <div className={style.mt4title}>
-                            MT4交易终端下载
-                        </div>
-                        <div className={style.mt4download}>
-                            <a href="javascript:void (0);" className={style.mt4bg}>
-                            </a>
-                            <div className={style.downloadlist}>
-                                <Button ghost icon="windows"
-                                        style={{width: '220', height: '60', fontSize: '20', marginBottom: '30'}}
-                                        onClick={() => {
-                                            window.location.href = 'http://ucml.oss-cn-shanghai.aliyuncs.com/downloads/market4setup.exe'
-                                        }}
-                                >
-                                    &nbsp;
-                                    windows下载
-                                </Button>
-                                <Button
-                                    ghost
-                                    icon="apple"
-                                    style={{
-                                        width: '220',
-                                        height: '60',
-                                        fontSize: '20',
-                                        marginBottom: '30'
-                                    }}
-                                    onClick={() => {
-                                        this.setState({showQcode: true})
-                                        this.setState({QcodePath: 'ios'})
-                                    }}
-                                >
-                                    &nbsp;&nbsp;&nbsp;&nbsp;iOS下载&nbsp;&nbsp;&nbsp;&nbsp;
-                                </Button>
-                                <Button
-                                    ghost
-                                    icon="android"
-                                    style={{width: '220', height: '60', fontSize: '20'}}
-                                    onClick={() => {
-                                        this.setState({showQcode: true})
-                                        this.setState({QcodePath: 'android'})
-                                    }}
-                                >
-                                    &nbsp;
-                                    Android下载
-                                </Button>
+                        <homeSwiper/>
 
-                            </div>
-                        </div>
                     </div>
-                    <div className={style.partner}>
-                        <div className={style.partnercon}>
-                            <div className={style.pctitle}>
-                                合作伙伴 /
-                            </div>
-                            <div className={style.pccontent}>
-                                <div className={style.buddy}>
-                                    <img src={require('./images/WEB-02.png')} alt=""/>
+                    <div className={style.vision}>
+                        <div className={style.viscontent}>
+                            <p className={style.vistitle}>
+                                我们的愿景
+                            </p>
+                            <p className={style.visdtitle}>
+                                Our vision
+                            </p>
+                            <p className={style.visder}>
+                                我们专注于通过交易和投资策略来产生绝对回报，<br/>
+                                我们寻求利用机会，利用我们的最先进的专有技术和风险管理能力和经验
+                            </p><p className={style.visdder}>
+                            By leveraging extensive experience in risk management and trading strategies, in addition to having a state-of-the-art proprietary technology
+                            <br/> and deep pools of liquidity, OSL offers high value, large volume block trades of Digital Assets while ensuring competitive pricing and premium
+                            <br/>service.
 
-                                </div>
-                                <div className={style.buddy}>
-                                    <img src={require('./images/WEB-03.png')} alt=""/>
+                        </p>
+                        </div>
 
-                                </div>
-                                <div className={style.buddy}>
-                                    <img src={require('./images/WEB-04.png')} alt=""/>
-
-                                </div>
-                                <div className={style.buddy}>
-                                    <img src={require('./images/WEB-05.png')} alt=""/>
-
-                                </div>
-                                <div className={style.buddy}>
-                                    <img src={require('./images/WEB-06.png')} alt=""/>
-
-                                </div>
-                                <div className={style.buddy}>
-                                    <img src={require('./images/WEB-07.png')} alt=""/>
-                                </div>
-                            </div>
+                    </div>
+                    <div className={style.conus}>
+                        <p className={style.contitle}>
+                            联络我们
+                        </p>
+                        <p className={style.condtitle}>
+                            contact us
+                        </p>
+                        <div className={style.concontent}>
+                            <img src={require('./images/userbg.png')} alt=""/>
+                            info@point95global.com
                         </div>
                     </div>
                     {this.state.showQcode ? <Qcode path={this.state.QcodePath} onClose={()=>{this.setState({showQcode:false})}} /> : ''}
@@ -148,6 +105,5 @@ class Home extends React.Component {
         )
     }
 }
-
 
 export default Home
