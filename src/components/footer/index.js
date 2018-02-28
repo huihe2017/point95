@@ -5,7 +5,6 @@ import ContentList from '../contentList/index'
 import {hashHistory, Link} from 'react-router';
 import {connect} from 'react-redux'
 
-
 class Footer extends React.Component {
     constructor(props) {
         console.log(hashHistory)

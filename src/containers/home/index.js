@@ -8,7 +8,7 @@ import ToolBar from '../../components/toolBar'
 import {hashHistory} from 'react-router'
 import PageTable from './components/pageTable'
 import Qcode from '../../components/Qcode'
-import homeSwiper from './homeSwiper'
+import HomeSwiper from './homeSwiper'
 
 class Home extends React.Component {
     constructor() {
@@ -63,8 +63,7 @@ class Home extends React.Component {
                         </div>
                     </div>
                     <div className={style.mt4}>
-                        <homeSwiper/>
-
+                        <HomeSwiper/>
                     </div>
                     <div className={style.vision}>
                         <div className={style.viscontent}>
