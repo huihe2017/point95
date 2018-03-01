@@ -7,9 +7,9 @@
 
     width: 1200px;
     margin: 0 auto;
-
-    height: 100%;
+    height: 600px;
     padding-bottom: 30px;
+    margin-bottom: 40px;
 
 }
 :local(.userCenterHead){
@@ -260,8 +260,26 @@
 .ant-tabs-nav .ant-tabs-tab{
     padding: 0!important;
 }
-:local(.toolbar){
-    position: fixed;
-    right: 0;
-    bottom: 50px;
+:local(.pageList){
+    float: right;
+    background-color: #1abc9c;
+    width: 400px;
+    height: 500px;
 }
+
+:local(.wlfll){
+    float: left;
+}
+:local(.wlflr){
+    float: right;
+    width: 924px;
+    background-color: #fff;
+    min-height: 600px;
+}
+/*{!*<Upload.Dragger name="files" action="/upload.do">*!}*/
+/*{!*<p className="ant-upload-drag-icon">*!}*/
+/*{!*<Icon type="inbox" />*!}*/
+/*{!*</p>*!}*/
+/*{!*<p className="ant-upload-text">Click or drag file to this area to upload</p>*!}*/
+/*{!*<p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>*!}*/
+/*{!*</Upload.Dragger>*!}*/

@@ -100,6 +100,7 @@ class Home extends React.Component {
                     {this.state.showQcode ? <Qcode path={this.state.QcodePath} onClose={()=>{this.setState({showQcode:false})}} /> : ''}
                 </div>
                 <Footer/>
+
             </div>
         )
     }

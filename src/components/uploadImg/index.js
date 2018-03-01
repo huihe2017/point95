@@ -22,13 +22,14 @@ class UploadImg extends React.Component {
     //handleChange = ({ fileList }) => this.setState({ fileList })
     handleChange = ({fileList}) => {
         this.setState({ fileList:fileList },()=>{
-            //console.log("gfgg",this.state.fileList[0].response.data)
-            this.props.onChange(this.state.fileList[0]&&this.state.fileList[0].response&&this.state.fileList[0].response.data)
+            console.log("gfgg",this.state.fileList[0]?this.state.fileList[0].thumbUrl:'11')
+            this.props.onChange(this.state.fileList[0]?this.state.fileList[0].thumbUrl:'')
         })
+
     }
 
     render() {
-        console.log(this.props.dis)
+        // console.log(this.props.dis)
         const { previewVisible, previewImage, fileList } = this.state;
         const uploadButton = (
             <div className={style.uploadTip}>
@@ -46,9 +47,8 @@ class UploadImg extends React.Component {
                     listType="picture-card"
                     fileList={fileList}
                     onPreview={this.handlePreview}
-                    onChange={this.handleChange}
+                    onChange={this.handleChange.bind(this)}
                     withCredentials={true}
-
                 >
                     {fileList.length >= 1 ? null : uploadButton}
                 </Upload>

@@ -1,0 +1,30 @@
+:local(.wlop){
+    padding: 0 20px;
+    padding-top: 40px;
+
+}
+:local(.showstate){
+    float: right;
+    font-size: 18px ;
+}
+:local(.id){
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    clear: both;
+    margin-bottom: 10px;
+}
+:local(.lupingbox){
+    float: left;
+}
+:local(.rupingbox){
+    float: right;
+}
+:local(.idbox){
+    width: 500px;
+    margin-bottom: 40px;
+    height: 185px;
+}
+:local(.but){
+    clear: both;
+}

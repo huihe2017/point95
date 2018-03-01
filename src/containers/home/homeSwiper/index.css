@@ -11,28 +11,50 @@
 }
 :local(.warp){
     width: 100%;
-    height: 450px;
+
 }
 :local(.listitem){
     width: 100%;
-    height: 450px;
+    /*height: 450px;*/
     background-color: #A8A8A8;
 
 }
 :local(.listitem)>img{
     float: right;
-    width: 450px;
-    height: 450px;
+    height: 100%;
 }
 :local(.listitemcon){
-    padding-left: 367px;
+    padding-left: 19%;
     float: left;
-    width: 1400px;
+    width: 65%;
     font-size:18px;
     color:rgba(221,218,226,1);
     line-height:28px;
+    /*padding-right: 4%;*/
+}
+@media screen and (max-width: 1600px){
+    :local(.listitemcon){
+        padding-left: 10%;
+        float: left;
+        width: 65%;
+        font-size:18px;
+        color:rgba(221,218,226,1);
+        line-height:28px;
+        /*padding-right: 4%;*/
+    }
+}
+@media screen and (max-width: 1300px){
+    :local(.listitemcon){
+        padding-left: 3%;
+        float: left;
+        width: 63%;
+        font-size:18px;
+        color:rgba(221,218,226,1);
+        line-height:28px;
+        /*padding-right: 4%;*/
+    }
 }
 :local(.listitemcon)>img{
     margin-top: 26px;
-    margin-bottom: 36px;
+    margin-bottom: 26px;
 }

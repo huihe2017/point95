@@ -1,0 +1,13 @@
+:local(.wlop){
+    padding: 0 20px;
+    padding-top: 40px;
+
+}
+:local(.exc){
+    float: right;
+}
+
+:local(.float){
+    height: 52px;
+    clear: both;
+}
