@@ -9,7 +9,7 @@ import {register} from '../../../../actions/user'
 import Countdown from '../../../countdown/index'
 import Toast from 'antd-mobile/lib/toast';
 import 'antd-mobile/lib/toast/style/css';
-import axios from '../../../../common/axiosConf'
+import axios from  '../../../../common/axiosConf'
 
 
 const confirm = Modal.info;
@@ -40,7 +40,7 @@ class RegisterBox extends React.Component {
                 that.setState({
                     svg:response.data.result.txt
                 })
-                console.log(response.data.result.txt);
+                //console.log(response.data.result.txt);
 
             })
             .catch(function(err){
@@ -107,19 +107,25 @@ class RegisterBox extends React.Component {
         return flag
     }
 
-    getPicImg2() {
-        console.log(444444,this)
-        console.log(11111,this.checkConfirm)
-        console.log(11111,this.props)
-        console.log(11111,this.state)
-        console.log(555,this.hasOwnProperty('state'))
-        console.log(555,this.hasOwnProperty('props'))
-        return <div dangerouslySetInnerHTML={{__html: ''}}/>
+    getPicImg() {
+        console.log(444444,this);
+        //console.log(11111,this.checkConfirm);
+        //console.log(11111,this.props);
+        console.log(11111,this.state);
+        let _this = this;
+        setTimeout(function () {
+            console.log(11111,_this.state.svg);
+            //console.log(this===window);
+            return <div dangerouslySetInnerHTML={{__html: _this.state.svg}}/>
+        },2000)
+        //console.log(555,this.hasOwnProperty('state'));
+        //console.log(555,this.hasOwnProperty('props'));
+
     }
 
-    getPicImg = ()=>{
-        console.log(11111,this.state)
-    }
+
+
+
 
     render() {
         const {getFieldDecorator, getFieldError, getFieldValue} = this.props.form;
