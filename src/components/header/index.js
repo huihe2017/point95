@@ -18,7 +18,8 @@ class Header extends React.Component {
         this.state = {
             open: false,
             position: 'relative',
-            otherStyle: true
+            otherStyle: true,
+            isManage:true
 
         }
         this.choceType = this.choceType.bind(this)
@@ -95,6 +96,19 @@ class Header extends React.Component {
             }
         })
     }
+    isManage(){
+        if(this.props.user.userName){
+
+            if(this.state.isManage){
+                return(<div><span >{this.props.user.userName}</span>      <Link to="/checkUser"><span onClick={this.logout} >用户审核</span></Link></div>)
+            }else {
+                return(<div><span >{this.props.user.userName}</span></div>)
+            }
+        }else {
+            return(<div><span onClick={()=>{this.props.showLogin()}} >登录</span>      <span onClick={this.props.showRegister}  >注册</span></div>)
+        }
+    }
+
     render() {
 
         return (
@@ -152,18 +166,12 @@ class Header extends React.Component {
                         this.state.otherStyle ?
                     <div className={style.auth}>
                         {
-                            this.props.user.userName ?
-                                <div><span >{this.props.user.userName}</span>      <span onClick={this.logout} >退出</span></div>
-                                :
-                                <div><span onClick={()=>{this.props.showLogin()}}  >登录</span>      <span onClick={this.props.showRegister} >注册</span></div>
+                            this.isManage()
                         }
                     </div>:
                             <div className={style.autht}>
                                 {
-                                    this.props.user.userName ?
-                                        <div><span >{this.props.user.userName}</span>      <span onClick={this.logout} >退出</span></div>
-                                        :
-                                        <div><span onClick={()=>{this.props.showLogin()}} >登录</span>      <span onClick={this.props.showRegister}  >注册</span></div>
+                                    this.isManage()
                                 }
                             </div>
                     }

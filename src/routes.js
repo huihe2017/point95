@@ -12,6 +12,7 @@ import AboutUs from './containers/aboutUs/'
 import MT4Download from './containers/MT4Download/'
 import ProductDeal from './containers/productDeal/'
 import PartnerEntry from './containers/partnerEntry/'
+import CheckUser from './containers/checkUser/'
 
 export default () => {
     return (
@@ -26,6 +27,7 @@ export default () => {
             <Route path="/MT4Download" component={MT4Download}/>
             <Route path="/ProductDeal" component={ProductDeal}/>
             <Route path="/partnerEntry" component={PartnerEntry}/>
+            <Route path="/checkUser" component={CheckUser}/>
         </Router>
     )
 }

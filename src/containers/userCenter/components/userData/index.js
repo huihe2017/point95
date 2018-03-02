@@ -111,3 +111,7 @@ class UserData extends React.Component {
 
 const WrapUserData = Form.create()(UserData);
 export default WrapUserData;
+
+/*
+*record => <p>{record.url}</p>
+* */

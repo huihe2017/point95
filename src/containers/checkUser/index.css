@@ -1,0 +1,108 @@
+
+:local(.partnerEntry){
+
+    width: 100%;
+    background-color: rgb(245, 245, 246);
+    min-height: 556px;
+}
+:local(.wlop){
+
+    width: 1200px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    height: 100%;
+    min-height: 600px;
+    padding-bottom: 50px;
+    background-color: #fff;
+}
+:local(.parenimg){
+    width: 1200px;
+    height: 360px;
+
+}
+:local(.parencon){
+    width: 1200px;
+    height: 150px;
+    background-color: #fff;
+    padding-top: 40px;
+    font-size: 21px;
+}
+:local(.lbut){
+    float: left;
+    margin-left: 280px;
+
+}
+:local(.rbut){
+    float: left;
+    margin-left: 200px;
+
+}
+:local(.parencon) button{
+    width: 220px;
+    height: 60px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: 1px solid #5262ff;
+    color: #5262ff;
+    font-size: 21px;
+    outline: none;
+    cursor: pointer;
+}
+:local(.conlist){
+    padding: 0 15px;
+}
+:local(.butt:hover){
+    background-color: #5262ff!important;
+    color: #fff!important;
+}
+:local(.butt){
+    color: #5262ff!important;
+    border-color: #5262ff!important;
+}
+:local(.toolbar){
+    position: fixed;
+    right: 0;
+    bottom: 50px;
+}
+.components-table-demo-nested .ant-table-expanded-row > td:last-child {
+    padding: 0 48px 0 8px;
+}
+
+.components-table-demo-nested .ant-table-expanded-row > td:last-child .ant-table-thead th {
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.components-table-demo-nested .ant-table-expanded-row > td:last-child .ant-table-thead th:first-child {
+    padding-left: 0;
+}
+
+.components-table-demo-nested .ant-table-expanded-row > td:last-child .ant-table-row td:first-child {
+    padding-left: 0;
+}
+
+.components-table-demo-nested .ant-table-expanded-row .ant-table-row:last-child td {
+    border: none;
+}
+
+.components-table-demo-nested .ant-table-expanded-row .ant-table-thead > tr > th {
+    background: none;
+}
+
+.components-table-demo-nested .table-operation a:not(:last-child) {
+    margin-right: 24px;
+}
+:local(.imgshow){
+
+}
+:local(.imgshow)>p{
+    line-height: 240px;
+    font-size: 16px;
+    display: inline-block;
+    vertical-align:bottom;
+    width: 100px;
+}
+:local(.imgshow)>img{
+    width: 380px;
+    height: 240px;
+    outline: 1px solid #0f0e20;
+}
