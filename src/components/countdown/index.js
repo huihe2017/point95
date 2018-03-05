@@ -24,11 +24,11 @@ class Countdown extends React.Component {
 
             console.log(this.props.phone);
             let _this = this
-            axios.get('http://192.168.100.105:8000/telCaptcha', {
+            axios.get('http://192.168.100.105:8000/telCaptcha',{params: {
                 business: this.props.business,
                 captcha: this.props.picCode,
                 tel: this.props.phone
-            }).then(function (response) {
+            }}).then(function (response) {
                 console.log(response);
                 if (response.data.code === 0) {
                     _this.setState({counting: true})
