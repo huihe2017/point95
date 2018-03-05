@@ -45,6 +45,8 @@ class RegisterBox extends React.Component {
             });
     }
 
+
+
     hideModal = () => {
         this.props.hideAuth()
         // this.setState({
@@ -52,17 +54,20 @@ class RegisterBox extends React.Component {
         // });
     }
 
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 Toast.loading('', 0, null, false)
                 this.props.register({
-                    phone: this.state.areaCode + " " + this.state.phone,
+                    // tel: this.state.areaCode + " " + this.state.phone,
+                    tel: this.state.phone,
                     pwd: this.state.password,
                     code: this.state.code
                 }, (errorText) => {
                     Toast.hide()
+                    alert(1)
                     this.setState({picImg: this.getPicImg()})
                     if (errorText) {
                         Toast.info(errorText, 3, null, false)
@@ -212,8 +217,8 @@ class RegisterBox extends React.Component {
                                                 phone={this.state.phone}
                                                 picCode={this.state.authCode}
                                                 business='REGISTER'
-                                                failCallback={() => {
-                                                    this.setState({picImg: this.getPicImg()})
+                                                 failCallback={() => {
+                                                     this.setState({picImg: this.regetPicImg()})
                                                 }}
                                                 type="small"
                                                 onChange={(e) => {
@@ -223,6 +228,7 @@ class RegisterBox extends React.Component {
                                         </div>
                                     )
                                     }
+
                                     </FormItem>
                                 </div>
                                 <div className={style.tuxing}>

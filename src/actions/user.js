@@ -72,16 +72,17 @@ export function modifyPwd(data, callback) {
 
 export function register(data, callback) {
     return dispatch => {
-        axios.post('http://47.91.236.245:4030/user/customer', {
-            phone: data.phone,
-            password: data.pwd,
-            sms_captcha: data.code
+        axios.post('http://192.168.100.105:8000/regist', {
+            tel: data.tel,
+            pwd: data.pwd,
+            code: data.code
         })
             .then(function (response) {
                 if (response.data.code === 0) {
                     //注册并登录
-                    dispatch({type: 'LOGIN', data: response.data.data})
-                    callback()
+                    console.log(response.data)
+                    // dispatch({type: 'LOGIN', data: response.data.data})
+                    // callback()
                 } else {
                     callback(response.data.msg)
                 }

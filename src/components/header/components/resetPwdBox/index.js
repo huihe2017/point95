@@ -210,7 +210,7 @@ class ResetPwdBox extends React.Component {
                                                 picCode={this.state.authCode}
                                                 business='FIND_PASSWORD'
                                                 failCallback={() => {
-                                                    this.setState({picImg: this.getPicImg()})
+                                                    this.setState({picImg: this.regetPicImg()})
                                                 }}
                                                 onChange={(e) => {
                                                     this.setState({code: e.target.value})
@@ -238,6 +238,7 @@ class ResetPwdBox extends React.Component {
                                                type={'password'}/></div>
                                     )}
                                     </FormItem>
+
                                 </div>
                                 <div className={style.tuxing}>
                                     <FormItem

@@ -21,7 +21,6 @@ class Countdown extends React.Component {
             if (this.state.counting) {
                 return false
             }
-
             console.log(this.props.phone);
             let _this = this
             axios.get('http://192.168.100.105:8000/telCaptcha',{params: {
@@ -44,9 +43,22 @@ class Countdown extends React.Component {
                         })
                     }, 1000)
                 } else {
+                    _this.setState({counting: true})
+                    let seconds = 60
+                    _this.inter = setInterval(() => {
+
+                        _this.setState({extraText: (seconds--) + 's'}, () => {
+                            if (_this.state.extraText === '-1s') {
+                                clearInterval(_this.inter)
+                                _this.setState({extraText: '重新发送'})
+                                _this.setState({counting: false})
+                            }
+                        })
+                    }, 1000)
                     // Toast.fail(response.data.msg, 3, null, false)
-                    Toast.info(response.data.msg, 3, null, false)
-                    _this.props.failCallback()
+                    // Toast.info(response.data.msg, 3, null, false)
+                    // console.log(1111)
+                    // _this.props.failCallback()
                 }
             })
                 .catch(function (error) {
