@@ -7,6 +7,7 @@ import {hideAuth,showRegister,showResetPwd} from '../../../../actions/auth'
 import {login,resetPwd} from '../../../../actions/user'
 import Toast from 'antd-mobile/lib/toast';
 import 'antd-mobile/lib/toast/style/css';
+import axios from  '../../../../common/axiosConf'
 
 const confirm = Modal.info;
 const FormItem = Form.Item;
@@ -19,17 +20,41 @@ class LoginBox extends React.Component {
             visible: true,
             areaCode: ["86"],
             picCode: '',
-            picImg: this.getPicImg(),
+            picImg: '',
             phone: '',
             pwd: '',
         }
     }
-    getPicImg() {
-        return <img onClick={(e) => {
-            e.target.src = 'http://47.91.236.245:4030/user/image-captcha?tm=' + Math.random()
-        }}
-                    className={style.authCode}
-                    src={"http://47.91.236.245:4030/user/image-captcha?tm=" + Math.random()}/>
+    componentDidMount(){
+        var that=this;
+        axios.get('http://192.168.100.105:8000/captcha')
+            .then(function(response){
+                that.setState({
+                    picImg:that.getPicImg(response.data.result.txt)
+                })
+            })
+            .catch(function(err){
+                console.log(11,err);
+            });
+    }
+
+    getPicImg(e) {
+        return <div dangerouslySetInnerHTML={{__html:e}}/>
+    }
+
+    regetPicImg(){
+        var that=this
+        axios.get('http://192.168.100.105:8000/captcha')
+            .then(function(response){
+                console.log(that);
+                that.setState({
+                    picImg:that.getPicImg(response.data.result.txt)
+                })
+                //console.log(response.data.result.txt);
+            })
+            .catch(function(err){
+                console.log(22,err);
+            });
     }
 
     hideModal = () => {
@@ -81,7 +106,7 @@ class LoginBox extends React.Component {
                     <Form onSubmit={this.handleSubmit}>
                         <div className={style.content}>
                         <span className={style.llctitle}>
-                            欢迎来到海豚汇，请登录
+                            请登录
                         </span>
                         <div className={style.perselphone}>
                             <div className={style.selphone}>
@@ -103,7 +128,9 @@ class LoginBox extends React.Component {
                                 </div>
                             </div>
                             <div className={style.tuxing}>
-                                {this.state.picImg}
+                                <div className={style.tx} onClick={this.regetPicImg.bind(this)}>
+                                    {this.state.picImg}
+                                </div>
                                 <FormItem>{getFieldDecorator('authCode', {
                                     rules: [{ required: true, message: '请输入正确格式的验证码!' }],
                                 })(<div>

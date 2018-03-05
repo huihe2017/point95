@@ -22,11 +22,12 @@ class Countdown extends React.Component {
                 return false
             }
 
+            console.log(this.props.phone);
             let _this = this
-            axios.post('http://47.91.236.245:4030/user/sms-captcha', {
+            axios.get('http://192.168.100.105:8000/telCaptcha', {
                 business: this.props.business,
-                image_captcha: this.props.picCode,
-                phone: this.props.phone
+                captcha: this.props.picCode,
+                tel: this.props.phone
             }).then(function (response) {
                 console.log(response);
                 if (response.data.code === 0) {
@@ -41,7 +42,6 @@ class Countdown extends React.Component {
                                 _this.setState({counting: false})
                             }
                         })
-
                     }, 1000)
                 } else {
                     // Toast.fail(response.data.msg, 3, null, false)

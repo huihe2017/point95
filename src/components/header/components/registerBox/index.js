@@ -26,10 +26,9 @@ class RegisterBox extends React.Component {
         super(props);
         this.state = {
             visible: true,
-            picImg: this.getPicImg(),
+            picImg: '',
             areaCode: ["86"],
-            phone: '',
-            svg:''
+            phone: ''
         }
     }
 
@@ -38,10 +37,8 @@ class RegisterBox extends React.Component {
         axios.get('http://192.168.100.105:8000/captcha')
             .then(function(response){
                 that.setState({
-                    svg:response.data.result.txt
+                    picImg:that.getPicImg(response.data.result.txt)
                 })
-                //console.log(response.data.result.txt);
-
             })
             .catch(function(err){
                 console.log(11,err);
@@ -54,6 +51,7 @@ class RegisterBox extends React.Component {
         //     visible: false,
         // });
     }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -70,12 +68,12 @@ class RegisterBox extends React.Component {
                         Toast.info(errorText, 3, null, false)
                     } else {
                         this.props.hideAuth()
-
                     }
                 })
             }
         });
     }
+
     handleConfirmBlur = (e) => {
         const value = e.target.value;
         this.setState({confirmDirty: this.state.confirmDirty || !!value});
@@ -107,24 +105,24 @@ class RegisterBox extends React.Component {
         return flag
     }
 
-    getPicImg() {
-        console.log(444444,this);
-        //console.log(11111,this.checkConfirm);
-        //console.log(11111,this.props);
-        console.log(11111,this.state);
-        let _this = this;
-        setTimeout(function () {
-            console.log(11111,_this.state.svg);
-            //console.log(this===window);
-            return <div dangerouslySetInnerHTML={{__html: _this.state.svg}}/>
-        },2000)
-        //console.log(555,this.hasOwnProperty('state'));
-        //console.log(555,this.hasOwnProperty('props'));
-
+    getPicImg(e) {
+        return <div dangerouslySetInnerHTML={{__html:e}}/>
     }
 
-
-
+    regetPicImg(){
+        var that=this
+        axios.get('http://192.168.100.105:8000/captcha')
+            .then(function(response){
+                console.log(that);
+                that.setState({
+                    picImg:that.getPicImg(response.data.result.txt)
+                })
+                //console.log(response.data.result.txt);
+            })
+            .catch(function(err){
+                console.log(22,err);
+            });
+    }
 
 
     render() {
@@ -144,7 +142,7 @@ class RegisterBox extends React.Component {
                     <Form onSubmit={this.handleSubmit}>
                         <div className={style.content}>
                         <span className={style.llctitle}>
-                            注册海豚汇账号
+                            注册账号
                         </span>
                             <div className={style.perselphone}>
                                 <div className={style.selphone}>
@@ -181,8 +179,12 @@ class RegisterBox extends React.Component {
                                     {/*<img className={style.authCode}*/}
                                     {/*src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508392689327&di=de9f7dd0fb15a19b677b80a6e88956f2&imgtype=0&src=http%3A%2F%2Fimages2015.cnblogs.com%2Fblog%2F875028%2F201605%2F875028-20160513234811280-1452474757.png"*/}
                                     {/*alt=""/>*/}
-                                    {this.state.picImg}
-                                    <FormItem>{getFieldDecorator('authCode', {
+                                    <div className={style.tx} onClick={this.regetPicImg.bind(this)}>
+                                        {this.state.picImg}
+                                    </div>
+
+
+                                    <FormItem >{getFieldDecorator('authCode', {
                                         rules: [{required: true, message: '请输入正确格式的验证码!'}],
                                     })(<div>
                                         <Input onChange={

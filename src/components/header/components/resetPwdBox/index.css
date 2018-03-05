@@ -60,6 +60,16 @@
     height: 60px;
     position: relative;
 }
+:local(.tx){
+
+    height: 40px;
+    position: absolute;
+    right: 1px;
+    z-index: 2;
+    top:1px
+
+
+}
 .is-validating.has-feedback:after{
     display: none!important;
 }

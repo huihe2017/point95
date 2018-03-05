@@ -9,6 +9,7 @@ import {resetPwd} from '../../../../actions/user'
 import Countdown from '../../../countdown/index'
 import Toast from 'antd-mobile/lib/toast';
 import 'antd-mobile/lib/toast/style/css';
+import axios from  '../../../../common/axiosConf'
 
 const confirm = Modal.info;
 const FormItem = Form.Item;
@@ -24,10 +25,23 @@ class ResetPwdBox extends React.Component {
         super(props);
         this.state = {
             visible: true,
-            picImg: this.getPicImg(),
+            picImg: '',
             areaCode: ["86"],
             phone: ''
         }
+    }
+
+    componentDidMount(){
+        var that=this;
+        axios.get('http://192.168.100.105:8000/captcha')
+            .then(function(response){
+                that.setState({
+                    picImg:that.getPicImg(response.data.result.txt)
+                })
+            })
+            .catch(function(err){
+                console.log(11,err);
+            });
     }
 
     hideModal = () => {
@@ -88,13 +102,25 @@ class ResetPwdBox extends React.Component {
         return flag
     }
 
-    getPicImg() {
-        return <img onClick={(e) => {
-            e.target.src = 'http://47.91.236.245:4030/user/image-captcha?tm=' + Math.random()
-        }}
-                    className={style.authCode}
-                    src={"http://47.91.236.245:4030/user/image-captcha?tm=" + Math.random()}/>
+    getPicImg(e) {
+        return <div dangerouslySetInnerHTML={{__html:e}}/>
     }
+
+    regetPicImg(){
+        var that=this
+        axios.get('http://192.168.100.105:8000/captcha')
+            .then(function(response){
+                console.log(that);
+                that.setState({
+                    picImg:that.getPicImg(response.data.result.txt)
+                })
+                //console.log(response.data.result.txt);
+            })
+            .catch(function(err){
+                console.log(22,err);
+            });
+    }
+
 
     render() {
         const {getFieldDecorator, getFieldError, getFieldValue} = this.props.form;
@@ -150,7 +176,9 @@ class ResetPwdBox extends React.Component {
                                     {/*<img className={style.authCode}*/}
                                     {/*src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508392689327&di=de9f7dd0fb15a19b677b80a6e88956f2&imgtype=0&src=http%3A%2F%2Fimages2015.cnblogs.com%2Fblog%2F875028%2F201605%2F875028-20160513234811280-1452474757.png"*/}
                                     {/*alt=""/>*/}
-                                    {this.state.picImg}
+                                    <div className={style.tx} onClick={this.regetPicImg.bind(this)}>
+                                        {this.state.picImg}
+                                    </div>
                                     <FormItem>{getFieldDecorator('authCode', {
                                         rules: [{required: true, message: '请输入正确格式的验证码!'}],
                                     })(<div>
