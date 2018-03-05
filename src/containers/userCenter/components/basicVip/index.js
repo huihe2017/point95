@@ -2,25 +2,26 @@ import React from 'react';
 import { Form,Radio,Input,DatePicker,Button,Icon,Select,Upload   } from 'antd';
 import style from './index.css';
 import UploadImg from '../../../../components/uploadImg'
-var Qiniu = require('react-qiniu');
-var qiniu = require("qiniu");
+import QQiniu from 'react-qiniu';
+import qiniu from "qiniu";
 
 
 
-function uptoken(bucket, key) {
-    var putPolicy = new qiniu.rs.PutPolicy(bucket+":"+key);
-    return putPolicy.token();
-}
+// qiniu.conf.ACCESS_KEY ='BzN7Apb-vCMmeNYqM720qePENoBDsSVKfn-tuoxC' ;
+//
+// qiniu.conf.SECRET_KEY ='a96qIIB0PP6A3GEvs0VjMoznuO-j2QCfSx_aRXNU' ;
 
 class UserData extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            files: [],
             ischange:true,
             url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             url1:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             url2:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            dis:true
+            dis:true,
+            token: '',
         }
     }
 
@@ -28,24 +29,31 @@ class UserData extends React.Component {
     //     var putPolicy = new qiniu.rs.PutPolicy(bucket+":"+key);
     //     return putPolicy.token();
     // }
-    //
     // token = uptoken(bucket, fileName);
     //
     // getInitialState: function () {
     //     return {
     //         files: [],
     //         token: this.uptoken(),
-    //
     //     };
     // }
 
-    componentWillMount(){
 
-        var putPolicy = new qiniu.rs.PutPolicy('point95');
-        qiniu.conf.ACCESS_KEY ='BzN7Apb-vCMmeNYqM720qePENoBDsSVKfn-tuoxC' ;
-        qiniu.conf.SECRET_KEY ='a96qIIB0PP6A3GEvs0VjMoznuO-j2QCfSx_aRXNU' ;
-        console.log(putPolicy.token())
-        return putPolicy.token();
+    componentWillMount(){
+        var that=this;
+        var accessKey = 'BzN7Apb-vCMmeNYqM720qePENoBDsSVKfn-tuoxC';
+        var secretKey = 'a96qIIB0PP6A3GEvs0VjMoznuO-j2QCfSx_aRXNU';
+        var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+        var putPolicy = new qiniu.rs.PutPolicy({
+            scope: "point-95",
+        });
+        var uploadToken=putPolicy.uploadToken(mac);
+
+        console.log(321,uploadToken);
+        //return putPolicy.token();
+        that.setState({
+            token: uploadToken
+        })
     }
 
     handleSubmit = (e) => {
@@ -72,6 +80,27 @@ class UserData extends React.Component {
     click(){
         console.log(this.state)
     }
+    onUpload(files) {
+        // set onprogress function before uploading
+        files.map(function (f) {
+            f.onprogress = function(e) {
+                console.log(e.percent);
+            };
+        });
+    }
+    onDrop(files) {
+        this.setState({
+            files: files
+        });
+        // files is a FileList(https://developer.mozilla.org/en/docs/Web/API/FileList) Object
+        // and with each file, we attached two functions to handle upload progress and result
+        // file.request => return super-agent uploading file request
+        // file.uploadPromise => return a Promise to handle uploading status(what you can do when upload failed)
+        // `react-qiniu` using bluebird, check bluebird API https://github.com/petkaantonov/bluebird/blob/master/API.md
+        // see more example in example/app.js
+        console.log('Received files: ', files);
+    }
+
     render() {
 
         const { getFieldDecorator,getFieldError, isFieldTouched } = this.props.form;
@@ -113,14 +142,9 @@ class UserData extends React.Component {
                         />
                     </div>
                     <div className={style.rupingbox}>
-
-                        <UploadImg
-                            file={file1.length==1?file1:[]}
-                            onChange={(url) => {this.setState({url1: url})}}
-                            tip="点击上传国徽面"
-                            dis={this.state.dis}
-                        />
-
+                            <QQiniu onDrop={this.onDrop.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
+                                <div>Try dropping some files here, or click to select files to upload.</div>
+                            </QQiniu>
                     </div>
                 </div>
 
