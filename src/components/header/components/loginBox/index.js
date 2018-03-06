@@ -71,9 +71,9 @@ class LoginBox extends React.Component {
             if (!err) {
                 Toast.loading('', 0, null, false)
                 this.props.login({
-                    phone: this.state.areaCode + " " + this.state.phone,
+                    tel: this.state.phone,
                     pwd: this.state.pwd,
-                    picCode: this.state.picCode
+                    code: this.state.picCode
                 }, (errorText) => {
                     Toast.hide()
                     this.setState({picImg: this.getPicImg()})

@@ -67,7 +67,6 @@ class RegisterBox extends React.Component {
                     code: this.state.code
                 }, (errorText) => {
                     Toast.hide()
-                    alert(1)
                     this.setState({picImg: this.getPicImg()})
                     if (errorText) {
                         Toast.info(errorText, 3, null, false)

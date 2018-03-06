@@ -2,33 +2,34 @@ import axios from '../common/axiosConf'
 
 export function login(data, callback) {
     return dispatch => {
-        axios.post('http://47.91.236.245:4030/user/customer/sign-in', {
-            phone: data.phone,
-            password: data.pwd,
-            image_captcha: data.picCode
-
+        axios.post('http://192.168.100.105:8000/login', {
+            tel: data.tel,
+            pwd: data.pwd,
+            code: data.code
         })
             .then(function (response) {
-                if (response.data.code === 0) {
-                    dispatch({type: 'LOGIN', data: response.data.data})
-                    callback()
-                } else {
-                    callback(response.data.msg)
-                }
+                console.log(response)
+                // if (response.data.code === 0) {
+                //     dispatch({type: 'LOGIN', data: response.data.data})
+                //     callback()
+                // } else {
+                //     callback(response.data.msg)
+                // }
             })
             .catch(function (error) {
-                axios.post('http://47.91.236.245:4030/user/customer/log-out', {})
-                    .then(function (response) {
-                        if (response.data.code === 0) {
-                            dispatch({type: 'LOGOUT'})
-                            callback()
-                        } else {
-                            callback(response.data.msg)
-                        }
-                    })
-                    .catch(function (error) {
-                        dispatch({type: 'LOGOUT'})
-                    });
+                console.log(error)
+                // axios.post('http://47.91.236.245:4030/user/customer/log-out', {})
+                //     .then(function (response) {
+                //         if (response.data.code === 0) {
+                //             dispatch({type: 'LOGOUT'})
+                //             callback()
+                //         } else {
+                //             callback(response.data.msg)
+                //         }
+                //     })
+                //     .catch(function (error) {
+                //         dispatch({type: 'LOGOUT'})
+                //     });
             });
     }
 }

@@ -4,6 +4,7 @@ import style from './index.css';
 import UploadImg from '../../../../components/uploadImg'
 import QQiniu from 'react-qiniu';
 import qiniu from "qiniu";
+import axios from  '../../../../common/axiosConf'
 
 
 
@@ -20,7 +21,7 @@ class UserData extends React.Component {
             url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             url1:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             url2:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            dis:true,
+            dis:false,
             token: '',
         }
     }
@@ -28,7 +29,7 @@ class UserData extends React.Component {
     // uptoken(bucket, key) {
     //     var putPolicy = new qiniu.rs.PutPolicy(bucket+":"+key);
     //     return putPolicy.token();
-    // }
+    // }w
     // token = uptoken(bucket, fileName);
     //
     // getInitialState: function () {
@@ -63,6 +64,8 @@ class UserData extends React.Component {
                 console.log('Received values of form: ', values);
             }
         });
+
+
     }
     normFile = (e) => {
         console.log('Upload event:', e);
@@ -75,10 +78,20 @@ class UserData extends React.Component {
         this.setState({
             ischange:false
         })
-
     }
+
     click(){
-        console.log(this.state)
+        axios.post('http://192.168.100.105:8000/primaryAuth', {
+            frontCard: this.state.url,
+            backCard: this.state.url1,
+            handCard: this.state.url2
+        })
+            .then(function (response) {
+                console.log(response)
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
     }
     onUpload(files) {
         // set onprogress function before uploading
@@ -88,7 +101,7 @@ class UserData extends React.Component {
             };
         });
     }
-    onDrop(files) {
+    onDrop1(files) {
         this.setState({
             files: files
         });
@@ -98,7 +111,55 @@ class UserData extends React.Component {
         // file.uploadPromise => return a Promise to handle uploading status(what you can do when upload failed)
         // `react-qiniu` using bluebird, check bluebird API https://github.com/petkaantonov/bluebird/blob/master/API.md
         // see more example in example/app.js
-        console.log('Received files: ', files);
+
+        var l1=files[0].name.indexOf('.');
+        // var l2=files[0].name.split('').length;
+        var ex=files[0].name.slice(l1,100);
+        var ll=files[0].preview;
+        console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex);
+        this.setState({
+            url:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex
+        })
+    }
+    onDrop2(files) {
+        this.setState({
+            files: files
+        });
+        // files is a FileList(https://developer.mozilla.org/en/docs/Web/API/FileList) Object
+        // and with each file, we attached two functions to handle upload progress and result
+        // file.request => return super-agent uploading file request
+        // file.uploadPromise => return a Promise to handle uploading status(what you can do when upload failed)
+        // `react-qiniu` using bluebird, check bluebird API https://github.com/petkaantonov/bluebird/blob/master/API.md
+        // see more example in example/app.js
+
+        var l1=files[0].name.indexOf('.');
+        // var l2=files[0].name.split('').length;
+        var ex=files[0].name.slice(l1,100);
+        var ll=files[0].preview;
+        console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex);
+        this.setState({
+            url1:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex
+        })
+    }
+    onDrop3(files) {
+        this.setState({
+            files: files
+        });
+        // files is a FileList(https://developer.mozilla.org/en/docs/Web/API/FileList) Object
+        // and with each file, we attached two functions to handle upload progress and result
+        // file.request => return super-agent uploading file request
+        // file.uploadPromise => return a Promise to handle uploading status(what you can do when upload failed)
+        // `react-qiniu` using bluebird, check bluebird API https://github.com/petkaantonov/bluebird/blob/master/API.md
+        // see more example in example/app.js
+
+        var l1=files[0].name.indexOf('.');
+        // var l2=files[0].name.split('').length;
+        var ex=files[0].name.slice(l1,100);
+        var ll=files[0].preview;
+        console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex);
+        this.setState({
+            url2:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex
+        })
     }
 
     render() {
@@ -134,16 +195,13 @@ class UserData extends React.Component {
                 <div className={style.idbox}>
                     <span className={style.id}>身份证</span>
                     <div className={style.lupingbox}>
-                        <UploadImg
-                            file={file.length==1?file:[]}
-                            onChange={(url) => {this.setState({url: url})}}
-                            tip="点击上传人像面"
-                            dis={this.state.dis}
-                        />
+                        <QQiniu onDrop={this.onDrop1.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
+                            <div>点击上传身份证正面</div>
+                        </QQiniu>
                     </div>
                     <div className={style.rupingbox}>
-                            <QQiniu onDrop={this.onDrop.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
-                                <div>Try dropping some files here, or click to select files to upload.</div>
+                            <QQiniu onDrop={this.onDrop2.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
+                                <div>点击上传身份证反面</div>
                             </QQiniu>
                     </div>
                 </div>
@@ -152,11 +210,9 @@ class UserData extends React.Component {
                 <div className={style.idbox}>
                     <span className={style.id}>银行卡</span>
                     <div className={style.lupingbox}>
-                        <UploadImg
-                            file={file2.length==1?file2:[]}
-                            onChange={(url) => {this.setState({url2: url})}}
-                            tip="点击上传银行卡正面"
-                            dis={this.state.dis}/>
+                        <QQiniu onDrop={this.onDrop3.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
+                            <div>点击上传银行卡正面</div>
+                        </QQiniu>
                     </div>
                 </div>
                 <div className={style.but}>
