@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form,Radio,Input,DatePicker,Button,Icon,Select   } from 'antd';
 import style from './index.css';
+import axios from  '../../../../common/axiosConf'
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
@@ -13,6 +14,10 @@ class UserData extends React.Component {
         this.state = {
             ischange:true
         }
+    }
+
+    componentWillMount(){
+
     }
 
     handleSubmit = (e) => {

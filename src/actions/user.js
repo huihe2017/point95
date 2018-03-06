@@ -9,6 +9,9 @@ export function login(data, callback) {
         })
             .then(function (response) {
                 console.log(response)
+                if (response.data.code === 0) {
+
+                }
                 // if (response.data.code === 0) {
                 //     dispatch({type: 'LOGIN', data: response.data.data})
                 //     callback()
@@ -129,9 +132,8 @@ export function getDetailMsg(data, callback) {
 
 
 export function resetPwd(data, callback) {
-    console.log(111)
     return dispatch => {
-        axios.put('http://192.168.100.105:8000/forgetPwd', {
+        axios.post('http://192.168.100.105:8000/forgetPwd', {
             tel: data.tel,
             pwd: data.pwd,
             code: data.code
