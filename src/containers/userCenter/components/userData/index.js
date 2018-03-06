@@ -1,7 +1,8 @@
 import React from 'react';
 import { Form,Radio,Input,DatePicker,Button,Icon,Select   } from 'antd';
 import style from './index.css';
-import axios from  '../../../../common/axiosConf'
+import axios from  '../../../../common/axiosConf';
+import moment from 'moment';
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
@@ -12,16 +13,26 @@ class UserData extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ischange:true
+            ischange:true,
+            birthday: "",
+            gender: "",
+            nickname: ""
         }
     }
 
     componentWillMount(){
+        var that=this;
         //获取自处资料的信息
         axios.get('http://192.168.100.105:8000/baseMsg', {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
-            console.log(response);
+            console.log(159,response.data.result[0]);
+
+            that.setState({
+                birthday: "2018-02-22T08:35:41.651Z",
+                gender: 1,
+                nickname: "libowen"
+            },()=>{console.log(951,that.state)})
         }).catch(function (error) {
             console.log(error);
         })
@@ -64,7 +75,10 @@ class UserData extends React.Component {
             labelCol: { span: 2 },
             wrapperCol: { span: 10 },
         };
+        const dateFormat = 'YYYY/MM/DD';
+
         const config = {
+            initialValue: moment(this.state.birthday, dateFormat),
             rules: [{ type: 'object', required: true, message: '请选择生日!' }],
         };
         const userNameError = isFieldTouched('userName') && getFieldError('userName');
@@ -84,9 +98,10 @@ class UserData extends React.Component {
                         wrapperCol={{ span: 10 }}
                     >
                         {getFieldDecorator('nickname', {
+                            initialValue: this.state.nickname,
                             rules: [{ required: true, message: '请输入姓名!' }],
                         })(
-                            <Input placeholder="请输入你的姓名"  disabled={this.state.ischange}/>
+                            <Input   placeholder="请输入你的姓名"  disabled={this.state.ischange}/>
                         )}
                     </FormItem>
                 </div>
@@ -97,10 +112,12 @@ class UserData extends React.Component {
                         label="性别"
                     >
                         {getFieldDecorator('gender', {
+                            initialValue: this.state.gender,
+                            setFieldsValue:1,
                             rules: [{ required: true, message: '请选择性别!' }],})(
-                            <RadioGroup  disabled={this.state.ischange}>
-                                <Radio value="1">男</Radio>
-                                <Radio value="2">女</Radio>
+                            <RadioGroup   disabled={this.state.ischange}>
+                                <Radio value={1}>男</Radio>
+                                <Radio value={2}>女</Radio>
                             </RadioGroup>
                         )}
                     </FormItem>
@@ -111,7 +128,7 @@ class UserData extends React.Component {
                         label="生日"
                     >
                         {getFieldDecorator('birthday', config)(
-                            <DatePicker disabled={this.state.ischange}/>
+                            <DatePicker  disabled={this.state.ischange}/>
                         )}
                     </FormItem>
                 </div>
