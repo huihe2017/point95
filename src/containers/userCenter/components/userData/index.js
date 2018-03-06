@@ -17,14 +17,30 @@ class UserData extends React.Component {
     }
 
     componentWillMount(){
-
+        axios.get('http://192.168.100.105:8000/baseMsg', {params:{
+            token:localStorage.getItem('token')
+        }}).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        })
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                console.log( values.birthday._d);
+                axios.post('http://192.168.100.105:8000/editBaseMsg', {
+                    nickname: values.nickname,
+                    birthday: values.birthday._d,
+                    gender: values.gender,
+                    token:localStorage.getItem('token')
+                }).then(function (response) {
+                    console.log(response);
+                }).catch(function (error) {
+                    console.log(error);
+                })
             }
         });
     }
@@ -62,11 +78,11 @@ class UserData extends React.Component {
 
                 <div className={style.float}>
                     <FormItem
-                        label="姓名"
+                        label="昵称"
                         labelCol={{ span: 2 }}
                         wrapperCol={{ span: 10 }}
                     >
-                        {getFieldDecorator('note', {
+                        {getFieldDecorator('nickname', {
                             rules: [{ required: true, message: '请输入姓名!' }],
                         })(
                             <Input placeholder="请输入你的姓名"  disabled={this.state.ischange}/>
@@ -78,17 +94,13 @@ class UserData extends React.Component {
                     <FormItem
                         {...formItemLayout}
                         label="性别"
-                        hasFeedback
                     >
-                        {getFieldDecorator('select', {
-                            rules: [
-                                { required: true, message: '请选择性别!' },
-                            ],
-                        })(
-                            <Select placeholder="请选择你的性别"  disabled={this.state.ischange}>
-                                <Option value="man">男</Option>
-                                <Option value="woman">女</Option>
-                            </Select>
+                        {getFieldDecorator('gender', {
+                            rules: [{ required: true, message: '请选择性别!' }],})(
+                            <RadioGroup  disabled={this.state.ischange}>
+                                <Radio value="1">男</Radio>
+                                <Radio value="2">女</Radio>
+                            </RadioGroup>
                         )}
                     </FormItem>
                 </div>
@@ -97,7 +109,7 @@ class UserData extends React.Component {
                         {...formItemLayout}
                         label="生日"
                     >
-                        {getFieldDecorator('date-picker', config)(
+                        {getFieldDecorator('birthday', config)(
                             <DatePicker disabled={this.state.ischange}/>
                         )}
                     </FormItem>
