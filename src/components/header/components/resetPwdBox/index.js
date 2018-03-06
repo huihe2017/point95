@@ -56,7 +56,7 @@ class ResetPwdBox extends React.Component {
             if (!err) {
                 Toast.loading('', 0, null, false)
                 this.props.resetPwd({
-                    phone: this.state.areaCode + " " + this.state.phone,
+                    tel: this.state.phone,
                     pwd: this.state.password,
                     code: this.state.code
                 }, (errorText) => {

@@ -129,23 +129,25 @@ export function getDetailMsg(data, callback) {
 
 
 export function resetPwd(data, callback) {
+    console.log(111)
     return dispatch => {
-        axios.put('http://47.91.236.245:4030/user/customer/reset-password', {
-            phone: data.phone,
-            password: data.pwd,
-            sms_captcha: data.code
+        axios.put('http://192.168.100.105:8000/forgetPwd', {
+            tel: data.tel,
+            pwd: data.pwd,
+            code: data.code
         })
             .then(function (response) {
-                if (response.data.code === 0) {
-                    //重置密码并登录
-                    dispatch({type: 'LOGIN', data: response.data.data})
-                    callback()
-                } else {
-                    callback(response.data.msg)
-                }
+                console.log(response)
+                // if (response.data.code === 0) {
+                //     //重置密码并登录
+                //     dispatch({type: 'LOGIN', data: response.data.data})
+                //     callback()
+                // } else {
+                //     callback(response.data.msg)
+                // }
             })
             .catch(function (error) {
-
+                console.log(error)
             });
     }
 }
