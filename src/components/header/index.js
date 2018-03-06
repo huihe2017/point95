@@ -97,12 +97,11 @@ class Header extends React.Component {
         })
     }
     isManage(){
-        if(this.props.user.userName){
-
+        if(this.props.user.token){
             if(this.state.isManage){
-                return(<div><span >{this.props.user.userName}</span>      <Link to="/userCenter"><span onClick={this.logout} >个人中心</span></Link><Link to="/checkUser"><span onClick={this.logout} >用户审核</span></Link></div>)
+                return(<div><span >{this.props.user.userName}</span>      <Link to="/userCenter"><span onClick={this.logout} >个人中心</span></Link><Link to="/checkUser"><span onClick={this.logout} >用户审核</span></Link><span onClick={this.logout} >退出</span></div>)
             }else {
-                return(<div><span >{this.props.user.userName}</span><Link to="/userCenter"><span onClick={this.logout} >个人中心</span></Link></div>)
+                return(<div><span >{this.props.user.userName}</span><Link to="/userCenter"><span onClick={this.logout} >个人中心</span></Link><span onClick={this.logout} >退出</span></div>)
             }
         }else {
             return(<div><span onClick={()=>{this.props.showLogin()}} >登录</span>      <span onClick={this.props.showRegister}  >注册</span></div>)
@@ -187,6 +186,7 @@ class Header extends React.Component {
 }
 
 function mapStateToProps(state, props) {
+    console.log(556677,state)
     return {
         user: state.user,
         auth: state.auth

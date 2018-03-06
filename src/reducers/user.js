@@ -46,7 +46,7 @@ export default function sign(state = initialState, action = {}) {
             return Object.assign({}, state, {})
 
         case 'LOGOUT':
-            localStorage.removeItem('token')
+            //localStorage.removeItem('token')
             localStorage.removeItem('userName')
             localStorage.removeItem('MT4')
             localStorage.removeItem('status')

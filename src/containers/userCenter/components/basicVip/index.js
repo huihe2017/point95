@@ -30,7 +30,7 @@ class UserData extends React.Component {
         var that=this;
 
         //获取初级认证的资料
-        axios.get('http://192.168.100.105:8000/baseMsg', {params:{
+        axios.get('http://192.168.100.105:8000/primaryAuthMsg', {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
             console.log(response);
@@ -52,16 +52,7 @@ class UserData extends React.Component {
 
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
 
-
-    }
     normFile = (e) => {
         console.log('Upload event:', e);
         if (Array.isArray(e)) {
@@ -76,6 +67,7 @@ class UserData extends React.Component {
     }
 
     click(){
+        //提交初级认证资料
         axios.post('http://192.168.100.105:8000/primaryAuth',
             {
                 frontCard: this.state.url,
@@ -215,7 +207,7 @@ class UserData extends React.Component {
                     </div>
                 </div>
                 <div className={style.but}>
-                    <Button type="primary" htmlType="submit" onClick={this.click.bind(this)} disabled={this.state.dis} size='large'>提交</Button>
+                    <Button type="primary" onClick={this.click.bind(this)} disabled={this.state.dis} size='large'>提交</Button>
                 </div>
 
             </div>

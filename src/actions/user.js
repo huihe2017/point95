@@ -9,12 +9,10 @@ export function login(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 1) {
-                    console.log(response.data.result.token)
-
-                    // console.log(response.config.data['tel'])
-                    localStorage.setItem('token',response.data.result.token)
-                    localStorage.setItem('userName',data.tel)
-
+                    console.log(response.data.result.token);
+                    localStorage.setItem('token',response.data.result.token);
+                    localStorage.setItem('userName',data.tel);
+                    window.location.reload();
                 }
                 // if (response.data.code === 0) {
                 //     dispatch({type: 'LOGIN', data: response.data.data})
@@ -43,21 +41,8 @@ export function login(data, callback) {
 
 export function logout(data, callback) {
     return dispatch => {
-
-        localStorage.removeItem('token')
-
-        // axios.post('http://47.91.236.245:4030/user/customer/log-out', {})
-        //     .then(function (response) {
-        //         if (response.data.code === 0) {
-        //             dispatch({type: 'LOGOUT'})
-        //             callback()
-        //         } else {
-        //             callback(response.data.msg)
-        //         }
-        //     })
-        //     .catch(function (error) {
-        //         dispatch({type: 'LOGOUT'})
-        //     });
+        localStorage.removeItem('token');
+        window.location.reload();
     }
 }
 
