@@ -17,6 +17,7 @@ class UserData extends React.Component {
     }
 
     componentWillMount(){
+        //获取自处资料的信息
         axios.get('http://192.168.100.105:8000/baseMsg', {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
@@ -30,7 +31,7 @@ class UserData extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log( values.birthday._d);
+                //修改基础资料的提交
                 axios.post('http://192.168.100.105:8000/editBaseMsg', {
                     nickname: values.nickname,
                     birthday: values.birthday._d,

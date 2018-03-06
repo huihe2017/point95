@@ -26,22 +26,19 @@ class UserData extends React.Component {
         }
     }
 
-    // uptoken(bucket, key) {
-    //     var putPolicy = new qiniu.rs.PutPolicy(bucket+":"+key);
-    //     return putPolicy.token();
-    // }w
-    // token = uptoken(bucket, fileName);
-    //
-    // getInitialState: function () {
-    //     return {
-    //         files: [],
-    //         token: this.uptoken(),
-    //     };
-    // }
-
-
     componentWillMount(){
         var that=this;
+
+        //获取初级认证的资料
+        axios.get('http://192.168.100.105:8000/baseMsg', {params:{
+            token:localStorage.getItem('token')
+        }}).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        })
+
+        //获取七牛的token
         var accessKey = 'BzN7Apb-vCMmeNYqM720qePENoBDsSVKfn-tuoxC';
         var secretKey = 'a96qIIB0PP6A3GEvs0VjMoznuO-j2QCfSx_aRXNU';
         var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
@@ -49,12 +46,10 @@ class UserData extends React.Component {
             scope: "point-95",
         });
         var uploadToken=putPolicy.uploadToken(mac);
-
-        console.log(321,uploadToken);
-        //return putPolicy.token();
         that.setState({
             token: uploadToken
         })
+
     }
 
     handleSubmit = (e) => {
@@ -81,17 +76,21 @@ class UserData extends React.Component {
     }
 
     click(){
-        axios.post('http://192.168.100.105:8000/primaryAuth', {
-            frontCard: this.state.url,
-            backCard: this.state.url1,
-            handCard: this.state.url2
-        })
+
+        axios.post('http://192.168.100.105:8000/primaryVerify',
+            {
+                frontCard: this.state.url,
+                backCard: this.state.url1,
+                handCard: this.state.url2
+            })
             .then(function (response) {
                 console.log(response)
             })
             .catch(function (error) {
                 console.log(error)
             });
+
+
     }
     onUpload(files) {
         // set onprogress function before uploading

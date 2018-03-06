@@ -100,9 +100,9 @@ class Header extends React.Component {
         if(this.props.user.userName){
 
             if(this.state.isManage){
-                return(<div><span >{this.props.user.userName}</span>      <Link to="/checkUser"><span onClick={this.logout} >用户审核</span></Link></div>)
+                return(<div><span >{this.props.user.userName}</span>      <Link to="/userCenter"><span onClick={this.logout} >个人中心</span></Link><Link to="/checkUser"><span onClick={this.logout} >用户审核</span></Link></div>)
             }else {
-                return(<div><span >{this.props.user.userName}</span></div>)
+                return(<div><span >{this.props.user.userName}</span><Link to="/userCenter"><span onClick={this.logout} >个人中心</span></Link></div>)
             }
         }else {
             return(<div><span onClick={()=>{this.props.showLogin()}} >登录</span>      <span onClick={this.props.showRegister}  >注册</span></div>)

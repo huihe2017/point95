@@ -15,6 +15,7 @@ export function login(data, callback) {
                     // console.log(response.config.data['tel'])
                     localStorage.setItem('token',response.data.result.token)
                     localStorage.setItem('userName',data.tel)
+
                 }
                 // if (response.data.code === 0) {
                 //     dispatch({type: 'LOGIN', data: response.data.data})
