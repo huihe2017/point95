@@ -8,10 +8,9 @@ export function login(data, callback) {
             code: data.code
         })
             .then(function (response) {
-                console.log(response)
                 if (response.data.code === 1) {
-                    console.log(response)
-                    // console.log(response.config.data)
+                    console.log(response.data.result.token)
+
                     // console.log(response.config.data['tel'])
                     localStorage.setItem('token',response.data.result.token)
                     localStorage.setItem('userName',data.tel)

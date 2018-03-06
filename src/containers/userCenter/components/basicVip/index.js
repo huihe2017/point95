@@ -76,7 +76,7 @@ class UserData extends React.Component {
     }
 
     click(){
-        axios.post('http://192.168.100.105:8000/primaryVerify',
+        axios.post('http://192.168.100.105:8000/primaryAuth',
             {
                 frontCard: this.state.url,
                 backCard: this.state.url1,
