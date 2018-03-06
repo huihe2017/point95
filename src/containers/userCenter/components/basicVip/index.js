@@ -76,12 +76,12 @@ class UserData extends React.Component {
     }
 
     click(){
-
         axios.post('http://192.168.100.105:8000/primaryVerify',
             {
                 frontCard: this.state.url,
                 backCard: this.state.url1,
-                handCard: this.state.url2
+                handCard: this.state.url2,
+                token:localStorage.getItem('token')
             })
             .then(function (response) {
                 console.log(response)
