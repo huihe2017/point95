@@ -77,8 +77,8 @@ export function register(data, callback) {
                 if (response.data.code === 0) {
                     //注册并登录
                     console.log(response.data)
-                    // dispatch({type: 'LOGIN', data: response.data.data})
-                    // callback()
+                    dispatch({type: 'LOGIN', data: response.data.data})
+                    callback()
                 } else {
                     callback(response.data.msg)
                 }

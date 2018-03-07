@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form,Radio,Input,DatePicker,Button,Icon,Select   } from 'antd';
+import { Form,Radio,Input,DatePicker,Button,Icon,Select,message   } from 'antd';
 import style from './index.css';
 import axios from  '../../../../common/axiosConf';
 import moment from 'moment';
@@ -29,19 +29,22 @@ class UserData extends React.Component {
             console.log(159,response.data.result[0]);
 
             that.setState({
-                birthday: "2018-02-22T08:35:41.651Z",
-                gender: 1,
-                nickname: "libowen"
-            },()=>{console.log(951,that.state)})
+                birthday: response.data.result[0].birthday,
+                gender: response.data.result[0].gender,
+                nickname: response.data.result[0].nickname,
+            })
         }).catch(function (error) {
             console.log(error);
         })
     }
-
+    //点击提交
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                this.setState({
+                    ischange:true,
+                })
                 //修改基础资料的提交
                 axios.post('http://192.168.100.105:8000/editBaseMsg', {
                     nickname: values.nickname,
@@ -49,7 +52,11 @@ class UserData extends React.Component {
                     gender: values.gender,
                     token:localStorage.getItem('token')
                 }).then(function (response) {
-                    console.log(response);
+                    if (response.data.code === 1) {
+                        message.success(response.data.message);
+                    }else if (response.data.code === 0) {
+                        message.error(response.data.message);
+                    }
                 }).catch(function (error) {
                     console.log(error);
                 })
@@ -63,6 +70,7 @@ class UserData extends React.Component {
         }
         return e && e.fileList;
     }
+    //点击修改
     changesta(e) {
         this.setState({
             ischange:false
