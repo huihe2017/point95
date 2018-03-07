@@ -18,9 +18,9 @@ class UserData extends React.Component {
         this.state = {
             files: [],
             ischange:true,
-            url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            url1:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            url2:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+            url:'',
+            url1:'',
+            url2:'',
             dis:false,
             token: '',
         }
@@ -33,7 +33,13 @@ class UserData extends React.Component {
         axios.get('http://192.168.100.105:8000/primaryAuthMsg', {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
-            console.log(response);
+
+            console.log(123,response);
+            that.setState({
+                url:response.data.result["0"].backCard,
+                url1:response.data.result["0"].frontCard,
+                url2:response.data.result["0"].handCard,
+            })
         }).catch(function (error) {
             console.log(error);
         })
@@ -147,6 +153,7 @@ class UserData extends React.Component {
         // var l2=files[0].name.split('').length;
         var ex=files[0].name.slice(l1,100);
         var ll=files[0].preview;
+        console.log(files[0])
         console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex);
         this.setState({
             url2:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex
@@ -188,11 +195,13 @@ class UserData extends React.Component {
                     <div className={style.lupingbox}>
                         <QQiniu onDrop={this.onDrop1.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
                             <div>点击上传身份证正面</div>
+                            <img className={style.egimg} src={this.state.url} alt=""/>
                         </QQiniu>
                     </div>
                     <div className={style.rupingbox}>
                             <QQiniu onDrop={this.onDrop2.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
                                 <div>点击上传身份证反面</div>
+                                <img className={style.egimg} src={this.state.url1} alt=""/>
                             </QQiniu>
                     </div>
                 </div>
@@ -203,6 +212,7 @@ class UserData extends React.Component {
                     <div className={style.lupingbox}>
                         <QQiniu onDrop={this.onDrop3.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
                             <div>点击上传银行卡正面</div>
+                            <img className={style.egimg} src={this.state.url2} alt=""/>
                         </QQiniu>
                     </div>
                 </div>

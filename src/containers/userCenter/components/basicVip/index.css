@@ -16,14 +16,22 @@
 }
 :local(.lupingbox){
     float: left;
+    position: relative;
 }
 :local(.rupingbox){
     float: right;
+    position: relative;
 }
 :local(.idbox){
     width: 500px;
     margin-bottom: 40px;
     height: 185px;
+}
+:local(.egimg){
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
 }
 :local(.but){
     clear: both;
