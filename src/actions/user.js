@@ -9,8 +9,10 @@ export function login(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 1) {
-                    console.log(response.data.result.token);
+                    //console.log(response.data.result.token);
+                    //console.log(999,response.data.result.role);
                     localStorage.setItem('token',response.data.result.token);
+                    localStorage.setItem('role',response.data.result.role);
                     localStorage.setItem('userName',data.tel);
                     window.location.reload();
                 }
@@ -42,6 +44,7 @@ export function login(data, callback) {
 export function logout(data, callback) {
     return dispatch => {
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
         window.location.reload();
     }
 }

@@ -27,7 +27,6 @@ class UserData extends React.Component {
             token:localStorage.getItem('token')
         }}).then(function (response) {
             console.log(159,response.data.result[0]);
-
             that.setState({
                 birthday: response.data.result[0].birthday,
                 gender: response.data.result[0].gender,

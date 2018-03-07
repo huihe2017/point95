@@ -98,7 +98,7 @@ class Header extends React.Component {
     }
     isManage(){
         if(this.props.user.token){
-            if(this.state.isManage){
+            if(localStorage.getItem('role')==1){
                 return(<div><span >{this.props.user.userName}</span>      <Link to="/userCenter"><span >个人中心</span></Link><Link to="/checkUser"><span  >用户审核</span></Link><span onClick={this.logout} >退出</span></div>)
             }else {
                 return(<div><span >{this.props.user.userName}</span><Link to="/userCenter"><span >个人中心</span></Link><span onClick={this.logout} >退出</span></div>)

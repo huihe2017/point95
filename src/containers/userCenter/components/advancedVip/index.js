@@ -4,10 +4,7 @@ import style from './index.css';
 import UploadImg from '../../../../components/uploadImg'
 import QQiniu from 'react-qiniu';
 import qiniu from "qiniu";
-import axios from  '../../../../common/axiosConf'
-
-
-
+import axios from  '../../../../common/axiosConf';
 
 class UserData extends React.Component {
     constructor(props) {
@@ -16,10 +13,10 @@ class UserData extends React.Component {
             files: [],
             ischange:true,
             url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            url1:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            url2:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             dis:false,
             token: '',
+            url11:'',
+            canChange:false
         }
     }
 
@@ -27,13 +24,26 @@ class UserData extends React.Component {
         var that=this;
 
         //获取高级认证的资料
-        // axios.get('http://192.168.100.105:8000/baseMsg', {params:{
-        //     token:localStorage.getItem('token')
-        // }}).then(function (response) {
-        //     console.log(response);
-        // }).catch(function (error) {
-        //     console.log(error);
-        // })
+        axios.get('http://192.168.100.105:8000/seniorAuthMsg', {params:{
+            token:localStorage.getItem('token')
+        }}).then(function (response) {
+            that.setState({
+                seniorCertified:response.data.result["0"].seniorCertified
+            })
+            if(response.data.result["0"].seniorCertified==2){
+                that.setState({
+                    url:'',
+                })
+            }else {
+                that.setState({
+                    url:response.data.result["0"].passport,
+                    canChange:true
+                })
+            }
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        })
 
         //获取七牛的token
         var accessKey = 'BzN7Apb-vCMmeNYqM720qePENoBDsSVKfn-tuoxC';
@@ -63,21 +73,21 @@ class UserData extends React.Component {
         })
 
     }
+
     click(){
         console.log(this.state)
         //提交高级认证资料
-        // axios.post('http://192.168.100.105:8000/primaryAuth',
-        //     {
-        //         frontCard: this.state.url,
-        //         token:localStorage.getItem('token')
-        //     })
-        //     .then(function (response) {
-        //         console.log(response)
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error)
-        //     });
-
+        axios.post('http://192.168.100.105:8000/seniorAuth',
+            {
+                passport: this.state.url,
+                token:localStorage.getItem('token')
+            })
+            .then(function (response) {
+                console.log(response)
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
     }
 
     onUpload(files) {
@@ -92,21 +102,40 @@ class UserData extends React.Component {
         this.setState({
             files: files
         });
-        // files is a FileList(https://developer.mozilla.org/en/docs/Web/API/FileList) Object
-        // and with each file, we attached two functions to handle upload progress and result
-        // file.request => return super-agent uploading file request
-        // file.uploadPromise => return a Promise to handle uploading status(what you can do when upload failed)
-        // `react-qiniu` using bluebird, check bluebird API https://github.com/petkaantonov/bluebird/blob/master/API.md
-        // see more example in example/app.js
-
         var l1=files[0].name.indexOf('.');
         // var l2=files[0].name.split('').length;
         var ex=files[0].name.slice(l1,100);
         var ll=files[0].preview;
         console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex);
         this.setState({
-            url:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex
+            url:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex+'?imageView2/2/w/308/h/210/interlace/1/q/100',
+            url11:files[0].preview
+        },()=>{
+            var that=this;
+            axios.get(this.state.url)
+                .then(function (response) {
+                    console.log(159,response)
+                }).catch(function (error) {
+
+                that.setState({
+                    isLink11:true
+                })
+
+            })
         })
+    }
+
+
+    reword(){
+        if(this.state.seniorCertified==1){
+            return '审核中';
+
+        }else if(this.state.seniorCertified==2){
+            return '提交'
+
+        }else if(this.state.seniorCertified==3){
+            return '审核通过'
+        }
     }
 
     render() {
@@ -137,18 +166,22 @@ class UserData extends React.Component {
 
         return (
             <div className={style.wlop}>
-                <span style={this.state.dis?{color:'blue'}:{color:'#ccc'}} className={style.showstate}>{this.state.dis?'审核中':'未审核'}</span><br/>
+                {/*<span style={this.state.dis?{color:'blue'}:{color:'#ccc'}} className={style.showstate}>{this.state.dis?'审核中':'未审核'}</span><br/>*/}
                 <div className={style.idbox}>
                     <span  className={style.id}>护照</span>
                     <div className={style.lupingbox}>
+                        <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop1.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
                             <div>点击上传护照正面</div>
+                            <img className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt=""/>
                         </QQiniu>
                     </div>
                 </div>
 
 
-                <Button type="primary" onClick={this.click.bind(this)} disabled={this.state.dis}  size='large'>提交</Button>
+                <Button type="primary" onClick={this.click.bind(this)} disabled={this.state.canChange}  size='large'>
+                    {this.reword()}
+                </Button>
             </div>
         )
     }

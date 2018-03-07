@@ -16,9 +16,11 @@
 }
 :local(.lupingbox){
     float: left;
+    position: relative;
 }
 :local(.rupingbox){
     float: right;
+    position: relative;
 }
 :local(.idbox){
     width: 500px;
@@ -27,4 +29,19 @@
 }
 :local(.but){
     clear: both;
+}
+:local(.boxs){
+    cursor: not-allowed;
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 5;
+}
+:local(.egimg){
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
 }

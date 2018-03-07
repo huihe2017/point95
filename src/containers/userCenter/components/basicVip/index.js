@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form,Radio,Input,DatePicker,Button,Icon,Select,Upload   } from 'antd';
+import { Form,Radio,Input,DatePicker,Button,Icon,Select,Upload, message  } from 'antd';
 import style from './index.css';
 import UploadImg from '../../../../components/uploadImg'
 import QQiniu from 'react-qiniu';
@@ -23,6 +23,10 @@ class UserData extends React.Component {
             url2:'',
             dis:false,
             token: '',
+            url11:'',
+            url22:'',
+            url33:'',
+            canChange:false
         }
     }
 
@@ -33,13 +37,26 @@ class UserData extends React.Component {
         axios.get('http://192.168.100.105:8000/primaryAuthMsg', {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
-
-            console.log(123,response);
+            console.log(response.data.result["0"].primaryCertified);
             that.setState({
-                url:response.data.result["0"].backCard,
-                url1:response.data.result["0"].frontCard,
-                url2:response.data.result["0"].handCard,
+                primaryCertified:response.data.result["0"].primaryCertified
             })
+            if(response.data.result["0"].primaryCertified==2){
+                that.setState({
+                    url:'',
+                    url1:'',
+                    url2:'',
+
+                })
+            }else {
+                that.setState({
+                    url:response.data.result["0"].frontCard,
+                    url1:response.data.result["0"].backCard,
+                    url2:response.data.result["0"].handCard,
+                    canChange:true
+                })
+            }
+
         }).catch(function (error) {
             console.log(error);
         })
@@ -110,54 +127,94 @@ class UserData extends React.Component {
         // see more example in example/app.js
 
         var l1=files[0].name.indexOf('.');
-        // var l2=files[0].name.split('').length;
         var ex=files[0].name.slice(l1,100);
         var ll=files[0].preview;
+
         console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex);
         this.setState({
-            url:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex
-        })
-    }
+            url:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex+'?imageView2/2/w/308/h/210/interlace/1/q/100',
+            url11:files[0].preview
+        },()=>{
+            var that=this;
+            axios.get(this.state.url)
+                .then(function (response) {
+                console.log(159,response)
+                }).catch(function (error) {
+
+                that.setState({
+                    isLink11:true
+                })
+
+            })
+    })}
+
     onDrop2(files) {
         this.setState({
             files: files
         });
-        // files is a FileList(https://developer.mozilla.org/en/docs/Web/API/FileList) Object
-        // and with each file, we attached two functions to handle upload progress and result
-        // file.request => return super-agent uploading file request
-        // file.uploadPromise => return a Promise to handle uploading status(what you can do when upload failed)
-        // `react-qiniu` using bluebird, check bluebird API https://github.com/petkaantonov/bluebird/blob/master/API.md
-        // see more example in example/app.js
-
         var l1=files[0].name.indexOf('.');
         // var l2=files[0].name.split('').length;
         var ex=files[0].name.slice(l1,100);
         var ll=files[0].preview;
         console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex);
         this.setState({
-            url1:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex
+            url1:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex+'?imageView2/2/w/308/h/210/interlace/1/q/100',
+            url22:files[0].preview
+        },()=>{
+
+            var that=this;
+            axios.get(this.state.url1)
+                .then(function (response) {
+                    console.log(159,response)
+                }).catch(function (error) {
+                console.log('chulai')
+                that.setState({
+                    isLink22:true
+                })
+            })
         })
     }
+
+
     onDrop3(files) {
         this.setState({
             files: files
         });
-        // files is a FileList(https://developer.mozilla.org/en/docs/Web/API/FileList) Object
-        // and with each file, we attached two functions to handle upload progress and result
-        // file.request => return super-agent uploading file request
-        // file.uploadPromise => return a Promise to handle uploading status(what you can do when upload failed)
-        // `react-qiniu` using bluebird, check bluebird API https://github.com/petkaantonov/bluebird/blob/master/API.md
-        // see more example in example/app.js
-
         var l1=files[0].name.indexOf('.');
         // var l2=files[0].name.split('').length;
         var ex=files[0].name.slice(l1,100);
         var ll=files[0].preview;
-        console.log(files[0])
+
         console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex);
         this.setState({
-            url2:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex
+            url2:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex+'?imageView2/2/w/308/h/210/interlace/1/q/100',
+            url33:files[0].preview
+        },()=>{
+            var that=this;
+            console.log(153,this);
+            axios.get(this.state.url2)
+                .then(function (response) {
+                    console.log(159,response)
+                }).catch(function (error) {
+
+                that.setState({
+                    isLink33:true
+                })
+
+            })
         })
+    }
+
+    reword(){
+        if(this.state.primaryCertified==1){
+            return '审核中';
+
+        }else if(this.state.primaryCertified==2){
+            return '提交'
+
+        }else if(this.state.primaryCertified==3){
+            return '审核通过'
+        }
     }
 
     render() {
@@ -188,20 +245,22 @@ class UserData extends React.Component {
 
         return (
             <div className={style.wlop}>
-                <span style={this.state.dis?{color:'blue'}:{color:'#ccc'}} className={style.showstate}>{this.state.dis?'审核中':'未审核'}</span><br/>
+                {/*<span style={this.state.dis?{color:'blue'}:{color:'#ccc'}} className={style.showstate}>{this.state.dis?'审核中':'未审核'}</span><br/>*/}
 
                 <div className={style.idbox}>
                     <span className={style.id}>身份证</span>
                     <div className={style.lupingbox}>
+                        <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop1.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
                             <div>点击上传身份证正面</div>
-                            <img className={style.egimg} src={this.state.url} alt=""/>
+                            <img className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt=""/>
                         </QQiniu>
                     </div>
                     <div className={style.rupingbox}>
+                        <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                             <QQiniu onDrop={this.onDrop2.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
                                 <div>点击上传身份证反面</div>
-                                <img className={style.egimg} src={this.state.url1} alt=""/>
+                                <img  className={style.egimg} src={this.state.isLink22?this.state.url22:this.state.url1} alt=""/>
                             </QQiniu>
                     </div>
                 </div>
@@ -210,14 +269,17 @@ class UserData extends React.Component {
                 <div className={style.idbox}>
                     <span className={style.id}>银行卡</span>
                     <div className={style.lupingbox}>
+                        <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop3.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
                             <div>点击上传银行卡正面</div>
-                            <img className={style.egimg} src={this.state.url2} alt=""/>
+                            <img className={style.egimg} src={this.state.isLink33?this.state.url33:this.state.url2} alt=""/>
                         </QQiniu>
                     </div>
                 </div>
                 <div className={style.but}>
-                    <Button type="primary" onClick={this.click.bind(this)} disabled={this.state.dis} size='large'>提交</Button>
+                    <Button type="primary" onClick={this.click.bind(this)} disabled={this.state.canChange} size='large'>
+                        {this.reword()}
+                    </Button>
                 </div>
 
             </div>
