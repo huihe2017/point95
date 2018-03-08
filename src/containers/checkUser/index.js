@@ -1,6 +1,6 @@
 import React from 'react';
 import style from "./index.css"
-import { Button, Table, Icon,Upload,Badge, Menu, Dropdown, Modal} from 'antd'
+import { Button, Table, Icon,Upload,Badge, Menu, Dropdown, Modal,Popconfirm} from 'antd'
 import {hashHistory, Link} from 'react-router';
 import {connect} from 'react-redux'
 import ContentList from '../../components/contentList'
@@ -47,6 +47,11 @@ class PartnerEntry extends React.Component {
             console.log(response.data.result);
             for(var i in response.data.result){
                 response.data.result[i].key=i;
+                if(response.data.result[i].primaryCertified==1){
+                    response.data.result[i].createdAt='初级审核'
+                }else if(response.data.result[i].seniorCertified==1){
+                    response.data.result[i].createdAt='高级审核'
+                }
             }
             that.setState({
                 data:response.data.result
@@ -64,11 +69,11 @@ class PartnerEntry extends React.Component {
         });
     }
 
-    tong(e){
-        console.log(this.state)
+    tong(e,i){
+        console.log(this.state.data[i])
         axios.post('http://192.168.100.105:8000/primaryVerify',
             {
-                tel:this.state.data.phone,
+                tel:this.state.data[i].phone,
                 token:localStorage.getItem('token'),
                 primaryCertified:e
             })
@@ -112,9 +117,9 @@ class PartnerEntry extends React.Component {
             { title: '账号', dataIndex: 'phone', key: 'phone' },
 
             { title: '审核等级', dataIndex: 'createdAt', key: 'createdAt' },
-            { title: '审核操作', key: 'operation', render: () => <ButtonGroup >
-                <Button onClick={this.tong.bind(this,3)}>通过</Button>
-                <Button onClick={this.tong.bind(this,2)}>不通过</Button>
+            { title: '审核操作', key: 'operation', render: (a,b,c) => <ButtonGroup >
+                <Button onClick={this.tong.bind(this,3,c)}>通过</Button>
+                <Button onClick={this.tong.bind(this,2,c)}>不通过</Button>
             </ButtonGroup> },
         ];
         const {  previewImage,previewVisible  } = this.state;
