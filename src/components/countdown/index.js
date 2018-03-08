@@ -2,7 +2,7 @@ import React from 'react'
 import style from "./index.css"
 import {connect} from 'react-redux'
 import axios from '../../common/axiosConf'
-import {Input, Button, Row, Col} from 'antd';
+import {Input, Button, Row, Col,message} from 'antd';
 import Toast from 'antd-mobile/lib/toast';
 import 'antd-mobile/lib/toast/style/css';
 
@@ -42,6 +42,10 @@ class Countdown extends React.Component {
                             }
                         })
                     }, 1000)
+                    console.log(response.data.message)
+                    message.error(response.data.message);
+
+
                 } else {
                     _this.setState({counting: true})
                     let seconds = 60

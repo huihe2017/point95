@@ -144,14 +144,14 @@ class ResetPwdBox extends React.Component {
                             <div className={style.perselphone}>
                                 <div className={style.selphone}>
                                     <div className={style.qh}>
-                                        <Select value={this.state.areaCode} size={'large'}
-                                                style={{width: 80, height: 40, lineHeight: 40,}} onChange={(value) => {
-                                            this.setState({areaCode: value})
-                                        }} dropdownStyle={{width: '520'}}>
-                                            <Option value="86">+86</Option>
-                                            <Option value="87">+87</Option>
-                                            <Option value="88">+88</Option>
-                                        </Select>
+                                        {/*<Select value={this.state.areaCode} size={'large'}*/}
+                                                {/*style={{width: 80, height: 40, lineHeight: 40,}} onChange={(value) => {*/}
+                                            {/*this.setState({areaCode: value})*/}
+                                        {/*}} dropdownStyle={{width: '520'}}>*/}
+                                            {/*<Option value="86">+86</Option>*/}
+                                            {/*<Option value="87">+87</Option>*/}
+                                            {/*<Option value="88">+88</Option>*/}
+                                        {/*</Select>*/}
                                     </div>
                                     <div className={style.phone}>
                                         <FormItem>{getFieldDecorator('phone', {

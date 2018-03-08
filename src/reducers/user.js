@@ -46,12 +46,12 @@ export default function sign(state = initialState, action = {}) {
             return Object.assign({}, state, {})
 
         case 'LOGOUT':
-            //localStorage.removeItem('token')
+            localStorage.removeItem('token')
             localStorage.removeItem('userName')
-            localStorage.removeItem('MT4')
-            localStorage.removeItem('status')
-            localStorage.removeItem('address')
-            localStorage.removeItem('email')
+            // localStorage.removeItem('MT4')
+            // localStorage.removeItem('status')
+            // localStorage.removeItem('address')
+            // localStorage.removeItem('email')
             state.token = false
             state.userName = false
             return Object.assign({}, state, {})

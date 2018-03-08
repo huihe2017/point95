@@ -133,7 +133,7 @@ class Header extends React.Component {
                                         <Link to="/">首页</Link>
                                     </span>
                                     <span  >
-                                        <Link to="/">联系我们</Link>
+                                        <Link to="/aboutUs">联系我们</Link>
                                     </span>
                                     {/*<span >*/}
                                         {/*<Link to="/DolphinSchool">海豚学院</Link>*/}
@@ -148,7 +148,7 @@ class Header extends React.Component {
                                         <Link to="/">首页</Link>
                                     </span>
                                     <span >
-                                        <Link to="/">联系我们</Link>
+                                        <Link to="/aboutUs">联系我们</Link>
                                     </span>
                                     {/*<span >*/}
                                         {/*<Link to="/DolphinSchool">海豚学院</Link>*/}

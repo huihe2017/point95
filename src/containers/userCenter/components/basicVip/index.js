@@ -37,7 +37,9 @@ class UserData extends React.Component {
         axios.get('http://192.168.100.105:8000/primaryAuthMsg', {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
-            console.log(response.data.result["0"].primaryCertified);
+            if (response.data.code === 0) {
+                message.error(response.data.message);
+            }
             that.setState({
                 primaryCertified:response.data.result["0"].primaryCertified
             })
@@ -90,6 +92,7 @@ class UserData extends React.Component {
     }
 
     click(){
+        var that=this;
         //提交初级认证资料
         axios.post('http://192.168.100.105:8000/primaryAuth',
             {
@@ -102,6 +105,12 @@ class UserData extends React.Component {
                 //console.log(response.data.code)
                 if(response.data.code===0){
                     message.error(response.data.message)
+                }else if(response.data.code===1){
+                    message.success(response.data.message)
+                    that.setState({
+                        primaryCertified:1,
+                        canChange:true
+                    })
                 }
             })
             .catch(function (error) {
@@ -118,6 +127,7 @@ class UserData extends React.Component {
             };
         });
     }
+
     onDrop1(files) {
         this.setState({
             files: files
@@ -141,7 +151,7 @@ class UserData extends React.Component {
             var that=this;
             axios.get(this.state.url)
                 .then(function (response) {
-                console.log(159,response)
+                console.log(response)
                 }).catch(function (error) {
 
                 that.setState({
@@ -177,7 +187,6 @@ class UserData extends React.Component {
             })
         })
     }
-
 
     onDrop3(files) {
         this.setState({

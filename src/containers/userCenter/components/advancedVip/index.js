@@ -12,7 +12,7 @@ class UserData extends React.Component {
         this.state = {
             files: [],
             ischange:true,
-            url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+            url:'',
             dis:false,
             token: '',
             url11:'',
@@ -27,6 +27,9 @@ class UserData extends React.Component {
         axios.get('http://192.168.100.105:8000/seniorAuthMsg', {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
+            if (response.data.code === 0) {
+                message.error(response.data.message);
+            }
             that.setState({
                 seniorCertified:response.data.result["0"].seniorCertified
             })
@@ -40,7 +43,6 @@ class UserData extends React.Component {
                     canChange:true
                 })
             }
-            console.log(response);
         }).catch(function (error) {
             console.log(error);
         })
@@ -75,7 +77,7 @@ class UserData extends React.Component {
     }
 
     click(){
-        console.log(this.state)
+        var that=this;
         //提交高级认证资料
         axios.post('http://192.168.100.105:8000/seniorAuth',
             {
@@ -83,9 +85,14 @@ class UserData extends React.Component {
                 token:localStorage.getItem('token')
             })
             .then(function (response) {
-                //console.log(response)
                 if(response.data.code===0){
                     message.error(response.data.message)
+                }else if(response.data.code===1){
+                    message.success(response.data.message)
+                    that.setState({
+                        seniorCertified:1,
+                        canChange:true
+                    })
                 }
             })
             .catch(function (error) {

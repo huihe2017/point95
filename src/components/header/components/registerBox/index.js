@@ -1,7 +1,7 @@
 import React from 'react'
 import style from "./index.css"
 import {connect} from 'react-redux'
-import {Modal, Input, Select, Form, AutoComplete, Button, Row, Col} from 'antd';
+import {Modal, Input, Select, Form, AutoComplete, Button, Row, Col,message} from 'antd';
 import {bindActionCreators} from 'redux'
 import {hashHistory} from 'react-router'
 import {hideAuth, showLogin} from '../../../../actions/auth'
@@ -59,7 +59,7 @@ class RegisterBox extends React.Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                Toast.loading('', 0, null, false)
+                //Toast.loading('', 0, null, false)
                 this.props.register({
                     // tel: this.state.areaCode + " " + this.state.phone,
                     tel: this.state.phone,
@@ -117,11 +117,14 @@ class RegisterBox extends React.Component {
         var that=this
         axios.get('http://192.168.100.105:8000/captcha')
             .then(function(response){
-                console.log(that);
                 that.setState({
                     picImg:that.getPicImg(response.data.result.txt)
                 })
-                //console.log(response.data.result.txt);
+                if (response.data.code === 0) {
+                    console.log(response.data.message)
+                    message.error(response.data.message);
+
+                }
             })
             .catch(function(err){
                 console.log(22,err);
@@ -151,14 +154,14 @@ class RegisterBox extends React.Component {
                             <div className={style.perselphone}>
                                 <div className={style.selphone}>
                                     <div className={style.qh}>
-                                        <Select value={this.state.areaCode} size={'large'}
-                                                style={{width: 80, height: 40, lineHeight: 40,}} onChange={(value) => {
-                                            this.setState({areaCode: value})
-                                        }} dropdownStyle={{width: '520'}}>
-                                            <Option value="86">+86</Option>
-                                            <Option value="87">+87</Option>
-                                            <Option value="88">+88</Option>
-                                        </Select>
+                                        {/*<Select value={this.state.areaCode} size={'large'}*/}
+                                                {/*style={{width: 80, height: 40, lineHeight: 40,}} onChange={(value) => {*/}
+                                            {/*this.setState({areaCode: value})*/}
+                                        {/*}} dropdownStyle={{width: '520'}}>*/}
+                                            {/*<Option value="86">+86</Option>*/}
+                                            {/*<Option value="87">+87</Option>*/}
+                                            {/*<Option value="88">+88</Option>*/}
+                                        {/*</Select>*/}
                                     </div>
                                     <div className={style.phone}>
                                         <FormItem>{getFieldDecorator('phone', {

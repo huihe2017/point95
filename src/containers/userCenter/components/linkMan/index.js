@@ -2,7 +2,7 @@ import React from "react";
 import style from "./index.css";
 import qiniu from "qiniu";
 import axios from  '../../../../common/axiosConf'
-
+import { message } from 'antd';
 
 class LinkMan extends React.Component{
     componentWillMount(){
@@ -17,7 +17,9 @@ class LinkMan extends React.Component{
                     canChange:true
                 })
             }
-            console.log(response);
+            if (response.data.code === 0) {
+                message.error(response.data.message);
+            }
         }).catch(function (error) {
             console.log(error);
         })

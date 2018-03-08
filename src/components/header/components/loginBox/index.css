@@ -41,10 +41,9 @@
 
 }
 :local(.phone){
-    width: 220px;
+    width: 100%;
     height: 60px;
     float: left;
-    margin-left: 20px;
 }
 :local(.tuxing){
     width: 320px;

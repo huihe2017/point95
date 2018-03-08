@@ -61,15 +61,11 @@ class LoginBox extends React.Component {
         this.props.hideAuth()
     }
     handleSubmit = (e) => {
-        // Toast({
-        //     type: "success",
-        //     msg: '账号或密码错误',
-        //     duration: 2000
-        // })
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
+            console.log(err)
             if (!err) {
-                Toast.loading('', 0, null, false)
+                //Toast.loading('', 0, null, false)
                 this.props.login({
                     tel: this.state.phone,
                     pwd: this.state.pwd,
@@ -86,9 +82,6 @@ class LoginBox extends React.Component {
             }
         });
     }
-
-
-
 
     render() {
         const { getFieldDecorator} = this.props.form;
@@ -111,11 +104,11 @@ class LoginBox extends React.Component {
                         <div className={style.perselphone}>
                             <div className={style.selphone}>
                                 <div className={style.qh}>
-                                    <Select  value={this.state.areaCode} size={'large'} style={{ width: 80,height:40,lineHeight:40,}} onChange={(value)=>{this.setState({areaCode:value})}} dropdownStyle={{width:'520'}}>
-                                        <Option value="86">+86</Option>
-                                        <Option value="87">+87</Option>
-                                        <Option value="88">+88</Option>
-                                    </Select>
+                                    {/*<Select  value={this.state.areaCode} size={'large'} style={{ width: 80,height:40,lineHeight:40,}} onChange={(value)=>{this.setState({areaCode:value})}} dropdownStyle={{width:'520'}}>*/}
+                                        {/*<Option value="86">+86</Option>*/}
+                                        {/*<Option value="87">+87</Option>*/}
+                                        {/*<Option value="88">+88</Option>*/}
+                                    {/*</Select>*/}
                                 </div>
                                 <div className={style.phone}>
                                     <FormItem>{getFieldDecorator('phone', {
@@ -169,7 +162,6 @@ class LoginBox extends React.Component {
                 </Modal>
             </div>
         )
-
     }
 }
 

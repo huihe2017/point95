@@ -81,6 +81,7 @@ class PartnerEntry extends React.Component {
                 })
                 .then(function (response) {
                     console.log(response)
+
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -158,7 +159,7 @@ class PartnerEntry extends React.Component {
                     <Table className="components-table-demo-nested"
                         columns={columns}
                         expandedRowRender={
-                            record => record.primaryCertified==1?this.fore(record.frontCard,record.backCard,record.handCard):this.fore1(record.backCard)
+                            record => record.primaryCertified==1?this.fore(record.frontCard,record.backCard,record.handCard):this.fore1(record.passport)
                         }
                         dataSource={this.state.data}
                     />

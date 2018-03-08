@@ -28,7 +28,9 @@ class UserData extends React.Component {
         axios.get('http://192.168.100.105:8000/baseMsg', {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
-            console.log(159,response.data.result[0]);
+            if (response.data.code === 0) {
+                message.error(response.data.message);
+            }
             that.setState({
                 birthday: response.data.result[0].birthday||'1970.1.1',
                 gender: response.data.result[0].gender,
@@ -42,10 +44,9 @@ class UserData extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
+            var that=this;
             if (!err) {
-                this.setState({
-                    ischange:true,
-                })
+
                 //修改基础资料的提交
                 axios.post('http://192.168.100.105:8000/editBaseMsg', {
                     nickname: values.nickname,
@@ -55,6 +56,10 @@ class UserData extends React.Component {
                 }).then(function (response) {
                     if (response.data.code === 1) {
                         message.success(response.data.message);
+
+                        that.setState({
+                            ischange:true,
+                        })
                     }else if (response.data.code === 0) {
                         message.error(response.data.message);
                     }

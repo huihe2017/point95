@@ -1,5 +1,7 @@
 import axios from '../common/axiosConf'
 import { hashHistory } from 'react-router'
+import { message } from 'antd';
+import Toast from 'antd-mobile/lib/toast';
 
 export function login(data, callback) {
     return dispatch => {
@@ -10,19 +12,20 @@ export function login(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 1) {
+                    Toast.loading('', 0, null, false)
                     //console.log(response.data.result.token);
                     //console.log(999,response.data.result.role);
                     localStorage.setItem('token',response.data.result.token);
                     localStorage.setItem('role',response.data.result.role);
                     localStorage.setItem('userName',data.tel);
+
                     window.location.reload();
+                }else if (response.data.code === 0) {
+                    console.log(response.data.message)
+                    Toast.hide()
+                    message.error(response.data.message);
+
                 }
-                // if (response.data.code === 0) {
-                //     dispatch({type: 'LOGIN', data: response.data.data})
-                //     callback()
-                // } else {
-                //     callback(response.data.msg)
-                // }
             })
             .catch(function (error) {
                 console.log(error)
@@ -44,10 +47,12 @@ export function login(data, callback) {
 
 export function logout(data, callback) {
     return dispatch => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
+        dispatch({type: 'LOGOUT'})
+
+        // localStorage.removeItem('token');
+        // localStorage.removeItem('role');
         hashHistory.push('/')
-        window.location.reload();
+        // window.location.reload();
     }
 }
 
@@ -59,10 +64,16 @@ export function modifyPwd(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 0) {
-                    dispatch({type: 'MODIFYPWD'})
-                    callback()
-                } else {
-                    callback(response.data.msg)
+                    // dispatch({type: 'MODIFYPWD'})
+                    // callback()
+                    console.log(response.data.message)
+                    Toast.hide()
+                    message.error(response.data.message);
+                }else if (response.data.code === 1) {
+
+                    console.log(response.data.message)
+                    Toast.hide()
+                    message.error(response.data.message);
                 }
             })
             .catch(function (error) {
@@ -79,13 +90,16 @@ export function register(data, callback) {
             code: data.code
         })
             .then(function (response) {
-                if (response.data.code === 0) {
-                    //注册并登录
-                    console.log(response.data)
-                    dispatch({type: 'LOGIN', data: response.data.data})
-                    callback()
-                } else {
-                    callback(response.data.msg)
+                if (response.data.code === 1) {
+                    // console.log(1,response.data)
+                    dispatch({type: 'SHOW_LOGIN'})
+                    message.success(response.data.message);
+                    // dispatch({type: 'LOGIN', data: response.data.data})
+                    // callback()
+                } else if (response.data.code === 0) {
+                    //console.log(response.data.message)
+                    Toast.hide()
+                    message.error(response.data.message);
                 }
             })
             .catch(function (error) {
@@ -137,13 +151,19 @@ export function resetPwd(data, callback) {
         })
             .then(function (response) {
                 console.log(response)
-                // if (response.data.code === 0) {
-                //     //重置密码并登录
-                //     dispatch({type: 'LOGIN', data: response.data.data})
-                //     callback()
-                // } else {
-                //     callback(response.data.msg)
-                // }
+                if (response.data.code === 0) {
+                    // dispatch({type: 'MODIFYPWD'})
+                    // callback()
+                    Toast.hide()
+                    message.error(response.data.message);
+                }else if (response.data.code === 1) {
+                    //重置密码并登录
+                    dispatch({type: 'SHOW_LOGIN'})
+                    //callback()
+                    //console.log(response.data.message)
+                    Toast.hide()
+                    message.success(response.data.message);
+                }
             })
             .catch(function (error) {
                 console.log(error)

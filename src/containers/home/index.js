@@ -9,6 +9,9 @@ import {hashHistory} from 'react-router'
 import PageTable from './components/pageTable'
 import Qcode from '../../components/Qcode'
 import HomeSwiper from './homeSwiper'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import {showRegister} from '../../actions/auth'
 
 class Home extends React.Component {
     constructor() {
@@ -32,11 +35,8 @@ class Home extends React.Component {
                 </div>
                 <div className={style.header}>
                     <div className={style.button}>
-                        <Button type="primary" style={{
-                            width: '200',
-                            height: '60',
-                            fontSize: '24px'
-                        }}>立即注册</Button>
+                        <Button onClick={this.props.showRegister} type="primary"
+                                style={localStorage.getItem('token')?{width: '200', height: '60', fontSize: '24px',display:'none'}:{width: '200', height: '60', fontSize: '24px',display:'block'}} >立即注册</Button>
                     </div>
                     <div style={{width: 420, top: 67, position: 'absolute', right: 0}} hidden={true}><PageTable/></div>
                 </div>
@@ -105,5 +105,17 @@ class Home extends React.Component {
         )
     }
 }
+
+function mapStateToProps(state, props) {
+
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        showRegister: bindActionCreators(showRegister, dispatch)
+    }
+}
+
+Home = connect(mapStateToProps, mapDispatchToProps)(Home)
 
 export default Home
