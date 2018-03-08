@@ -99,7 +99,10 @@ class UserData extends React.Component {
                 token:localStorage.getItem('token')
             })
             .then(function (response) {
-                console.log(response)
+                //console.log(response.data.code)
+                if(response.data.code===0){
+                    message.error(response.data.message)
+                }
             })
             .catch(function (error) {
                 console.log(error)

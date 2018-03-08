@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form,Radio,Input,DatePicker,Button,Icon,Select,Upload   } from 'antd';
+import { Form,Radio,Input,DatePicker,Button,Icon,Select,Upload,message   } from 'antd';
 import style from './index.css';
 import UploadImg from '../../../../components/uploadImg'
 import QQiniu from 'react-qiniu';
@@ -83,7 +83,10 @@ class UserData extends React.Component {
                 token:localStorage.getItem('token')
             })
             .then(function (response) {
-                console.log(response)
+                //console.log(response)
+                if(response.data.code===0){
+                    message.error(response.data.message)
+                }
             })
             .catch(function (error) {
                 console.log(error)

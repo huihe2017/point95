@@ -8,55 +8,24 @@ import Header from '../../components/header'
 import Footer from '../../components/footer'
 import ToolBar from '../../components/toolBar'
 import Crumb from '../../components/crumbs'
-
+import axios from  '../../common/axiosConf';
 
 const ButtonGroup = Button.Group;
 
-const columns = [
-    { title: '姓名', dataIndex: 'name', key: 'name' },
 
-    { title: '用户编号', dataIndex: 'upgradeNum', key: 'upgradeNum' },
-
-    { title: '审核等级', dataIndex: 'createdAt', key: 'createdAt' },
-    { title: '审核操作', key: 'operation', render: () => <ButtonGroup>
-        <Button>通过</Button>
-        <Button>不通过</Button>
-    </ButtonGroup> },
-];
 
 const data = [
     {
         key: 1,
-        name: 'Sakura',
-        upgradeNum: 23,
+        nickname: 'Sakura',
+        phone: 23,
         createdAt: '初级审核',
-        idurl:["https://wx2.sinaimg.cn/mw1024/6b8c14f8gy1forofhihkwj218q0s0n50.jpg","https://wx3.sinaimg.cn/mw1024/6b8c14f8gy1fop2xf8jysj21b00w4afj.jpg"
-        ],
-        bankurl:["https://wx3.sinaimg.cn/mw1024/6b8c14f8gy1fop2xf8jysj21b00w4afj.jpg"]
-    },{
-        key: 2,
-        name: 'Libw',
-        upgradeNum:233,
-        createdAt: '高级审核',
-        huurl:["https://wx2.sinaimg.cn/mw1024/6b8c14f8gy1forofhihkwj218q0s0n50.jpg"]
-    },{
-        key: 3,
-        name: 'Lbw',
-        upgradeNum: 2333,
-        createdAt: '初级审核',
-        idurl:["https://wx3.sinaimg.cn/mw1024/6b8c14f8gy1fop2xf8jysj21b00w4afj.jpg","https://wx2.sinaimg.cn/mw1024/6b8c14f8gy1forofhihkwj218q0s0n50.jpg"
-        ],
-        bankurl:["https://wx3.sinaimg.cn/mw1024/6b8c14f8gy1fop2xf8jysj21b00w4afj.jpg"]
+        frontCard:"https://wx2.sinaimg.cn/mw1024/6b8c14f8gy1forofhihkwj218q0s0n50.jpg",
+        backCard:"https://wx3.sinaimg.cn/mw1024/6b8c14f8gy1fop2xf8jysj21b00w4afj.jpg"
+        ,
+        handCard:"https://wx3.sinaimg.cn/mw1024/6b8c14f8gy1fop2xf8jysj21b00w4afj.jpg"
     }
 ];
-const fileList= [{
-    uid: -1,
-    name: 'xxx.png',
-    status: 'done',
-    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-}]
-
-
 
 class PartnerEntry extends React.Component {
     constructor(props) {
@@ -64,14 +33,27 @@ class PartnerEntry extends React.Component {
         this.state = {
             previewImage: '',
             previewVisible: false,
-            fileList: [{
-                uid: -1,
-                name: 'xxx.png',
-                status: 'done',
-                url: data,
-            }],
-            isBase:true
+            isBase:true,
+            data:[]
         }
+    }
+
+    componentWillMount(){
+        var that=this;
+        //获取自处资料的信息
+        axios.get('http://192.168.100.105:8000/verifyList', {params:{
+            token:localStorage.getItem('token')
+        }}).then(function (response) {
+            console.log(response.data.result);
+            for(var i in response.data.result){
+                response.data.result[i].key=i;
+            }
+            that.setState({
+                data:response.data.result
+            })
+        }).catch(function (error) {
+            console.log(error);
+        })
     }
 
     handleCancel = () => this.setState({ previewVisible: false })
@@ -81,23 +63,35 @@ class PartnerEntry extends React.Component {
             previewVisible: true,
         });
     }
-    handleChange = ({ fileList }) => this.setState({ fileList })
 
+    tong(e){
+        console.log(this.state)
+        axios.post('http://192.168.100.105:8000/primaryVerify',
+            {
+                tel:this.state.data.phone,
+                token:localStorage.getItem('token'),
+                primaryCertified:e
+            })
+            .then(function (response) {
+                console.log(response)
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
+    }
 
-    fore(a,b){
-        for(var i in a){
+    fore(a,b,c){
             // console.log(111,e[i])
-             return(
-                 <div className={style.imgshow}>
+        return(
+            <div className={style.imgshow}>
+                <p>身份证</p>
+                <img src={a} alt=""/>
+                <img src={b} alt=""/>
+                <br/>
+                <p>银行</p>
+                <img src={c} alt=""/>
+            </div>)
 
-                     <p>身份证</p>
-                     <img src={a[0]} alt=""/>
-                     <img src={a[1]} alt=""/>
-                     <br/>
-                     <p>银行</p>
-                     <img src={b} alt=""/>
-                 </div>)
-        }
     }
     fore1(a){
         for(var i in a){
@@ -112,53 +106,18 @@ class PartnerEntry extends React.Component {
 
 
     render() {
-        const expandedRowRender = () => {
-            const columns = [
-                    { title: '类别', dataIndex: 'date', key: 'date' },
-                { title: '图片', dataIndex: 'upgradeNum', render: () => <div className="clearfix">
-                    <Upload
-                        listType="picture-card"
-                        fileList={fileList}
-                        onPreview={this.handlePreview.bind(this)}
-                    >
-                    </Upload>
-                    <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                        <img  alt="example" style={{ width: '100%' }} src={previewImage} />
-                    </Modal>
-                    <Upload
-                        listType="picture-card"
-                        fileList={fileList}
-                        onPreview={this.handlePreview.bind(this)}
-                    >
-                    </Upload>
-                    <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                        <img  alt="example" style={{ width: '100%' }} src={previewImage} />
-                    </Modal>
-                </div>  }
-            ];
+        const columns = [
+            { title: '昵称', dataIndex: 'nickname', key: 'nickname' },
 
-            const data = [{
-                key: 1,
-                date: '身份证',
-                upgradeNum: ["https://wx2.sinaimg.cn/mw1024/6b8c14f8gy1forofhihkwj218q0s0n50.jpg","https://wx3.sinaimg.cn/mw1024/6b8c14f8gy1fop2xf8jysj21b00w4afj.jpg"
-                ],
-            },{
-                key: 2,
-                date: '银行',
-                upgradeNum: 'Upgraded: 56',
-            }];
-            const idcard=["https://wx2.sinaimg.cn/mw1024/6b8c14f8gy1forofhihkwj218q0s0n50.jpg","https://wx3.sinaimg.cn/mw1024/6b8c14f8gy1fop2xf8jysj21b00w4afj.jpg"
-            ]
+            { title: '账号', dataIndex: 'phone', key: 'phone' },
 
-            return (
-                <Table
-                    columns={columns}
-                    dataSource={data}
-                    pagination={false}
-                />
-            );
-        };
-        const {  previewImage,previewVisible,fileList  } = this.state;
+            { title: '审核等级', dataIndex: 'createdAt', key: 'createdAt' },
+            { title: '审核操作', key: 'operation', render: () => <ButtonGroup >
+                <Button onClick={this.tong.bind(this,3)}>通过</Button>
+                <Button onClick={this.tong.bind(this,2)}>不通过</Button>
+            </ButtonGroup> },
+        ];
+        const {  previewImage,previewVisible  } = this.state;
         return (
             <div className={style.partnerEntry}>
                 <Header/>
@@ -167,11 +126,12 @@ class PartnerEntry extends React.Component {
                     <ToolBar/>
                 </div>
                 <div className={style.wlop}>
-                    <Table
-                        className="components-table-demo-nested"
+                    <Table className="components-table-demo-nested"
                         columns={columns}
-                        expandedRowRender={record => record.createdAt=='初级审核'?this.fore(record.idurl,record.bankurl):this.fore1(record.huurl)}
-                        dataSource={data}
+                        expandedRowRender={
+                            record => record.primaryCertified==1?this.fore(record.frontCard,record.backCard,record.handCard):this.fore1(record.backCard)
+                        }
+                        dataSource={this.state.data}
                     />
                 </div>
                 <Footer/>

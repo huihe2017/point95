@@ -3,6 +3,8 @@ import { Form,Radio,Input,DatePicker,Button,Icon,Select,message   } from 'antd';
 import style from './index.css';
 import axios from  '../../../../common/axiosConf';
 import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
@@ -28,7 +30,7 @@ class UserData extends React.Component {
         }}).then(function (response) {
             console.log(159,response.data.result[0]);
             that.setState({
-                birthday: response.data.result[0].birthday,
+                birthday: response.data.result[0].birthday||'1970.1.1',
                 gender: response.data.result[0].gender,
                 nickname: response.data.result[0].nickname,
             })

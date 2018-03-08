@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import '../node_modules/antd/dist/antd.min.css';
 import './common.css';
 
+
 const store = configureStore(window.__initState__)
 console.log(store.getState())
 
