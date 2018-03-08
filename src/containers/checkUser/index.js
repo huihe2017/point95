@@ -70,19 +70,40 @@ class PartnerEntry extends React.Component {
     }
 
     tong(e,i){
+        var that=this;
         console.log(this.state.data[i])
-        axios.post('http://192.168.100.105:8000/primaryVerify',
-            {
-                tel:this.state.data[i].phone,
-                token:localStorage.getItem('token'),
-                primaryCertified:e
-            })
-            .then(function (response) {
-                console.log(response)
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
+        if(this.state.data["0"].primaryCertified==1){
+            axios.post('http://192.168.100.105:8000/primaryVerify',
+                {
+                    tel:this.state.data[i].phone,
+                    token:localStorage.getItem('token'),
+                    primaryCertified:e
+                })
+                .then(function (response) {
+                    console.log(response)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                });
+        }else if(this.state.data["0"].seniorCertified==1){
+            axios.post('http://192.168.100.105:8000/seniorVerify',
+                {
+                    tel:this.state.data[i].phone,
+                    token:localStorage.getItem('token'),
+                    seniorCertified:e
+                })
+                .then(function (response) {
+                    console.log(response);
+                    that.setState({
+                        data: that.state.data.filter((_, a) => a !== i)
+
+                    })
+                })
+                .catch(function (error) {
+                    console.log(error)
+                });
+        }
+
     }
 
     fore(a,b,c){
@@ -118,7 +139,10 @@ class PartnerEntry extends React.Component {
 
             { title: '审核等级', dataIndex: 'createdAt', key: 'createdAt' },
             { title: '审核操作', key: 'operation', render: (a,b,c) => <ButtonGroup >
-                <Button onClick={this.tong.bind(this,3,c)}>通过</Button>
+                <Popconfirm title="是否确认通过审核？" onConfirm={this.tong.bind(this,3,c)}  okText="Yes" cancelText="No">
+                    <Button>通过</Button>
+                </Popconfirm>
+
                 <Button onClick={this.tong.bind(this,2,c)}>不通过</Button>
             </ButtonGroup> },
         ];

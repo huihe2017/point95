@@ -1,4 +1,5 @@
 import axios from '../common/axiosConf'
+import { hashHistory } from 'react-router'
 
 export function login(data, callback) {
     return dispatch => {
@@ -45,6 +46,7 @@ export function logout(data, callback) {
     return dispatch => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
+        hashHistory.push('/')
         window.location.reload();
     }
 }
