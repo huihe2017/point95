@@ -13,16 +13,15 @@ class SideMenu extends React.Component {
 
     }
     handleClick(e){
-        //console.log('click ', e);
         this.setState({
             current: e.key,
         });
         this.props.page(e)
+        if(e.key==5){
+            localStorage.setItem('meslist','0')
+        }
     }
-    cli(){
-        alert(1)
-        localStorage.setItem('meslist','0')
-    }
+
     render() {
 
         return (

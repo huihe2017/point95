@@ -146,7 +146,7 @@ class Header extends React.Component {
                     <h5  className={style.authtp} onClick={this.logout} >退出</h5></div>)
             }
         }else {
-            return(<div><span onClick={()=>{this.props.showLogin()}} >登录</span>      <span onClick={this.props.showRegister}  >注册</span></div>)
+            return(<div><h5 onClick={()=>{this.props.showLogin()}} >登录</h5>      <h5 onClick={this.props.showRegister}  >注册</h5></div>)
         }
     }
 
