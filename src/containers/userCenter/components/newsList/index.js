@@ -16,8 +16,7 @@ const ButtonGroup = Button.Group;
 
 const data = [
     {
-        key: 1,
-        nickname: 'Sakura',
+        key: 0,
         time: '2017/12/15 15:00',
         description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
 
@@ -29,15 +28,13 @@ const data = [
 
     },{
         key: 2,
-        nickname: 'Sakura',
         time: '2017/12/15 16:00',
-        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
+        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
 
     },{
         key: 3,
-        nickname: 'Sakura',
         time: '2017/12/15 12:00',
-        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
+        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内',
 
     },
 ];
@@ -84,67 +81,42 @@ class NewsLink extends React.Component {
         });
     }
 
-    tong(e,i){
-        var that=this;
-        console.log(this.state.data[i])
-        if(this.state.data["0"].primaryCertified==1){
-            axios.post('http://192.168.100.105:8000/primaryVerify',
-                {
-                    tel:this.state.data[i].phone,
-                    token:localStorage.getItem('token'),
-                    primaryCertified:e
-                })
-                .then(function (response) {
-                    console.log(response)
-
-                })
-                .catch(function (error) {
-                    console.log(error)
-                });
-        }else if(this.state.data["0"].seniorCertified==1){
-            axios.post('http://192.168.100.105:8000/seniorVerify',
-                {
-                    tel:this.state.data[i].phone,
-                    token:localStorage.getItem('token'),
-                    seniorCertified:e
-                })
-                .then(function (response) {
-                    console.log(response);
-                    that.setState({
-                        data: that.state.data.filter((_, a) => a !== i)
-                    })
-                })
-                .catch(function (error) {
-                    console.log(error)
-                });
-        }
-
-    }
-
-    fore(a,b,c){
-        // console.log(111,e[i])
-        return(
-            <div className={style.imgshow}>
-                <p>身份证</p>
-                <img src={a} alt=""/>
-                <img src={b} alt=""/>
-                <br/>
-                <p>银行</p>
-                <img src={c} alt=""/>
-            </div>)
-
-    }
-    fore1(a){
-        for(var i in a){
-            // console.log(111,e[i])
-            return(
-                <div className={style.imgshow}>
-                    <p>护照</p>
-                    <img src={a} alt=""/>
-                </div>)
-        }
-    }
-
+    // tong(e,i){
+    //     var that=this;
+    //     console.log(this.state.data[i])
+    //     if(this.state.data["0"].primaryCertified==1){
+    //         axios.post('http://192.168.100.105:8000/primaryVerify',
+    //             {
+    //                 tel:this.state.data[i].phone,
+    //                 token:localStorage.getItem('token'),
+    //                 primaryCertified:e
+    //             })
+    //             .then(function (response) {
+    //                 console.log(response)
+    //
+    //             })
+    //             .catch(function (error) {
+    //                 console.log(error)
+    //             });
+    //     }else if(this.state.data["0"].seniorCertified==1){
+    //         axios.post('http://192.168.100.105:8000/seniorVerify',
+    //             {
+    //                 tel:this.state.data[i].phone,
+    //                 token:localStorage.getItem('token'),
+    //                 seniorCertified:e
+    //             })
+    //             .then(function (response) {
+    //                 console.log(response);
+    //                 that.setState({
+    //                     data: that.state.data.filter((_, a) => a !== i)
+    //                 })
+    //             })
+    //             .catch(function (error) {
+    //                 console.log(error)
+    //             });
+    //     }
+    //
+    // }
 
     render() {
         if (!localStorage.getItem('token')) {
@@ -157,9 +129,13 @@ class NewsLink extends React.Component {
             return null
         }
         const columns = [
-            { title: '时间', dataIndex: 'time', key: 'time' },
+            { title: '时间', dataIndex: 'time', key: 'time',width:130 },
 
-            { title: '内容', dataIndex: 'description', key: 'description' },
+            { title: '内容', key: 'description',render:(data)=>{
+                console.log(data.description)
+
+                return <div className={style.pcontent}>{data.description}</div>
+            } },
             // { title: '审核操作', key: 'operation', render: (a,b,c) => <ButtonGroup >
             //     <Popconfirm title="是否确认通过审核？" onConfirm={this.tong.bind(this,3,c)}  okText="Yes" cancelText="No">
             //         <Button>通过</Button>
@@ -173,7 +149,7 @@ class NewsLink extends React.Component {
                     <Table className="components-table-demo-nested"
                            columns={columns}
                            expandedRowRender={
-                               record => <p>{record.description}</p>
+                               record => <p className={style.ppcon}>{record.description}</p>
                            }
                            dataSource={data}
                     />

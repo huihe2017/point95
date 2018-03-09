@@ -55,7 +55,7 @@ class UserData extends React.Component {
                     token:localStorage.getItem('token')
                 }).then(function (response) {
                     if (response.data.code === 1) {
-                        message.success(response.data.message);
+                        message.success('修改成功');
 
                         that.setState({
                             ischange:true,

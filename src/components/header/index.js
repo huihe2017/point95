@@ -11,6 +11,30 @@ import RegisterBox from './components/registerBox'
 import ResetPwdBox from './components/resetPwdBox'
 import { Badge } from 'antd';
 
+const data = [
+    {
+        key: 1,
+        time: '2017/12/15 15:00',
+        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
+
+    },{
+        key: 2,
+        nickname: 'Sakura',
+        time: '2017/12/15 15:00',
+        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
+
+    },{
+        key: 3,
+        time: '2017/12/15 16:00',
+        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
+
+    },{
+        key: 4,
+        time: '2017/12/15 12:00',
+        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内',
+
+    },
+];
 
 class Header extends React.Component {
     constructor(props) {
@@ -30,7 +54,8 @@ class Header extends React.Component {
 
 
     componentWillMount() {
-        this.choceType()
+        this.choceType();
+        localStorage.setItem('meslist',data.length)
     }
 
     componentWillReceiveProps() {
@@ -77,9 +102,6 @@ class Header extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-
-    }
 
     openSlider = () => {
         this.setState({open: true});
@@ -100,18 +122,28 @@ class Header extends React.Component {
     isManage(){
         if(this.props.user.token){
             if(localStorage.getItem('role')==1){
-                return(<div><span >{this.props.user.userName}</span>
-                    {/*<Badge count={5} overflowCount={10}>*/}
+                return(<div><h5 className={style.authtp}>{this.props.user.userName}</h5>
+
                         <Link to="/userCenter">
-                            <span >个人中心</span></Link>
-                    {/*</Badge>*/}
-                    <Link to="/checkUser"><span  >用户审核</span></Link><span onClick={this.logout} >退出</span></div>)
+                            <Badge count={localStorage.getItem('meslist')} overflowCount={10}>
+                                <h5 className={style.authtp}>个人中心</h5>
+                            </Badge>
+                        </Link>
+
+
+                    <Link to="/checkUser">
+                        <Badge count={4} overflowCount={10}>
+                        <h5 className={style.authtp}>用户审核</h5>
+                        </Badge>
+                    </Link>
+
+                    <h5  className={style.authtp} onClick={this.logout} >退出</h5></div>)
             }else {
-                return(<div><span >{this.props.user.userName}</span>
+                return(<div><h5 className={style.authtp}>{this.props.user.userName}</h5>
                     {/*<Badge count={5} overflowCount={10}>*/}
-                    <Link to="/userCenter"><span >个人中心</span></Link>
+                    <Link to="/userCenter"><h5  className={style.authtp}>个人中心</h5></Link>
                     {/*//</Badge>*/}
-                    <span onClick={this.logout} >退出</span></div>)
+                    <h5  className={style.authtp} onClick={this.logout} >退出</h5></div>)
             }
         }else {
             return(<div><span onClick={()=>{this.props.showLogin()}} >登录</span>      <span onClick={this.props.showRegister}  >注册</span></div>)

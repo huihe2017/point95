@@ -19,6 +19,10 @@ class SideMenu extends React.Component {
         });
         this.props.page(e)
     }
+    cli(){
+        alert(1)
+        localStorage.setItem('meslist','0')
+    }
     render() {
 
         return (

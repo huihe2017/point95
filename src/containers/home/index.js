@@ -12,6 +12,7 @@ import HomeSwiper from './homeSwiper'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {showRegister} from '../../actions/auth'
+import io from 'socket.io-client'
 
 class Home extends React.Component {
     constructor() {
@@ -25,7 +26,9 @@ class Home extends React.Component {
     speedAccound() {
         hashHistory.push('/auth')
     }
-
+    cll(){
+        io.emit('login',{"wgweg":5511})
+    }
     render() {
         return (
             <div className={style.wrap}>
@@ -33,7 +36,7 @@ class Home extends React.Component {
                 <div className={style.toolbar} >
                     <ToolBar/>
                 </div>
-                <div className={style.header}>
+                <div className={style.header} onClick={this.cll.bind(this)}>
                     <div className={style.button}>
                         <Button onClick={this.props.showRegister} type="primary"
                                 style={localStorage.getItem('token')?{width: '200', height: '60', fontSize: '24px',display:'none'}:{width: '200', height: '60', fontSize: '24px',display:'block'}} >立即注册</Button>

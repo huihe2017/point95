@@ -77,6 +77,12 @@ class UserData extends React.Component {
     }
 
     click(){
+
+        if(!this.state.url){
+            message.error('请上传护照图片')
+            return
+        }
+
         var that=this;
         //提交高级认证资料
         axios.post('http://192.168.100.105:8000/seniorAuth',
@@ -86,9 +92,9 @@ class UserData extends React.Component {
             })
             .then(function (response) {
                 if(response.data.code===0){
-                    message.error('请上传照片')
+                    message.error(response.data.message)
                 }else if(response.data.code===1){
-                    message.success(response.data.message)
+                    message.success('上传成功，请耐心等待')
                     that.setState({
                         seniorCertified:1,
                         canChange:true

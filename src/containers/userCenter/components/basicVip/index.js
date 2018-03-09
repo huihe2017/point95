@@ -93,6 +93,19 @@ class UserData extends React.Component {
 
     click(){
         var that=this;
+        if(!this.state.url&&!this.state.url1&&!this.state.url12){
+            message.error('请上传图片')
+            return
+        }else if(!this.state.url){
+            message.error('请上传身份证正面图片')
+            return
+        }else if(!this.state.url1){
+            message.error('请上传身份证反面图片')
+            return
+        }else if(!this.state.url2){
+            message.error('请上传银行卡正面图片')
+            return
+        }
         //提交初级认证资料
         axios.post('http://192.168.100.105:8000/primaryAuth',
             {
@@ -106,7 +119,7 @@ class UserData extends React.Component {
                 if(response.data.code===0){
                     message.error('请上传照片')
                 }else if(response.data.code===1){
-                    message.success(response.data.message)
+                    message.success('上传成功，请耐心等待')
                     that.setState({
                         primaryCertified:1,
                         canChange:true

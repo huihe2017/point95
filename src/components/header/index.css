@@ -8,20 +8,27 @@
 }
 :local(.auth){
     float: right;
+    padding-top: 20px;
 }
 :local(.autht){
     float: right;
+    padding-top: 20px;
 }
-:local(.auth) span{
+:local(.auth) h5{
+    font-size: 18px;
+    display: inline-block;
+    line-height: 24px;
     padding: 0 30px;
     color: #656b6f;
-    line-height: 68px;
     cursor: pointer;
 }
-:local(.autht) span{
-    padding: 0 30px;
+:local(.autht) h5{
+    font-size: 18px;
+    display: inline-block;
+    padding: 0 15px;
+    margin: 0 15px;
+    line-height: 24px;
     color: #fff;
-    line-height: 68px;
     cursor: pointer;
 }
 :local(.headnav){
@@ -112,4 +119,10 @@
 
     position: fixed;
     width:100%
+}
+.ant-badge{
+    vertical-align:baseline!important;
+}
+.ant-badge-count{
+    right: 0!important;
 }
