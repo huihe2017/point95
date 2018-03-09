@@ -1,7 +1,9 @@
 let initialState = {
     showLoginBox: false,
     showResetPwdBox: false,
-    showRegisterBox: false
+    showRegisterBox: false,
+    mesList:5,
+    shenList:5,
 }
 
 export default function auth(state = initialState, action = {}) {
@@ -28,6 +30,14 @@ export default function auth(state = initialState, action = {}) {
             state.showLoginBox = false
             state.showRegisterBox = false
             state.showResetPwdBox = false
+            return Object.assign({}, state, {})
+
+        case 'SHOW_NUM':
+            state.mesList = 0;
+            return Object.assign({}, state, {})
+
+        case 'SHOW_SHENNUM':
+            state.shenList = 0;
             return Object.assign({}, state, {})
 
         default:

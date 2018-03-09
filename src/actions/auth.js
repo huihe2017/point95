@@ -1,8 +1,8 @@
 export function showLogin(data, callback) {
     return dispatch => {
         dispatch({type: 'SHOW_LOGIN'})
-        console.log("reheh",data)
-        console.log("reheh222",callback)
+        // console.log("reheh",data)
+        // console.log("reheh222",callback)
         callback&&callback()
     }
 }
@@ -10,6 +10,19 @@ export function showLogin(data, callback) {
 export function showRegister() {
     return dispatch => {
         dispatch({type: 'SHOW_REGISTER'})
+    }
+}
+export function mesList() {
+    return dispatch => {
+        dispatch({type: 'SHOW_NUM'})
+
+    }
+}
+
+export function shenList() {
+    return dispatch => {
+        dispatch({type: 'SHOW_SHENNUM'})
+
     }
 }
 

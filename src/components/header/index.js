@@ -11,31 +11,6 @@ import RegisterBox from './components/registerBox'
 import ResetPwdBox from './components/resetPwdBox'
 import { Badge } from 'antd';
 
-const data = [
-    {
-        key: 1,
-        time: '2017/12/15 15:00',
-        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
-
-    },{
-        key: 2,
-        nickname: 'Sakura',
-        time: '2017/12/15 15:00',
-        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
-
-    },{
-        key: 3,
-        time: '2017/12/15 16:00',
-        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
-
-    },{
-        key: 4,
-        time: '2017/12/15 12:00',
-        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内',
-
-    },
-];
-
 class Header extends React.Component {
     constructor(props) {
         console.log(hashHistory)
@@ -55,7 +30,6 @@ class Header extends React.Component {
 
     componentWillMount() {
         this.choceType();
-        localStorage.setItem('meslist',data.length)
     }
 
     componentWillReceiveProps() {
@@ -102,6 +76,10 @@ class Header extends React.Component {
         }
     }
 
+    cli(){
+
+    }
+
 
     openSlider = () => {
         this.setState({open: true});
@@ -125,14 +103,13 @@ class Header extends React.Component {
                 return(<div><h5 className={style.authtp}>{this.props.user.userName}</h5>
 
                         <Link to="/userCenter">
-                            <Badge count={localStorage.getItem('meslist')} overflowCount={10}>
+                            <Badge count={this.props.auth.mesList} overflowCount={10}>
                                 <h5 className={style.authtp}>个人中心</h5>
                             </Badge>
                         </Link>
 
-
-                    <Link to="/checkUser">
-                        <Badge count={4} overflowCount={10}>
+                    <Link to="/checkUser" >
+                        <Badge count={this.props.auth.shenList} overflowCount={10}>
                         <h5 className={style.authtp}>用户审核</h5>
                         </Badge>
                     </Link>
@@ -140,9 +117,9 @@ class Header extends React.Component {
                     <h5  className={style.authtp} onClick={this.logout} >退出</h5></div>)
             }else {
                 return(<div><h5 className={style.authtp}>{this.props.user.userName}</h5>
-                    {/*<Badge count={5} overflowCount={10}>*/}
+                    <Badge count={this.props.auth.mesList} overflowCount={10}>
                     <Link to="/userCenter"><h5  className={style.authtp}>个人中心</h5></Link>
-                    {/*//</Badge>*/}
+                    </Badge>
                     <h5  className={style.authtp} onClick={this.logout} >退出</h5></div>)
             }
         }else {

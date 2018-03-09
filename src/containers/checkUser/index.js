@@ -1,7 +1,7 @@
 import React from 'react';
 import style from "./index.css"
 import { Button, Table, Icon,Upload,Badge, Menu, Dropdown, Modal,Popconfirm} from 'antd'
-import {hashHistory, Link} from 'react-router';
+import {browserHistory,hashHistory, Link} from 'react-router';
 import {connect} from 'react-redux'
 import ContentList from '../../components/contentList'
 import Header from '../../components/header'
@@ -9,7 +9,7 @@ import Footer from '../../components/footer'
 import ToolBar from '../../components/toolBar'
 import Crumb from '../../components/crumbs'
 import axios from  '../../common/axiosConf';
-import {showLogin} from '../../actions/auth'
+import {showLogin,shenList} from '../../actions/auth'
 import {bindActionCreators} from 'redux'
 
 const ButtonGroup = Button.Group;
@@ -41,12 +41,19 @@ class PartnerEntry extends React.Component {
     }
 
     componentWillMount(){
+
+        if(this.props.location.pathname=='/checkUser'){
+            this.props.shenList()
+        }
+
+
         var that=this;
         //获取自处资料的信息
         axios.get('http://192.168.100.105:8000/verifyList', {params:{
             token:localStorage.getItem('token')
-        }}).then(function (response) {
-            console.log(response.data.result);
+        }})
+            .then(function (response) {
+            // console.log(response.data.result);
             for(var i in response.data.result){
                 response.data.result[i].key=i;
                 if(response.data.result[i].primaryCertified==1){
@@ -58,9 +65,11 @@ class PartnerEntry extends React.Component {
             that.setState({
                 data:response.data.result
             })
-        }).catch(function (error) {
+        })
+            .catch(function (error) {
             console.log(error);
         })
+
     }
 
     handleCancel = () => this.setState({ previewVisible: false })
@@ -83,7 +92,10 @@ class PartnerEntry extends React.Component {
                 })
                 .then(function (response) {
                     console.log(response)
+                    that.setState({
+                        data: that.state.data.filter((_, a) => a !== i)
 
+                    })
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -190,6 +202,7 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
     return {
         showLogin: bindActionCreators(showLogin, dispatch),
+        shenList: bindActionCreators(shenList, dispatch),
     }
 }
 

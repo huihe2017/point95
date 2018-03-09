@@ -124,6 +124,17 @@ class UserData extends React.Component {
                         primaryCertified:1,
                         canChange:true
                     })
+                    axios.post('http://192.168.100.105:8000/addMessage',
+                        {
+                            sender:localStorage.getItem('userName'),
+                            receiver: 'admin',
+                            type: 1,
+                            token:localStorage.getItem('token')
+                        }).then(function (response) {
+                        console.log(response)
+                    }).catch(function (error) {
+                        console.log(error)
+                    })
                 }
             })
             .catch(function (error) {

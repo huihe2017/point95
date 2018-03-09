@@ -1,8 +1,10 @@
 import React from 'react';
 import { Menu, Icon, Button } from 'antd';
+import {bindActionCreators} from 'redux'
+import {mesList} from '../../../actions/auth'
+import {connect} from 'react-redux'
+
 const SubMenu = Menu.SubMenu;
-
-
 
 class SideMenu extends React.Component {
     constructor(props) {
@@ -18,7 +20,9 @@ class SideMenu extends React.Component {
         });
         this.props.page(e)
         if(e.key==5){
-            localStorage.setItem('meslist','0')
+            console.log(111)
+            //localStorage.setItem('meslist',0)
+            this.props.mesList()
         }
     }
 
@@ -60,4 +64,15 @@ class SideMenu extends React.Component {
     }
 }
 
+function mapStateToProps(state, props) {
+    return {}
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        mesList: bindActionCreators(mesList, dispatch),
+    }
+}
+
+SideMenu = connect(mapStateToProps, mapDispatchToProps)(SideMenu);
 export default SideMenu;
