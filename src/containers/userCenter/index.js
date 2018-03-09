@@ -18,10 +18,12 @@ import UserData from './components/userData';
 import BasicVip from './components/basicVip';
 import AdvancedVip from './components/advancedVip';
 import LinkMan from './components/linkMan';
+import NewsLink from './components/newsList'
 
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
+
 const userData = {
     portrait: 'http://img1.tgbusdata.cn/v2/thumb/jpg/NkRCMiw2NDAsMTAwLDQsMywxLC0xLDAscms1MA==/u/wow.tgbus.com/UploadFiles_2396/201605/20160530094443812.jpg',
     userName: '',
@@ -100,20 +102,21 @@ class userCenterHeadView extends React.Component {
             return  <div><AdvancedVip/></div>
         }else if(this.state.current=='4'){
             return  <div><LinkMan/></div>
+        }else if(this.state.current=='5'){
+            return  <div><NewsLink/></div>
         }
     }
 
-
     render() {
-        // if (!this.props.user.userName) {
-        //     this.props.showLogin({}, (errorText) => {
-        //         if (errorText) {
-        //         } else {
-        //             hashHistory.push('/')
-        //         }
-        //     })
-        //     return null
-        // }
+        if (!localStorage.getItem('token')) {
+            this.props.showLogin({}, (errorText) => {
+                if (errorText) {
+                } else {
+                    hashHistory.push('/')
+                }
+            })
+            return null
+        }
         let imgurl = "";
 
         return (

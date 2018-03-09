@@ -9,6 +9,8 @@ import Footer from '../../components/footer'
 import ToolBar from '../../components/toolBar'
 import Crumb from '../../components/crumbs'
 import axios from  '../../common/axiosConf';
+import {showLogin} from '../../actions/auth'
+import {bindActionCreators} from 'redux'
 
 const ButtonGroup = Button.Group;
 
@@ -133,6 +135,15 @@ class PartnerEntry extends React.Component {
 
 
     render() {
+        if (!localStorage.getItem('token')) {
+            this.props.showLogin({}, (errorText) => {
+                if (errorText) {
+                } else {
+                    hashHistory.push('/')
+                }
+            })
+            return null
+        }
         const columns = [
             { title: '昵称', dataIndex: 'nickname', key: 'nickname' },
 
@@ -177,7 +188,9 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {}
+    return {
+        showLogin: bindActionCreators(showLogin, dispatch),
+    }
 }
 
 PartnerEntry = connect(mapStateToProps, mapDispatchToProps)(PartnerEntry);

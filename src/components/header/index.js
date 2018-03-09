@@ -9,6 +9,7 @@ import {logout} from '../../actions/user'
 import LoginBox from './components/loginBox'
 import RegisterBox from './components/registerBox'
 import ResetPwdBox from './components/resetPwdBox'
+import { Badge } from 'antd';
 
 
 class Header extends React.Component {
@@ -99,9 +100,18 @@ class Header extends React.Component {
     isManage(){
         if(this.props.user.token){
             if(localStorage.getItem('role')==1){
-                return(<div><span >{this.props.user.userName}</span>      <Link to="/userCenter"><span >个人中心</span></Link><Link to="/checkUser"><span  >用户审核</span></Link><span onClick={this.logout} >退出</span></div>)
+                return(<div><span >{this.props.user.userName}</span>
+                    {/*<Badge count={5} overflowCount={10}>*/}
+                        <Link to="/userCenter">
+                            <span >个人中心</span></Link>
+                    {/*</Badge>*/}
+                    <Link to="/checkUser"><span  >用户审核</span></Link><span onClick={this.logout} >退出</span></div>)
             }else {
-                return(<div><span >{this.props.user.userName}</span><Link to="/userCenter"><span >个人中心</span></Link><span onClick={this.logout} >退出</span></div>)
+                return(<div><span >{this.props.user.userName}</span>
+                    {/*<Badge count={5} overflowCount={10}>*/}
+                    <Link to="/userCenter"><span >个人中心</span></Link>
+                    {/*//</Badge>*/}
+                    <span onClick={this.logout} >退出</span></div>)
             }
         }else {
             return(<div><span onClick={()=>{this.props.showLogin()}} >登录</span>      <span onClick={this.props.showRegister}  >注册</span></div>)

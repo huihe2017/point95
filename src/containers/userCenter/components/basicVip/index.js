@@ -104,7 +104,7 @@ class UserData extends React.Component {
             .then(function (response) {
                 //console.log(response.data.code)
                 if(response.data.code===0){
-                    message.error(response.data.message)
+                    message.error('请上传照片')
                 }else if(response.data.code===1){
                     message.success(response.data.message)
                     that.setState({

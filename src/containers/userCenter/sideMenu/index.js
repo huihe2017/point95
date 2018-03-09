@@ -44,8 +44,12 @@ class SideMenu extends React.Component {
                         <span>高级认证</span>
                     </Menu.Item>
                     <Menu.Item key="4">
-                        <Icon type="team" />
+                        <Icon type="contacts" />
                         <span>联系人</span>
+                    </Menu.Item>
+                    <Menu.Item key="5">
+                        <Icon type="mail" />
+                        <span>消息中心</span>
                     </Menu.Item>
                 </Menu>
             </div>

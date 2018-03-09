@@ -32,10 +32,10 @@ class ToolBar extends React.Component {
                         </div>
                     </BackTop>
                 </div>
-                <div className={style.speedaccount}>
+                <div className={style.speedaccount} hidden={true}>
                     极速开户
                 </div>
-                <div className={style.contactus} onClick={this.openwin.bind(this)}>
+                <div className={style.contactus} onClick={this.openwin.bind(this)} hidden={true}>
                     联系客服
                 </div>
             </div>
