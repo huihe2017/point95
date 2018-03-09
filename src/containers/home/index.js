@@ -27,7 +27,8 @@ class Home extends React.Component {
         hashHistory.push('/auth')
     }
     cll(){
-        io.emit('login',{"wgweg":5511})
+        console.log(window.socket)
+        window.socket.emit('login',{"wgweg":5511})
     }
     render() {
         return (

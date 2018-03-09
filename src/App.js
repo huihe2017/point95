@@ -21,24 +21,24 @@ class App extends Component {
   }
 }
 
-var socket=io.connect("ws://192.168.100.105:8000");
+var socket=io.connect("ws://192.168.100.105:8000",{withCredentials:''});
 //通知用户有用户登录
-socket.on('getData',(data)=>{
-    // console.log(data)
-    // console.log(this.state.btcPlatformData)
-    //
-
-    data.time=data.time.substr(11,5);
-    let btcPlatformData = this.state.btcPlatformData
-    if(btcPlatformData.length>100){
-        btcPlatformData.shift()
-    }
-    let newData = btcPlatformData.concat()
-    newData.push(data)
-    // this.setState({btcPlatformData})
-    //data.time=data.time.substr(11,5);
-    // console.log(this.state.btcPlatformData.push(data))
-    this.setState({btcPlatformData:newData})
-})
-
+// socket.on('getData',(data)=>{
+//     // console.log(data)
+//     // console.log(this.state.btcPlatformData)
+//     //
+//
+//     data.time=data.time.substr(11,5);
+//     let btcPlatformData = this.state.btcPlatformData
+//     if(btcPlatformData.length>100){
+//         btcPlatformData.shift()
+//     }
+//     let newData = btcPlatformData.concat()
+//     newData.push(data)
+//     // this.setState({btcPlatformData})
+//     //data.time=data.time.substr(11,5);
+//     // console.log(this.state.btcPlatformData.push(data))
+//     this.setState({btcPlatformData:newData})
+// })
+window.socket = socket
 export default App;
