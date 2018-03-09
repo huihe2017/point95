@@ -40,5 +40,10 @@ var socket=io.connect("ws://192.168.100.105:8000",{withCredentials:''});
 //     // console.log(this.state.btcPlatformData.push(data))
 //     this.setState({btcPlatformData:newData})
 // })
+
+socket.on('message',(data)=>{
+    alert(data.message)
+})
+
 window.socket = socket
 export default App;
