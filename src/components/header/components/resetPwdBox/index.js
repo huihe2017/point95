@@ -61,7 +61,7 @@ class ResetPwdBox extends React.Component {
                 this.props.resetPwd({
                     email: this.state.email,
                     // pwd: this.state.password,
-                    // code: this.state.code
+                    code: this.state.authCode
                 }, (errorText) => {
                     Toast.hide()
                     this.setState({picImg: this.getPicImg()})

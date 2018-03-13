@@ -85,7 +85,7 @@ export function modifyPwd(data, callback) {
 export function register(data, callback) {
     return dispatch => {
         axios.post('http://192.168.100.105:8000/regist', {
-            tel: data.tel,
+            email: data.email,
             pwd: data.pwd,
             code: data.code
         })
@@ -145,8 +145,8 @@ export function getDetailMsg(data, callback) {
 export function resetPwd(data, callback) {
     return dispatch => {
         axios.post('http://192.168.100.105:8000/forgetPwd', {
-            tel: data.tel,
-            pwd: data.pwd,
+            email: data.email,
+            // pwd: data.pwd,
             code: data.code
         })
             .then(function (response) {

@@ -28,7 +28,8 @@ class RegisterBox extends React.Component {
             visible: true,
             picImg: '',
             areaCode: ["86"],
-            phone: ''
+            phone: '',
+            email:''
         }
     }
 
@@ -63,9 +64,10 @@ class RegisterBox extends React.Component {
                 //Toast.loading('', 0, null, false)
                 this.props.register({
                     // tel: this.state.areaCode + " " + this.state.phone,
-                    email: this.state.email,
+
                     pwd: this.state.password,
-                    code: this.state.authCode
+                    code: this.state.authCode,
+                    email: this.state.email,
                 }, (errorText) => {
                     Toast.hide()
                     this.setState({picImg: this.getPicImg()})
