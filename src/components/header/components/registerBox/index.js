@@ -58,13 +58,14 @@ class RegisterBox extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
+            console.log(this.state.email)
             if (!err) {
                 //Toast.loading('', 0, null, false)
                 this.props.register({
                     // tel: this.state.areaCode + " " + this.state.phone,
-                    tel: this.state.phone,
+                    email: this.state.email,
                     pwd: this.state.password,
-                    code: this.state.code
+                    code: this.state.authCode
                 }, (errorText) => {
                     Toast.hide()
                     this.setState({picImg: this.getPicImg()})
@@ -165,7 +166,7 @@ class RegisterBox extends React.Component {
                                         })(
                                             <Input className={style.inputp} disabled={this.state.checkNick}
                                                    placeholder="请输入邮箱" onChange={(e) => {
-                                                this.setState({email: e.target.value})
+                                                       this.setState({email: e.target.value})
                                             }}/>
                                         )}
                                     </FormItem>
