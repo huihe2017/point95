@@ -49,8 +49,8 @@ class Header extends React.Component {
             //console.log(slisr2[1]);
             // that.props.importpwd()
             axios.post('http://192.168.100.105:8000/active', {
-                email:slisr1[1],
-                token:slisr2[1]
+                email:slisr2[1],
+                token:slisr1[1]
             }).then(function(response){
                     console.log(response.data.code);
                     if(response.data.code==1){
