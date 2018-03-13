@@ -4,12 +4,14 @@ import {hashHistory, Link} from 'react-router';
 import {connect} from 'react-redux'
 import SideBar from './components/sideBar'
 import {bindActionCreators} from 'redux'
-import {showLogin, showRegister, hideAuth} from '../../actions/auth'
+import {showLogin, showRegister, hideAuth,yinlist,shenList,importpwd} from '../../actions/auth'
 import {logout} from '../../actions/user'
 import LoginBox from './components/loginBox'
 import RegisterBox from './components/registerBox'
 import ResetPwdBox from './components/resetPwdBox'
+import ImportPwd from './components/importPwd'
 import { Badge } from 'antd';
+import io from 'socket.io-client'
 
 class Header extends React.Component {
     constructor(props) {
@@ -29,6 +31,11 @@ class Header extends React.Component {
 
 
     componentWillMount() {
+        var that=this;
+        if(window.location.hash.slice(2,-10)=='aboutUs'){
+            that.props.importpwd()
+        }
+        console.log(window.location.hash.slice(2,-10));
         this.choceType();
     }
 
@@ -103,13 +110,13 @@ class Header extends React.Component {
                 return(<div><h5 className={style.authtp}>{this.props.user.userName}</h5>
 
                         <Link to="/userCenter">
-                            <Badge count={this.props.auth.mesList} overflowCount={10}>
-                                <h5 className={style.authtp}>个人中心</h5>
+                            <Badge dot={this.props.auth.mesList}>
+                                <h5 className={style.authtp}>用户中心</h5>
                             </Badge>
                         </Link>
 
                     <Link to="/checkUser" >
-                        <Badge count={this.props.auth.shenList} overflowCount={10}>
+                        <Badge dot={this.props.auth.shenList}>
                         <h5 className={style.authtp}>用户审核</h5>
                         </Badge>
                     </Link>
@@ -117,8 +124,8 @@ class Header extends React.Component {
                     <h5  className={style.authtp} onClick={this.logout} >退出</h5></div>)
             }else {
                 return(<div><h5 className={style.authtp}>{this.props.user.userName}</h5>
-                    <Badge count={this.props.auth.mesList} overflowCount={10}>
-                    <Link to="/userCenter"><h5  className={style.authtp}>个人中心</h5></Link>
+                    <Badge dot={this.props.auth.mesList}>
+                    <Link to="/userCenter"><h5  className={style.authtp}>用户中心</h5></Link>
                     </Badge>
                     <h5  className={style.authtp} onClick={this.logout} >退出</h5></div>)
             }
@@ -199,6 +206,7 @@ class Header extends React.Component {
                 {this.props.auth.showLoginBox ? <LoginBox/> : ''}
                 {this.props.auth.showRegisterBox ? <RegisterBox/> : ''}
                 {this.props.auth.showResetPwdBox ? <ResetPwdBox/> : ''}
+                {this.props.auth.showChangePwd ? <ImportPwd/> : ''}
             </div>
         )
     }
@@ -216,9 +224,20 @@ function mapDispatchToProps(dispatch) {
     return {
         showLogin: bindActionCreators(showLogin, dispatch),
         logout: bindActionCreators(logout, dispatch),
-        showRegister: bindActionCreators(showRegister, dispatch)
+        showRegister: bindActionCreators(showRegister, dispatch),
+        shenList: bindActionCreators(shenList, dispatch),
+        importpwd:bindActionCreators(importpwd,dispatch)
     }
 }
+var socket=io.connect("ws://192.168.100.105:8000",{withCredentials:''});
+
+socket.on('message',(data)=>{
+    alert(data.receiver)
+    console.log(this);
+    //this.props.shenList()
+})
+window.socket = socket
+
 
 Header = connect(mapStateToProps, mapDispatchToProps)(Header)
 export default Header;

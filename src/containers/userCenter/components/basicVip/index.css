@@ -8,24 +8,26 @@
     font-size: 18px ;
 }
 :local(.id){
-    font-size: 18px;
-    font-weight: bold;
     display: block;
     clear: both;
-    margin-bottom: 10px;
+    line-height: 40px;
+    font-size: 14px;
+    color: #656b6f;
+    text-align: left;
 }
 :local(.lupingbox){
-    float: left;
+    margin-bottom: 40px;
     position: relative;
 }
 :local(.rupingbox){
-    float: right;
+
     position: relative;
 }
 :local(.idbox){
-    width: 500px;
-    margin-bottom: 40px;
-    height: 185px;
+    float: right;
+    width: 300px;
+
+    height: 562px;
 }
 :local(.egimg){
     position: absolute;
@@ -44,4 +46,85 @@
     left: 0;
     top: 0;
     z-index: 5;
+}
+:local(.input){
+    height: 40px!important;
+    padding-left: 12px!important;
+
+}
+:local(.inputp){
+    height: 40px!important;
+
+    margin-top: 40px;
+}
+:local(.errors){
+    color: #f59294;
+    font-size: 12px;
+    text-align: left;
+    line-height: 40px;
+
+}
+:local(.right){
+    color: #dfdce4;
+    font-size: 12px;
+    text-align: left;
+    line-height: 40px;
+
+}
+:local(.percontent){
+    height: 80px;
+
+}
+:local(.partreg){
+    float: left;
+    width: 560px;
+    padding: 0 20px;
+    padding-top: 2px;
+}
+:local(.qiniu){
+    width: 220px!important;
+    height: 150px!important;
+    border-radius: 5px;
+    background-color: #fbfbfb;
+    border: 1px dashed #d9d9d9;
+    overflow: hidden;
+}
+:local(.tipword){
+    position: absolute;
+    bottom: 1px;
+    text-align: center;
+    background-color: #dfdce4;
+    color: #3b3d40;
+    width: 218px;
+    line-height: 30px;
+}
+:local(.prfooter){
+    float: left;
+    margin: 0 auto;
+    padding-top: 14px;
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 100px;
+}
+.ant-select-lg .ant-select-selection--single {
+    height: 40px!important;
+}
+.ant-select-search__field__placeholder, .ant-select-selection__placeholder{
+    top: 62% !important;
+}
+.ant-select-selection__rendered{
+    margin-left: 12px!important;
+}
+.ant-input{
+    padding: 0 12px!important;
+}
+.ant-select-selection-selected-value{
+    margin-top: 4px;
+}
+:local(.uprequire){
+    font-size: 12px;
+    line-height: 24px;
+    color: #aaa;
+    width: 220px;
+    margin-top: 12px;
 }

@@ -94,15 +94,15 @@ class userCenterHeadView extends React.Component {
     }
 
     pageShow(){
-        if(this.state.current=='1'){
-            return  <div className={style.pageContent}><UserData/></div>
-        }else if(this.state.current=='2'){
+        if(this.state.current=='5'){
+            return  <div><UserData/></div>
+        }else if(this.state.current=='1'){
             return  <div><BasicVip/></div>
-        }else if(this.state.current=='3'){
+        }else if(this.state.current=='2'){
             return  <div><AdvancedVip/></div>
-        }else if(this.state.current=='4'){
+        }else if(this.state.current=='3'){
             return  <div><LinkMan/></div>
-        }else if(this.state.current=='5'){
+        }else if(this.state.current=='4'){
             return  <div><NewsLink/></div>
         }
     }
@@ -122,7 +122,7 @@ class userCenterHeadView extends React.Component {
         return (
             <div className={style.aboutus}>
                 <Header/>
-                <Crumb position={[{pos:'个人中心'}]}/>
+                <Crumb position={[{pos:'用户中心'}]}/>
 
                 <div className={style.wlop}>
                     <div className={style.wlfll}>
@@ -134,6 +134,7 @@ class userCenterHeadView extends React.Component {
                             {this.pageShow()}
                         </ul>
                     </div>
+                    <div style={{clear:'both'}}></div>
                 </div>
                 <Footer/>
             </div>

@@ -9,7 +9,7 @@ import Footer from '../../components/footer'
 import ToolBar from '../../components/toolBar'
 import Crumb from '../../components/crumbs'
 import axios from  '../../common/axiosConf';
-import {showLogin,shenList} from '../../actions/auth'
+import {showLogin,shenList,yinlist} from '../../actions/auth'
 import {bindActionCreators} from 'redux'
 
 const ButtonGroup = Button.Group;
@@ -43,7 +43,7 @@ class PartnerEntry extends React.Component {
     componentWillMount(){
 
         if(this.props.location.pathname=='/checkUser'){
-            this.props.shenList()
+            this.props.yinlist()
         }
 
 
@@ -203,6 +203,7 @@ function mapDispatchToProps(dispatch) {
     return {
         showLogin: bindActionCreators(showLogin, dispatch),
         shenList: bindActionCreators(shenList, dispatch),
+        yinlist: bindActionCreators(yinlist, dispatch),
     }
 }
 

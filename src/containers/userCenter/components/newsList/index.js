@@ -22,7 +22,6 @@ const data = [
 
     },{
         key: 1,
-        nickname: 'Sakura',
         time: '2017/12/15 15:00',
         description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
 
@@ -53,25 +52,33 @@ class NewsLink extends React.Component {
     componentWillMount(){
         var that=this;
         //获取自处资料的信息
-        // axios.get('http://192.168.100.105:8000/verifyList', {params:{
-        //     token:localStorage.getItem('token')
-        // }}).then(function (response) {
-        //     console.log(response.data.result);
-        //     for(var i in response.data.result){
-        //         response.data.result[i].key=i;
-        //         if(response.data.result[i].primaryCertified==1){
-        //             response.data.result[i].createdAt='初级审核'
-        //         }else if(response.data.result[i].seniorCertified==1){
-        //             response.data.result[i].createdAt='高级审核'
-        //         }
-        //     }
-        //     that.setState({
-        //         data:response.data.result
-        //     })
-        // }).catch(function (error) {
-        //     console.log(error);
-        // })
+        axios.get('http://192.168.100.105:8000/message', {params:{
+            token:localStorage.getItem('token')
+        }}).then(function (response) {
+
+            for(var i in response.data.result){
+                response.data.result[i].key=i;
+                console.log(response.data.result[i].createAt);
+                var m=new Date(response.data.result[i].createAt).getMonth()+1
+                var mm=m<10?'0'+m:m
+                var d=new Date(response.data.result[i].createAt).getDate()?'0'+new Date(response.data.result[i].createAt).getDate():new Date(response.data.result[i].createAt).getDate()
+                var time=new Date(response.data.result[i].createAt).getFullYear()+'/'+mm+'/'+d+' '+new Date(response.data.result[i].createAt).getHours()+':'+new Date(response.data.result[i].createAt).getMinutes();
+                response.data.result[i].createAt=time;
+
+            }
+            for(var i in response.data.result){
+                // response.data.result[i].key=i;
+
+            }
+
+            that.setState({
+                data:response.data.result
+            })
+        }).catch(function (error) {
+            console.log(error);
+        })
     }
+
 
     handleCancel = () => this.setState({ previewVisible: false })
     handlePreview = (file) => {
@@ -129,12 +136,12 @@ class NewsLink extends React.Component {
             return null
         }
         const columns = [
-            { title: '时间', dataIndex: 'time', key: 'time',width:130 },
+            { title: '时间', dataIndex: 'createAt', key: 'createAt',width:130 },
 
-            { title: '内容', key: 'description',render:(data)=>{
-                console.log(data.description)
+            { title: '内容', key: 'content',render:(data)=>{
+                //console.log(data.content)
 
-                return <div className={style.pcontent}>{data.description}</div>
+                return <div className={style.pcontent}>{data.content}</div>
             } },
             // { title: '审核操作', key: 'operation', render: (a,b,c) => <ButtonGroup >
             //     <Popconfirm title="是否确认通过审核？" onConfirm={this.tong.bind(this,3,c)}  okText="Yes" cancelText="No">
@@ -149,9 +156,9 @@ class NewsLink extends React.Component {
                     <Table className="components-table-demo-nested"
                            columns={columns}
                            expandedRowRender={
-                               record => <p className={style.ppcon}>{record.description}</p>
+                               record => <p className={style.ppcon}>{record.content}</p>
                            }
-                           dataSource={data}
+                           dataSource={this.state.data}
                     />
                 </div>
 

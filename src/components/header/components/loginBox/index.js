@@ -67,7 +67,7 @@ class LoginBox extends React.Component {
             if (!err) {
                 //Toast.loading('', 0, null, false)
                 this.props.login({
-                    tel: this.state.phone,
+                    email: this.state.email,
                     pwd: this.state.pwd,
                     code: this.state.picCode
                 }, (errorText) => {
@@ -103,22 +103,40 @@ class LoginBox extends React.Component {
                         </span>
                         <div className={style.perselphone}>
                             <div className={style.selphone}>
-                                <div className={style.qh}>
+                                {/*邮箱登陆*/}
+                                <FormItem>
+                                    {getFieldDecorator('email', {
+                                        rules: [{
+                                            required: true,
+                                            initialValue: '36363@ww.com',
+                                            pattern: /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/,
+                                            message:'请输入正确格式的邮箱!'
+                                        }],
+                                    })(
+                                        <Input className={style.inputp} disabled={this.state.checkNick}
+                                               placeholder="请输入邮箱" onChange={(e) => {
+                                            this.setState({email: e.target.value})
+                                        }}/>
+                                    )}
+                                </FormItem>
+
+                                {/*手机登录*/}
+                                {/*<div className={style.qh}>*/}
                                     {/*<Select  value={this.state.areaCode} size={'large'} style={{ width: 80,height:40,lineHeight:40,}} onChange={(value)=>{this.setState({areaCode:value})}} dropdownStyle={{width:'520'}}>*/}
                                         {/*<Option value="86">+86</Option>*/}
                                         {/*<Option value="87">+87</Option>*/}
                                         {/*<Option value="88">+88</Option>*/}
                                     {/*</Select>*/}
-                                </div>
-                                <div className={style.phone}>
-                                    <FormItem>{getFieldDecorator('phone', {
-                                    rules: [{
-                                        required: true, message: '请输入正确格式的手机号码!',pattern:/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/}],
-                                })(<div>
-                                    <Input onChange={(e)=>{this.setState({phone:e.target.value})}} className={style.inputp} placeholder="手机号"/></div>
-                                )}
-                                </FormItem>
-                                </div>
+                                {/*</div>*/}
+                                {/*<div className={style.phone}>*/}
+                                    {/*<FormItem>{getFieldDecorator('phone', {*/}
+                                    {/*rules: [{*/}
+                                        {/*required: true, message: '请输入正确格式的手机号码!',pattern:/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/}],*/}
+                                {/*})(<div>*/}
+                                    {/*<Input onChange={(e)=>{this.setState({phone:e.target.value})}} className={style.inputp} placeholder="手机号"/></div>*/}
+                                {/*)}*/}
+                                {/*</FormItem>*/}
+                                {/*</div>*/}
                             </div>
                             <div className={style.tuxing}>
                                 <div className={style.tx} onClick={this.regetPicImg.bind(this)}>

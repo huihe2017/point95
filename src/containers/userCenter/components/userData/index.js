@@ -40,6 +40,11 @@ class UserData extends React.Component {
             console.log(error);
         })
     }
+
+    dataChange(date){
+        console.log(date)
+    }
+
     //点击提交
     handleSubmit = (e) => {
         e.preventDefault();
@@ -142,7 +147,7 @@ class UserData extends React.Component {
                         label="生日"
                     >
                         {getFieldDecorator('birthday', config)(
-                            <DatePicker  disabled={this.state.ischange}/>
+                            <DatePicker onChange={this.dataChange.bind(this)}  disabled={this.state.ischange}/>
                         )}
                     </FormItem>
                 </div>

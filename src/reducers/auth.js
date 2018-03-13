@@ -2,8 +2,10 @@ let initialState = {
     showLoginBox: false,
     showResetPwdBox: false,
     showRegisterBox: false,
-    mesList:5,
-    shenList:5,
+    mesList:true,
+    shenList:false,
+    showChangePwd:false,
+    showForgetTip:false,
 }
 
 export default function auth(state = initialState, action = {}) {
@@ -14,30 +16,49 @@ export default function auth(state = initialState, action = {}) {
             state.showLoginBox = true
             state.showRegisterBox = false
             state.showResetPwdBox = false
+            state.showChangePwd = false
+            state.showForgetTip = false
             return Object.assign({}, state, {})
 
         case 'SHOW_REGISTER':
             state.showLoginBox = false
             state.showRegisterBox = true
+            state.showChangePwd = false
+            state.showForgetTip = false
             return Object.assign({}, state, {})
 
         case 'SHOW_RESETPWD':
             state.showLoginBox = false
             state.showResetPwdBox = true
+            state.showChangePwd = false
+            state.showForgetTip = false
             return Object.assign({}, state, {})
 
         case 'HIDE_AUTH':
             state.showLoginBox = false
             state.showRegisterBox = false
             state.showResetPwdBox = false
+            state.showChangePwd = false
+            state.showForgetTip = false
             return Object.assign({}, state, {})
 
         case 'SHOW_NUM':
-            state.mesList = 0;
+            state.mesList = false;
             return Object.assign({}, state, {})
 
         case 'SHOW_SHENNUM':
-            state.shenList = 0;
+            state.shenList = true;
+            return Object.assign({}, state, {})
+
+        case 'HIDDEN_SHENNUM':
+            state.shenList = false;
+            return Object.assign({}, state, {})
+
+        case 'SHOW_IMPORTPWD':
+            state.showLoginBox = false
+            state.showResetPwdBox = false
+            state.showChangePwd = true
+            state.showForgetTip = false
             return Object.assign({}, state, {})
 
         default:

@@ -8,6 +8,14 @@
     /* autoprefixer: off */
     -webkit-box-orient: vertical;
     /* autoprefixer: on */
+    display: block;
+    -moz-text-overflow:ellipsis;
+    display:-webkit-box;
+
+    -moz-line-clamp:1;
+
+    -moz-box-orient: vertical;
+
 }
 :local(.ppcon){
     padding: 16px 0;
@@ -16,9 +24,9 @@
 
     /*width: 1200px;*/
     margin: 0 auto;
-    margin-bottom: 40px;
+
     height: 100%;
     min-height: 522px;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
     background-color: #fff;
 }

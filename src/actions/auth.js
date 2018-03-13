@@ -15,6 +15,12 @@ export function showRegister() {
 export function mesList() {
     return dispatch => {
         dispatch({type: 'SHOW_NUM'})
+    }
+}
+
+export function importpwd() {
+    return dispatch => {
+        dispatch({type: 'SHOW_IMPORTPWD'})
 
     }
 }
@@ -22,6 +28,13 @@ export function mesList() {
 export function shenList() {
     return dispatch => {
         dispatch({type: 'SHOW_SHENNUM'})
+
+    }
+}
+
+export function yinlist() {
+    return dispatch => {
+        dispatch({type: 'HIDDEN_SHENNUM'})
 
     }
 }

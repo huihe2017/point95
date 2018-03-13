@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {Modal, Input, Select, Form, AutoComplete, Button, Row, Col} from 'antd';
 import {bindActionCreators} from 'redux'
 import {hashHistory} from 'react-router'
-import {hideAuth, showLogin} from '../../../../actions/auth'
+import {hideAuth, showLogin,importpwd} from '../../../../actions/auth'
 import {resetPwd} from '../../../../actions/user'
 import Countdown from '../../../countdown/index'
 import Toast from 'antd-mobile/lib/toast';
@@ -45,20 +45,23 @@ class ResetPwdBox extends React.Component {
     }
 
     hideModal = () => {
+        // this.props.importpwd();
         this.props.hideAuth()
         // this.setState({
         //     visible: false,
         // });
     }
     handleSubmit = (e) => {
+        //this.props.importpwd()
         e.preventDefault();
+
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 Toast.loading('', 0, null, false)
                 this.props.resetPwd({
-                    tel: this.state.phone,
-                    pwd: this.state.password,
-                    code: this.state.code
+                    email: this.state.email,
+                    // pwd: this.state.password,
+                    // code: this.state.code
                 }, (errorText) => {
                     Toast.hide()
                     this.setState({picImg: this.getPicImg()})
@@ -110,7 +113,7 @@ class ResetPwdBox extends React.Component {
         var that=this
         axios.get('http://192.168.100.105:8000/captcha')
             .then(function(response){
-                console.log(that);
+                //console.log(that);
                 that.setState({
                     picImg:that.getPicImg(response.data.result.txt)
                 })
@@ -143,34 +146,51 @@ class ResetPwdBox extends React.Component {
                         </span>
                             <div className={style.perselphone}>
                                 <div className={style.selphone}>
-                                    <div className={style.qh}>
-                                        {/*<Select value={this.state.areaCode} size={'large'}*/}
-                                                {/*style={{width: 80, height: 40, lineHeight: 40,}} onChange={(value) => {*/}
-                                            {/*this.setState({areaCode: value})*/}
-                                        {/*}} dropdownStyle={{width: '520'}}>*/}
-                                            {/*<Option value="86">+86</Option>*/}
-                                            {/*<Option value="87">+87</Option>*/}
-                                            {/*<Option value="88">+88</Option>*/}
-                                        {/*</Select>*/}
-                                    </div>
-                                    <div className={style.phone}>
-                                        <FormItem>{getFieldDecorator('phone', {
+                                    {/*邮箱登陆*/}
+                                    <FormItem>
+                                        {getFieldDecorator('email', {
                                             rules: [{
                                                 required: true,
-                                                message: '请输入正确格式的手机号码!',
-                                                pattern: /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/
+                                                initialValue: '36363@ww.com',
+                                                pattern: /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/,
+                                                message:'请输入正确格式的邮箱!'
                                             }],
-                                        })(<div>
-                                            <Input onChange={
-                                                (e) => {
-                                                    this.setState({phone: e.target.value})
-                                                }
-                                            }
-                                                   className={style.inputp}
-                                                   placeholder="手机号"/></div>
+                                        })(
+                                            <Input className={style.inputp} disabled={this.state.checkNick}
+                                                   placeholder="请输入邮箱" onChange={(e) => {
+                                                this.setState({email: e.target.value})
+                                            }}/>
                                         )}
-                                        </FormItem>
-                                    </div>
+                                    </FormItem>
+
+                                    {/*<div className={style.qh}>*/}
+                                        {/*/!*<Select value={this.state.areaCode} size={'large'}*!/*/}
+                                                {/*/!*style={{width: 80, height: 40, lineHeight: 40,}} onChange={(value) => {*!/*/}
+                                            {/*/!*this.setState({areaCode: value})*!/*/}
+                                        {/*/!*}} dropdownStyle={{width: '520'}}>*!/*/}
+                                            {/*/!*<Option value="86">+86</Option>*!/*/}
+                                            {/*/!*<Option value="87">+87</Option>*!/*/}
+                                            {/*/!*<Option value="88">+88</Option>*!/*/}
+                                        {/*/!*</Select>*!/*/}
+                                    {/*</div>*/}
+                                    {/*<div className={style.phone}>*/}
+                                        {/*<FormItem>{getFieldDecorator('phone', {*/}
+                                            {/*rules: [{*/}
+                                                {/*required: true,*/}
+                                                {/*message: '请输入正确格式的手机号码!',*/}
+                                                {/*pattern: /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/*/}
+                                            {/*}],*/}
+                                        {/*})(<div>*/}
+                                            {/*<Input onChange={*/}
+                                                {/*(e) => {*/}
+                                                    {/*this.setState({phone: e.target.value})*/}
+                                                {/*}*/}
+                                            {/*}*/}
+                                                   {/*className={style.inputp}*/}
+                                                   {/*placeholder="手机号"/></div>*/}
+                                        {/*)}*/}
+                                        {/*</FormItem>*/}
+                                    {/*</div>*/}
                                 </div>
                                 <div className={style.tuxing}>
                                     {/*<img className={style.authCode}*/}
@@ -194,76 +214,76 @@ class ResetPwdBox extends React.Component {
                                 </div>
 
 
-                                <div className={style.tuxing}>
-                                    <FormItem>{getFieldDecorator('code', {
-                                        rules: [{
-                                            required: true,
-                                            message: '请输入短信验证码!'
-                                        }],
-                                    })(
-                                        <div>
-                                            <Countdown
-                                                beforeClick={() => {
-                                                    return this.checkPhone(getFieldError, getFieldValue)
-                                                }}
-                                                phone={this.state.phone}
-                                                picCode={this.state.authCode}
-                                                business='FIND_PASSWORD'
-                                                failCallback={() => {
-                                                    this.setState({picImg: this.regetPicImg()})
-                                                }}
-                                                onChange={(e) => {
-                                                    this.setState({code: e.target.value})
-                                                }}
-                                            />
-                                        </div>
-                                    )
-                                    }
-                                    </FormItem>
-                                </div>
+                                {/*<div className={style.tuxing}>*/}
+                                    {/*<FormItem>{getFieldDecorator('code', {*/}
+                                        {/*rules: [{*/}
+                                            {/*required: true,*/}
+                                            {/*message: '请输入短信验证码!'*/}
+                                        {/*}],*/}
+                                    {/*})(*/}
+                                        {/*<div>*/}
+                                            {/*<Countdown*/}
+                                                {/*beforeClick={() => {*/}
+                                                    {/*return this.checkPhone(getFieldError, getFieldValue)*/}
+                                                {/*}}*/}
+                                                {/*phone={this.state.phone}*/}
+                                                {/*picCode={this.state.authCode}*/}
+                                                {/*business='FIND_PASSWORD'*/}
+                                                {/*failCallback={() => {*/}
+                                                    {/*this.setState({picImg: this.regetPicImg()})*/}
+                                                {/*}}*/}
+                                                {/*onChange={(e) => {*/}
+                                                    {/*this.setState({code: e.target.value})*/}
+                                                {/*}}*/}
+                                            {/*/>*/}
+                                        {/*</div>*/}
+                                    {/*)*/}
+                                    {/*}*/}
+                                    {/*</FormItem>*/}
+                                {/*</div>*/}
 
 
-                                <div className={style.tuxing}>
-                                    <FormItem>{getFieldDecorator('password', {
-                                        rules: [{
-                                            required: true,
-                                            message: '请输入正确格式的密码!',
-                                            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/
-                                        }],
-                                    })(<div>
-                                        <Input onChange={
-                                            (e) => {
-                                                this.setState({password: e.target.value})
-                                            }} className={style.inputp} placeholder="密码6-24位字母、数字、字符"
-                                               type={'password'}/></div>
-                                    )}
-                                    </FormItem>
+                                {/*<div className={style.tuxing}>*/}
+                                    {/*<FormItem>{getFieldDecorator('password', {*/}
+                                        {/*rules: [{*/}
+                                            {/*required: true,*/}
+                                            {/*message: '请输入正确格式的密码!',*/}
+                                            {/*pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/*/}
+                                        {/*}],*/}
+                                    {/*})(<div>*/}
+                                        {/*<Input onChange={*/}
+                                            {/*(e) => {*/}
+                                                {/*this.setState({password: e.target.value})*/}
+                                            {/*}} className={style.inputp} placeholder="密码6-24位字母、数字、字符"*/}
+                                               {/*type={'password'}/></div>*/}
+                                    {/*)}*/}
+                                    {/*</FormItem>*/}
 
-                                </div>
-                                <div className={style.tuxing}>
-                                    <FormItem
-                                        hasFeedback
-                                    >
-                                        {getFieldDecorator('confirm', {
-                                            rules: [{
-                                                required: true, message: '请检查你的密码!',
-                                            }, {
-                                                validator: this.checkPassword,
-                                            }],
-                                        })(
-                                            <Input
-                                                type="password"
-                                                className={style.inputp}
-                                                onChange={
-                                                    (e) => {
-                                                        this.setState({confirm: e.target.value})
-                                                    }
-                                                }
-                                                onBlur={this.handleConfirmBlur}
-                                                placeholder="请再次输入密码"/>
-                                        )}
-                                    </FormItem>
-                                </div>
+                                {/*</div>*/}
+                                {/*<div className={style.tuxing}>*/}
+                                    {/*<FormItem*/}
+                                        {/*hasFeedback*/}
+                                    {/*>*/}
+                                        {/*{getFieldDecorator('confirm', {*/}
+                                            {/*rules: [{*/}
+                                                {/*required: true, message: '请检查你的密码!',*/}
+                                            {/*}, {*/}
+                                                {/*validator: this.checkPassword,*/}
+                                            {/*}],*/}
+                                        {/*})(*/}
+                                            {/*<Input*/}
+                                                {/*type="password"*/}
+                                                {/*className={style.inputp}*/}
+                                                {/*onChange={*/}
+                                                    {/*(e) => {*/}
+                                                        {/*this.setState({confirm: e.target.value})*/}
+                                                    {/*}*/}
+                                                {/*}*/}
+                                                {/*onBlur={this.handleConfirmBlur}*/}
+                                                {/*placeholder="请再次输入密码"/>*/}
+                                        {/*)}*/}
+                                    {/*</FormItem>*/}
+                                {/*</div>*/}
                                 <FormItem>
                                     <Button type="primary" htmlType="submit"
                                             style={{
@@ -271,7 +291,7 @@ class ResetPwdBox extends React.Component {
                                                 height: 40,
                                                 marginTop: 20,
                                                 marginBottom: 60
-                                            }}>确认修改密码</Button>
+                                            }}>提交</Button>
                                 </FormItem>
 
                             </div>

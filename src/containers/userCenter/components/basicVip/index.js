@@ -5,12 +5,12 @@ import UploadImg from '../../../../components/uploadImg'
 import QQiniu from 'react-qiniu';
 import qiniu from "qiniu";
 import axios from  '../../../../common/axiosConf'
+import Countdown from '../../../../components/countdown/index'
+import Toast from 'antd-mobile/lib/toast';
 
+const FormItem = Form.Item;
+const Option = Select.Option;
 
-
-// qiniu.conf.ACCESS_KEY ='BzN7Apb-vCMmeNYqM720qePENoBDsSVKfn-tuoxC' ;
-//
-// qiniu.conf.SECRET_KEY ='a96qIIB0PP6A3GEvs0VjMoznuO-j2QCfSx_aRXNU' ;
 
 class UserData extends React.Component {
     constructor(props) {
@@ -124,8 +124,7 @@ class UserData extends React.Component {
                         primaryCertified:1,
                         canChange:true
                     })
-                    axios.post('http://192.168.100.105:8000/addMessage',
-                        {
+                    axios.post('http://192.168.100.105:8000/addMessage', {
                             sender:localStorage.getItem('userName'),
                             receiver: 'admin',
                             type: 1,
@@ -202,9 +201,9 @@ class UserData extends React.Component {
             var that=this;
             axios.get(this.state.url1)
                 .then(function (response) {
-                    console.log(159,response)
+                    //console.log(159,response)
                 }).catch(function (error) {
-                console.log('chulai')
+                //console.log('chulai')
                 that.setState({
                     isLink22:true
                 })
@@ -212,34 +211,6 @@ class UserData extends React.Component {
         })
     }
 
-    onDrop3(files) {
-        this.setState({
-            files: files
-        });
-        var l1=files[0].name.indexOf('.');
-        // var l2=files[0].name.split('').length;
-        var ex=files[0].name.slice(l1,100);
-        var ll=files[0].preview;
-
-        console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex);
-        this.setState({
-            url2:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex+'?imageView2/2/w/308/h/210/interlace/1/q/100',
-            url33:files[0].preview
-        },()=>{
-            var that=this;
-            console.log(153,this);
-            axios.get(this.state.url2)
-                .then(function (response) {
-                    console.log(159,response)
-                }).catch(function (error) {
-
-                that.setState({
-                    isLink33:true
-                })
-
-            })
-        })
-    }
 
     reword(){
         if(this.state.primaryCertified==1){
@@ -253,9 +224,94 @@ class UserData extends React.Component {
         }
     }
 
+    handleSubmit = (e) => {
+        e.preventDefault();
+        if(!this.state.url&&!this.state.url1){
+            message.error('请上传图片')
+            return
+        }else if(!this.state.url){
+            message.error('请上传身份证正面图片')
+            return
+        }else if(!this.state.url1){
+            message.error('请上传身份证反面图片')
+            return
+        }
+        this.props.form.validateFieldsAndScroll((err, values) => {
+
+            if (!err) {
+                //提交初级认证资料
+                console.log(this.state);
+                axios.post('http://192.168.100.105:8000/primaryAuth',
+                    {
+                        frontCard: this.state.url,
+                        backCard: this.state.url1,
+                        token:localStorage.getItem('token'),
+                        address:this.state.address,
+                        code:this.state.code,
+                        email:this.state.email,
+                        realName:this.state.realName,
+                        ID:this.state.id,
+                        thirdParty:this.state.thirdParty,
+                        employStatu:this.state.employStatu
+                    })
+                    .then(function (response) {
+                        //console.log(response.data.code)
+                        if(response.data.code===0){
+                            message.error('请完善您的资料')
+                        }else if(response.data.code===1){
+                            message.success('上传成功，请耐心等待')
+                            this.setState({
+                                primaryCertified:1,
+                                canChange:true
+                            })
+                            axios.post('http://192.168.100.105:8000/addMessage', {
+                                sender:localStorage.getItem('userName'),
+                                receiver: 'admin',
+                                type: 1,
+                                token:localStorage.getItem('token')
+                            }).then(function (response) {
+                                console.log(response)
+                            }).catch(function (error) {
+                                console.log(error)
+                            })
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
+
+                // this.props.register({
+                //     // tel: this.state.areaCode + " " + this.state.phone,
+                //     tel: this.state.phone,
+                //     pwd: this.state.password,
+                //     code: this.state.code
+                // }, (errorText) => {
+                //     if (errorText) {
+                //
+                //     } else {
+                //
+                //     }
+                // })
+            }
+        });
+    }
+
+    handleChange(value) {
+        //console.log(`selected ${value}`);
+        this.setState({
+            thirdParty:value
+        })
+    }
+    handleChange1(value) {
+        //console.log(`selected ${value}`);
+        this.setState({
+            employStatu:value
+        })
+    }
+
     render() {
 
-        const { getFieldDecorator,getFieldError, isFieldTouched } = this.props.form;
+        const { getFieldDecorator,getFieldError, isFieldTouched ,getFieldValue} = this.props.form;
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
@@ -280,45 +336,200 @@ class UserData extends React.Component {
 
 
         return (
-            <div className={style.wlop}>
-                {/*<span style={this.state.dis?{color:'blue'}:{color:'#ccc'}} className={style.showstate}>{this.state.dis?'审核中':'未审核'}</span><br/>*/}
+            <Form onSubmit={this.handleSubmit}>
+                <div className={style.partreg}>
+                    <div className={style.personal}>
+                        <div className={style.perimport}>
+                            <div className={style.percontent} hidden={this.state.checkNick ? 'hidden' : ''}>
+                                <FormItem>
+                                    {(getFieldError('yanzhegnma')) ?
+                                        <div className={style.errors}>请输入收到的短信验证码【必填】</div> :
+                                        <div className={style.right}>请输入收到的短信验证码【必填】</div>}
+                                    {getFieldDecorator('yanzhegnma', {
+                                        rules: [{
+                                            required: true, pattern: /^[0-9]*$/,message: ' '
+                                        }]
+                                    })(
+                                        <Countdown
+                                            beforeClick={() => {
+                                                return true
+                                            }}
+                                            phone={localStorage.getItem('userName')}
+                                            business='VERIFICATION'
+                                            failCallback={() => {
+                                            }}
+                                            type="big"
+                                            onChange={(e) => {
+                                                this.setState({code: e.target.value})
+                                            }}
+                                        />
+                                    )}
 
+
+                                </FormItem>
+                            </div>
+                            <div className={style.percontent}>
+                                <FormItem>
+                                    {(getFieldError('email')) ? <div onChange={() => {
+                                        }} className={style.errors}>请输入正确格式邮箱【选填】</div> :
+                                        <div className={style.right}>请输入正确格式邮箱【选填】</div>}
+                                    {getFieldDecorator('email', {
+                                        rules: [{
+                                            required: this.state.checkNick,
+                                            initialValue: '36363@ww.com',
+                                            pattern: /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/,
+                                            message:' '
+                                        }],
+                                    })(
+                                        <Input className={style.input} disabled={this.state.checkNick}
+                                               placeholder="邮箱" onChange={(e) => {
+                                            this.setState({email: e.target.value})
+                                        }}/>
+                                    )}
+                                </FormItem>
+                            </div>
+                            <div className={style.percontent}>
+                                <FormItem
+                                    hasFeedback
+                                >{(getFieldError('idCard')) ? <div className={style.errors}>
+                                        请填写15位一代身份证号或18位二代身份证号，同一个身份证号只能绑定一个海豚汇账号【必填】</div> :
+                                    <div className={style.right}>
+                                        请填写15位一代身份证号或18位二代身份证号，同一个身份证号只能绑定一个海豚汇账号【必填】</div>}
+                                    {getFieldDecorator('idCard', {
+                                        rules: [{
+                                            required: true,
+                                            whitespace: true,
+                                            initialValue: '36363@ww.com',message: ' ',
+                                            pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+                                        }],
+                                    })(<Input
+                                        className={style.input} disabled={this.state.checkNick} placeholder="身份证号"
+                                        onChange={(e) => {
+                                            this.setState({id: e.target.value})
+                                        }}/>)}</FormItem>
+                            </div>
+                            <div className={style.percontent}>
+                                <FormItem hasFeedback>
+                                    {(getFieldError('userName')) ?
+                                        <div className={style.errors}>姓名需与身份证姓名一致【必填】
+                                        </div> :
+                                        <div className={style.right}>姓名需与身份证姓名一致【必填】</div>}
+                                    {getFieldDecorator('userName', {
+                                        rules: [{
+                                            required: true, pattern: /^([a-zA-Z\u4e00-\u9fa5\·]{1,10})$/,message: ' ',
+                                        }]
+                                    })(
+                                        <Input
+                                            className={style.input} disabled={this.state.checkNick} placeholder="姓名"
+                                            onChange={(e) => {
+                                                this.setState({realName: e.target.value})
+                                            }}/>
+                                    )}
+                                </FormItem>
+                            </div>
+                            <div className={style.percontent}>
+                                <FormItem>
+                                    {(getFieldError('address')) ? <div className={style.errors}>住址需与身份证住址一致【选填】</div> :
+                                        <div className={style.right}>住址需与身份证住址一致【选填】</div>}
+                                    {getFieldDecorator('address', {
+                                        rules: [{
+                                            required: this.state.checkNick,
+                                            message: 'Please input your nickname',
+                                        }],
+                                    })(
+                                        <Input
+                                            className={style.input} disabled={this.state.checkNick} placeholder="住址"
+                                            onChange={(e) => {
+                                                this.setState({address: e.target.value})
+                                            }}/>
+                                    )}
+                                </FormItem>
+                            </div>
+                            <div className={style.percontent}>
+                                <FormItem>
+                                    {(getFieldError('job')) ? <div className={style.errors}>就业情况【必填】</div> :
+                                        <div className={style.right}>就业情况【必填】</div>}
+                                    {getFieldDecorator('job', {
+                                        rules: [{
+                                            required: true,
+                                            message: ' ',
+                                        }],
+                                    })(
+                                        <Select placeholder="请选择" size={'large'} disabled={this.state.checkNick}
+                                                style={{width: '100%', height: 40, lineHeight: 40}}
+                                                onChange={this.handleChange1.bind(this)}>
+                                            <Option value={1}>工作中</Option>
+                                            <Option value={2}>学生</Option>
+                                            <Option value={3}>失业</Option>
+                                            <Option value={4}>退休</Option>
+                                            <Option value={5}>其它</Option>
+
+                                        </Select>
+                                    )}
+                                </FormItem>
+                            </div>
+                            <div className={style.percontent}>
+                                <FormItem>
+                                    {(getFieldError('elvan')) ? <div className={style.errors}>您是代表第三方购买或选购么【必填】</div> :
+                                        <div className={style.right}>您是代表第三方购买或选购么【必填】</div>}
+                                    {getFieldDecorator('elvan', {
+                                        rules: [{
+                                            required: true,
+                                            message: ' ',
+                                        }],
+                                    })(
+                                        <Select placeholder="请选择" size={'large'} disabled={this.state.checkNick}
+                                                style={{width: '100%', height: 40, lineHeight: 40}}
+                                                onChange={this.handleChange.bind(this)}>
+                                            <Option value={1}>是</Option>
+                                            <Option value={2}>否</Option>
+
+                                        </Select>
+                                    )}
+                                </FormItem>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 <div className={style.idbox}>
-                    <span className={style.id}>身份证</span>
+                    <span className={style.id}>上传身份证照片</span>
                     <div className={style.lupingbox}>
                         <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
-                        <QQiniu onDrop={this.onDrop1.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
-                            <div>点击上传身份证正面</div>
+                        <QQiniu onDrop={this.onDrop1.bind(this)} className={style.qiniu} token={this.state.token}  onUpload={this.onUpload}>
+                            <div className={style.tipword}>点击上传身份证正面</div>
                             <img className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt=""/>
                         </QQiniu>
                     </div>
                     <div className={style.rupingbox}>
                         <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
-                            <QQiniu onDrop={this.onDrop2.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
-                                <div>点击上传身份证反面</div>
-                                <img  className={style.egimg} src={this.state.isLink22?this.state.url22:this.state.url1} alt=""/>
-                            </QQiniu>
-                    </div>
-                </div>
-
-
-                <div className={style.idbox}>
-                    <span className={style.id}>银行卡</span>
-                    <div className={style.lupingbox}>
-                        <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
-                        <QQiniu onDrop={this.onDrop3.bind(this)} size={150} token={this.state.token}  onUpload={this.onUpload}>
-                            <div>点击上传银行卡正面</div>
-                            <img className={style.egimg} src={this.state.isLink33?this.state.url33:this.state.url2} alt=""/>
+                        <QQiniu onDrop={this.onDrop2.bind(this)} className={style.qiniu} token={this.state.token}  onUpload={this.onUpload}>
+                            <div className={style.tipword}>点击上传身份证反面</div>
+                            <img  className={style.egimg} src={this.state.isLink22?this.state.url22:this.state.url1} alt=""/>
                         </QQiniu>
                     </div>
+                    <div className={style.uprequire}>
+                        <p>
+                            1.文件为数码照片，请勿进行美化和修改，以免申请失败 <br/>
+                            2.上传文件格式支持png，jpg和bmp <br/>
+                            3.文件大小不超过3MB，文件尺寸最小为200px*150px
+                        </p>
+                    </div>
                 </div>
-                <div className={style.but}>
-                    <Button type="primary" onClick={this.click.bind(this)} disabled={this.state.canChange} size='large'>
-                        {this.reword()}
-                    </Button>
+                <div className={style.prfooter}>
+                    <FormItem>
+                        <Button type="primary" htmlType="submit" disabled={this.state.canChange} style={{
+                            width: 160,
+                            height: 40,
+                            marginTop: 40,
+                            margin: '0 auto',
+                            fontSize: 18,
+                            display: 'block',
+                        }}>{this.reword()}</Button>
+                    </FormItem>
                 </div>
+            </Form>
 
-            </div>
         )
     }
 }
