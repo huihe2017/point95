@@ -6,39 +6,176 @@ import {hashHistory, Link} from 'react-router';
 import {connect} from 'react-redux'
 import Header from '../../components/header'
 import Footer from '../../components/footer'
-import ToolBar from '../../components/toolBar'
+import 'antd-mobile/lib/toast/style/css';
+import axios from  '../../common/axiosConf'
+import {hideAuth, showLogin} from '../../actions/auth'
+import {resetPwd} from '../../actions/user'
+import {bindActionCreators} from 'redux'
+import Toast from 'antd-mobile/lib/toast';
 import Crumb from '../../components/crumbs'
 
-let data= [
-    {
-        title:'Dolphinforex：',
-        content:['Dolphinforex隶属于Union Capital Market Limited 公司旗下，以创新网络营运模式经营，利用互联网构建一个完美的产品和服务体系，为投资人指引投资方向，是一家为零售及机构客户提供外汇交易及相关服务的主要环球供应商。','Dolphinforex对客户数据和交易纪录进行大数据分析挖掘潜在机会，让您的资金获得最有效的运用，在瞬息万变的全球经济环境中可快速调度资金调整投资组合，客户可以根据自身要求亲自制定更为贴身的投资组合。透过我们透明和先进的交易软件， 客户将可以直接获取来自国际银行系统的报价，为让客户获得高水准服务。','本集团核心创始成员全数出身于世界顶尖投资银行，对市场操作到客户需求都有很丰富的经验。','Dolphinforex受国际知名牌照机构监管。']
-    }
-]
+import {Modal, Input, Select, Form, AutoComplete, Button, Row, Col} from 'antd';
 
-class AboutUs extends React.Component {
+const confirm = Modal.info;
+const FormItem = Form.Item;
+const Option = Select.Option;
+
+class ImportPwd extends React.Component {
     constructor(props) {
-        console.log(hashHistory)
         super(props);
         this.state = {
+            visible: true,
+            picImg: '',
+            areaCode: ["86"],
+            phone: ''
         }
     }
 
+    componentDidMount(){
+        var that=this;
+        axios.get('http://192.168.100.105:8000/captcha')
+            .then(function(response){
+                that.setState({
+                    picImg:that.getPicImg(response.data.result.txt)
+                })
+            })
+            .catch(function(err){
+                console.log(11,err);
+            });
+    }
+
+    hideModal = () => {
+        this.props.hideAuth()
+        // this.setState({
+        //     visible: false,
+        // });
+    }
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                Toast.loading('', 0, null, false)
+                this.props.resetPwd({
+                    tel: this.state.phone,
+                    pwd: this.state.password,
+                    code: this.state.code
+                }, (errorText) => {
+                    Toast.hide()
+                    this.setState({picImg: this.getPicImg()})
+                    if (errorText) {
+                        Toast.info(errorText, 3, null, false)
+                    } else {
+                        this.props.hideAuth()
+
+                    }
+                })
+            }
+        });
+    }
+    handleConfirmBlur = (e) => {
+        const value = e.target.value;
+        this.setState({confirmDirty: this.state.confirmDirty || !!value});
+    }
+    checkPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && value !== form.getFieldValue('password')) {
+            callback('两次输入的密码不同!');
+        } else {
+            callback();
+        }
+    }
+
+
+    getPicImg(e) {
+        return <div dangerouslySetInnerHTML={{__html:e}}/>
+    }
+
+    regetPicImg(){
+        var that=this
+        axios.get('http://192.168.100.105:8000/captcha')
+            .then(function(response){
+                console.log(that);
+                that.setState({
+                    picImg:that.getPicImg(response.data.result.txt)
+                })
+                //console.log(response.data.result.txt);
+            })
+            .catch(function(err){
+                console.log(22,err);
+            });
+    }
+
+
     render() {
+        const {getFieldDecorator, getFieldError, getFieldValue} = this.props.form;
         return(
             <div className={style.aboutus}>
                 <Header/>
-                <Crumb position={[{pos:'关于我们'}]}/>
-                <div className={style.toolbar}>
-                    <ToolBar/>
-                </div>
+                <Crumb position={[{pos:'重设密码'}]}/>
                 <div className={style.wlop}>
-                    <div className={style.header}>
-                        <Title content="/关于我们" color="#5262ff" big={true} bold={true}/>
-                    </div>
                     <div className={style.content}>
-                        <ContentList data={data}/>
+                        <Form onSubmit={this.handleSubmit}>
+                            <div className={style.content}>
+                        <span className={style.llctitle}>
+                            重设密码
+                        </span>
+                                <div className={style.perselphone}>
+                                    <div className={style.tuxing}>
+                                        <FormItem>{getFieldDecorator('password', {
+                                            rules: [{
+                                                required: true,
+                                                message: '请输入正确格式的密码!',
+                                                pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/
+                                            }],
+                                        })(<div>
+                                            <Input onChange={
+                                                (e) => {
+                                                    this.setState({password: e.target.value})
+                                                }} className={style.inputp} placeholder="密码6-24位字母、数字、字符"
+                                                   type={'password'}/></div>
+                                        )}
+                                        </FormItem>
+
+                                    </div>
+                                    <div className={style.tuxing}>
+                                        <FormItem
+                                            hasFeedback
+                                        >
+                                            {getFieldDecorator('confirm', {
+                                                rules: [{
+                                                    required: true, message: '请检查你的密码!',
+                                                }, {
+                                                    validator: this.checkPassword,
+                                                }],
+                                            })(
+                                                <Input
+                                                    type="password"
+                                                    className={style.inputp}
+                                                    onChange={
+                                                        (e) => {
+                                                            this.setState({confirm: e.target.value})
+                                                        }
+                                                    }
+                                                    onBlur={this.handleConfirmBlur}
+                                                    placeholder="请再次输入密码"/>
+                                            )}
+                                        </FormItem>
+                                    </div>
+                                    <FormItem>
+                                        <Button type="primary" htmlType="submit"
+                                                style={{
+                                                    width: '100%',
+                                                    height: 40,
+                                                    marginTop: 20,
+                                                    marginBottom: 60
+                                                }}>确认修改密码</Button>
+                                    </FormItem>
+
+                                </div>
+                            </div>
+                        </Form>
                     </div>
+
                 </div>
                 <Footer/>
             </div>
@@ -53,8 +190,13 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {}
+    return {
+        hideAuth: bindActionCreators(hideAuth, dispatch),
+        resetPwd: bindActionCreators(resetPwd, dispatch),
+        showLogin: bindActionCreators(showLogin, dispatch)
+    }
 }
 
-AboutUs = connect(mapStateToProps, mapDispatchToProps)(AboutUs)
-export default AboutUs;
+ImportPwd = connect(mapStateToProps, mapDispatchToProps)(ImportPwd)
+const ImportPwdWrap = Form.create()(ImportPwd)
+export default ImportPwdWrap;

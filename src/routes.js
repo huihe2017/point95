@@ -13,6 +13,10 @@ import MT4Download from './containers/MT4Download/'
 import ProductDeal from './containers/productDeal/'
 import PartnerEntry from './containers/partnerEntry/'
 import CheckUser from './containers/checkUser/'
+import ImportPwd from './containers/resetPwd/'
+
+
+
 
 export default () => {
     return (
@@ -28,6 +32,7 @@ export default () => {
             <Route path="/ProductDeal" component={ProductDeal}/>
             <Route path="/partnerEntry" component={PartnerEntry}/>
             <Route path="/checkUser" component={CheckUser}/>
+            <Route path="/importPwd" component={ImportPwd}/>
         </Router>
     )
 }

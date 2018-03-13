@@ -10,8 +10,9 @@ import LoginBox from './components/loginBox'
 import RegisterBox from './components/registerBox'
 import ResetPwdBox from './components/resetPwdBox'
 import ImportPwd from './components/importPwd'
-import { Badge } from 'antd';
+import { Badge,message } from 'antd';
 import io from 'socket.io-client'
+import axios from  '../../common/axiosConf'
 
 class Header extends React.Component {
     constructor(props) {
@@ -32,10 +33,40 @@ class Header extends React.Component {
 
     componentWillMount() {
         var that=this;
-        if(window.location.hash.slice(2,-10)=='aboutUs'){
-            that.props.importpwd()
+        console.log(1987,window.location.hash);
+        var llll=window.location.hash.slice(3, -10)
+        console.log(llll.indexOf('email'));
+        console.log(llll.indexOf('token'));
+        if(llll.indexOf('email')>0&&llll.indexOf('token')==0){
+
+            //console.log(window.location.hash.slice(3,-10));
+            var sli1=window.location.hash.slice(3,-10);
+            //console.log(sli1.split("&"))
+            var slisr=sli1.split("&");
+            var slisr1=slisr[0].split("=");
+            var slisr2=slisr[1].split("=");
+            //console.log(slisr1[1]);
+            //console.log(slisr2[1]);
+            // that.props.importpwd()
+            axios.post('http://192.168.100.105:8000/active', {
+                email:slisr1[1],
+                token:slisr2[1]
+            }).then(function(response){
+                    console.log(response.data.code);
+                    if(response.data.code==1){
+                        that.props.showLogin()
+                    }else if(response.data.code==0){
+                        message.error(response.data.message);
+                    }
+
+
+                })
+                .catch(function(err){
+                    console.log(22,err);
+                });
         }
-        console.log(window.location.hash.slice(2,-10));
+
+
         this.choceType();
     }
 
