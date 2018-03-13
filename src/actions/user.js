@@ -6,7 +6,7 @@ import Toast from 'antd-mobile/lib/toast';
 export function login(data, callback) {
     return dispatch => {
         axios.post('http://192.168.100.105:8000/login', {
-            tel: data.tel,
+            email: data.email,
             pwd: data.pwd,
             code: data.code
         })
