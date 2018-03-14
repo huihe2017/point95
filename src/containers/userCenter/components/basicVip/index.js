@@ -47,18 +47,14 @@ class UserData extends React.Component {
                 that.setState({
                     url:'',
                     url1:'',
-                    url2:'',
-
                 })
             }else {
                 that.setState({
                     url:response.data.result["0"].frontCard,
                     url1:response.data.result["0"].backCard,
-                    url2:response.data.result["0"].handCard,
                     canChange:true
                 })
             }
-
         }).catch(function (error) {
             console.log(error);
         })
@@ -247,8 +243,8 @@ class UserData extends React.Component {
                         backCard: this.state.url1,
                         token:localStorage.getItem('token'),
                         address:this.state.address,
-                        code:this.state.code,
-                        email:this.state.email,
+                        //code:this.state.code,
+                        //email:this.state.email,
                         realName:this.state.realName,
                         ID:this.state.id,
                         thirdParty:this.state.thirdParty,
@@ -264,34 +260,22 @@ class UserData extends React.Component {
                                 primaryCertified:1,
                                 canChange:true
                             })
-                            axios.post('http://192.168.100.105:8000/addMessage', {
-                                sender:localStorage.getItem('userName'),
-                                receiver: 'admin',
-                                type: 1,
-                                token:localStorage.getItem('token')
-                            }).then(function (response) {
-                                console.log(response)
-                            }).catch(function (error) {
-                                console.log(error)
-                            })
+
+                            // axios.post('http://192.168.100.105:8000/addMessage', {
+                            //     sender:localStorage.getItem('userName'),
+                            //     receiver: 'admin',
+                            //     type: 1,
+                            //     token:localStorage.getItem('token')
+                            // }).then(function (response) {
+                            //     console.log(response)
+                            // }).catch(function (error) {
+                            //     console.log(error)
+                            // })
                         }
                     })
                     .catch(function (error) {
                         console.log(error)
                     });
-
-                // this.props.register({
-                //     // tel: this.state.areaCode + " " + this.state.phone,
-                //     tel: this.state.phone,
-                //     pwd: this.state.password,
-                //     code: this.state.code
-                // }, (errorText) => {
-                //     if (errorText) {
-                //
-                //     } else {
-                //
-                //     }
-                // })
             }
         });
     }
@@ -340,54 +324,54 @@ class UserData extends React.Component {
                 <div className={style.partreg}>
                     <div className={style.personal}>
                         <div className={style.perimport}>
-                            <div className={style.percontent} hidden={this.state.checkNick ? 'hidden' : ''}>
-                                <FormItem>
-                                    {(getFieldError('yanzhegnma')) ?
-                                        <div className={style.errors}>请输入收到的短信验证码【必填】</div> :
-                                        <div className={style.right}>请输入收到的短信验证码【必填】</div>}
-                                    {getFieldDecorator('yanzhegnma', {
-                                        rules: [{
-                                            required: true, pattern: /^[0-9]*$/,message: ' '
-                                        }]
-                                    })(
-                                        <Countdown
-                                            beforeClick={() => {
-                                                return true
-                                            }}
-                                            phone={localStorage.getItem('userName')}
-                                            business='VERIFICATION'
-                                            failCallback={() => {
-                                            }}
-                                            type="big"
-                                            onChange={(e) => {
-                                                this.setState({code: e.target.value})
-                                            }}
-                                        />
-                                    )}
+                            {/*<div className={style.percontent} hidden={this.state.checkNick ? 'hidden' : ''}>*/}
+                                {/*<FormItem>*/}
+                                    {/*{(getFieldError('yanzhegnma')) ?*/}
+                                        {/*<div className={style.errors}>请输入收到的短信验证码【必填】</div> :*/}
+                                        {/*<div className={style.right}>请输入收到的短信验证码【必填】</div>}*/}
+                                    {/*{getFieldDecorator('yanzhegnma', {*/}
+                                        {/*rules: [{*/}
+                                            {/*required: true, pattern: /^[0-9]*$/,message: ' '*/}
+                                        {/*}]*/}
+                                    {/*})(*/}
+                                        {/*<Countdown*/}
+                                            {/*beforeClick={() => {*/}
+                                                {/*return true*/}
+                                            {/*}}*/}
+                                            {/*phone={localStorage.getItem('userName')}*/}
+                                            {/*business='VERIFICATION'*/}
+                                            {/*failCallback={() => {*/}
+                                            {/*}}*/}
+                                            {/*type="big"*/}
+                                            {/*onChange={(e) => {*/}
+                                                {/*this.setState({code: e.target.value})*/}
+                                            {/*}}*/}
+                                        {/*/>*/}
+                                    {/*)}*/}
 
 
-                                </FormItem>
-                            </div>
-                            <div className={style.percontent}>
-                                <FormItem>
-                                    {(getFieldError('email')) ? <div onChange={() => {
-                                        }} className={style.errors}>请输入正确格式邮箱【选填】</div> :
-                                        <div className={style.right}>请输入正确格式邮箱【选填】</div>}
-                                    {getFieldDecorator('email', {
-                                        rules: [{
-                                            required: this.state.checkNick,
-                                            initialValue: '36363@ww.com',
-                                            pattern: /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/,
-                                            message:' '
-                                        }],
-                                    })(
-                                        <Input className={style.input} disabled={this.state.checkNick}
-                                               placeholder="邮箱" onChange={(e) => {
-                                            this.setState({email: e.target.value})
-                                        }}/>
-                                    )}
-                                </FormItem>
-                            </div>
+                                {/*</FormItem>*/}
+                            {/*</div>*/}
+                            {/*<div className={style.percontent}>*/}
+                                {/*<FormItem>*/}
+                                    {/*{(getFieldError('email')) ? <div onChange={() => {*/}
+                                        {/*}} className={style.errors}>请输入正确格式邮箱【选填】</div> :*/}
+                                        {/*<div className={style.right}>请输入正确格式邮箱【选填】</div>}*/}
+                                    {/*{getFieldDecorator('email', {*/}
+                                        {/*rules: [{*/}
+                                            {/*required: this.state.checkNick,*/}
+                                            {/*initialValue: '36363@ww.com',*/}
+                                            {/*pattern: /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/,*/}
+                                            {/*message:' '*/}
+                                        {/*}],*/}
+                                    {/*})(*/}
+                                        {/*<Input className={style.input} disabled={this.state.checkNick}*/}
+                                               {/*placeholder="邮箱" onChange={(e) => {*/}
+                                            {/*this.setState({email: e.target.value})*/}
+                                        {/*}}/>*/}
+                                    {/*)}*/}
+                                {/*</FormItem>*/}
+                            {/*</div>*/}
                             <div className={style.percontent}>
                                 <FormItem
                                     hasFeedback
@@ -396,14 +380,16 @@ class UserData extends React.Component {
                                     <div className={style.right}>
                                         请填写15位一代身份证号或18位二代身份证号，同一个身份证号只能绑定一个海豚汇账号【必填】</div>}
                                     {getFieldDecorator('idCard', {
+                                        initialValue: this.state.id,
                                         rules: [{
                                             required: true,
                                             whitespace: true,
-                                            initialValue: '36363@ww.com',message: ' ',
+
+                                            message: ' ',
                                             pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
                                         }],
                                     })(<Input
-                                        className={style.input} disabled={this.state.checkNick} placeholder="身份证号"
+                                        className={style.input} disabled={this.state.canChange} defaultValue={897987} placeholder="身份证号"
                                         onChange={(e) => {
                                             this.setState({id: e.target.value})
                                         }}/>)}</FormItem>
@@ -415,12 +401,13 @@ class UserData extends React.Component {
                                         </div> :
                                         <div className={style.right}>姓名需与身份证姓名一致【必填】</div>}
                                     {getFieldDecorator('userName', {
+                                        initialValue: this.state.realName,
                                         rules: [{
                                             required: true, pattern: /^([a-zA-Z\u4e00-\u9fa5\·]{1,10})$/,message: ' ',
                                         }]
                                     })(
                                         <Input
-                                            className={style.input} disabled={this.state.checkNick} placeholder="姓名"
+                                            className={style.input} disabled={this.state.canChange} placeholder="姓名"
                                             onChange={(e) => {
                                                 this.setState({realName: e.target.value})
                                             }}/>
@@ -432,13 +419,14 @@ class UserData extends React.Component {
                                     {(getFieldError('address')) ? <div className={style.errors}>住址需与身份证住址一致【选填】</div> :
                                         <div className={style.right}>住址需与身份证住址一致【选填】</div>}
                                     {getFieldDecorator('address', {
+                                        initialValue: this.state.address,
                                         rules: [{
                                             required: this.state.checkNick,
                                             message: 'Please input your nickname',
                                         }],
                                     })(
                                         <Input
-                                            className={style.input} disabled={this.state.checkNick} placeholder="住址"
+                                            className={style.input} disabled={this.state.canChange} placeholder="住址"
                                             onChange={(e) => {
                                                 this.setState({address: e.target.value})
                                             }}/>
@@ -450,12 +438,13 @@ class UserData extends React.Component {
                                     {(getFieldError('job')) ? <div className={style.errors}>就业情况【必填】</div> :
                                         <div className={style.right}>就业情况【必填】</div>}
                                     {getFieldDecorator('job', {
+                                        initialValue: this.state.employStatu,
                                         rules: [{
                                             required: true,
                                             message: ' ',
                                         }],
                                     })(
-                                        <Select placeholder="请选择" size={'large'} disabled={this.state.checkNick}
+                                        <Select placeholder="请选择" size={'large'} disabled={this.state.canChange}
                                                 style={{width: '100%', height: 40, lineHeight: 40}}
                                                 onChange={this.handleChange1.bind(this)}>
                                             <Option value={1}>工作中</Option>
@@ -473,12 +462,13 @@ class UserData extends React.Component {
                                     {(getFieldError('elvan')) ? <div className={style.errors}>您是代表第三方购买或选购么【必填】</div> :
                                         <div className={style.right}>您是代表第三方购买或选购么【必填】</div>}
                                     {getFieldDecorator('elvan', {
+                                        initialValue: this.state.thirdParty,
                                         rules: [{
                                             required: true,
                                             message: ' ',
                                         }],
                                     })(
-                                        <Select placeholder="请选择" size={'large'} disabled={this.state.checkNick}
+                                        <Select placeholder="请选择" size={'large'} disabled={this.state.canChange}
                                                 style={{width: '100%', height: 40, lineHeight: 40}}
                                                 onChange={this.handleChange.bind(this)}>
                                             <Option value={1}>是</Option>

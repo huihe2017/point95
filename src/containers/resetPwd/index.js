@@ -53,7 +53,6 @@ class ImportPwd extends React.Component {
             if (!err) {
                 Toast.loading('', 0, null, false)
                 this.props.forgetPwdSet({
-
                     pwd: this.state.password,
                     token: slisr1[1],
                     email:slisr2[1]
@@ -64,7 +63,6 @@ class ImportPwd extends React.Component {
                         Toast.info(errorText, 3, null, false)
                     } else {
                         this.props.hideAuth()
-
                     }
                 })
             }

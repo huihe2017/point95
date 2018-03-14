@@ -86,7 +86,7 @@ class PartnerEntry extends React.Component {
         if(this.state.data["0"].primaryCertified==1){
             axios.post('http://192.168.100.105:8000/primaryVerify',
                 {
-                    tel:this.state.data[i].phone,
+                    email:this.state.data[i].email,
                     token:localStorage.getItem('token'),
                     primaryCertified:e
                 })
@@ -94,7 +94,6 @@ class PartnerEntry extends React.Component {
                     console.log(response)
                     that.setState({
                         data: that.state.data.filter((_, a) => a !== i)
-
                     })
                 })
                 .catch(function (error) {
@@ -103,7 +102,7 @@ class PartnerEntry extends React.Component {
         }else if(this.state.data["0"].seniorCertified==1){
             axios.post('http://192.168.100.105:8000/seniorVerify',
                 {
-                    tel:this.state.data[i].phone,
+                    email:this.state.data[i].email,
                     token:localStorage.getItem('token'),
                     seniorCertified:e
                 })

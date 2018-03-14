@@ -237,14 +237,15 @@ class Header extends React.Component {
                 {this.props.auth.showLoginBox ? <LoginBox/> : ''}
                 {this.props.auth.showRegisterBox ? <RegisterBox/> : ''}
                 {this.props.auth.showResetPwdBox ? <ResetPwdBox/> : ''}
-                {this.props.auth.showChangePwd ? <ImportPwd/> : ''}
+                {this.props.auth.showRegisterTip ? <ImportPwd/> : ''}
+                {/*{this.props.auth.showForgetTip ? <ImportPwd/> : ''}*/}
             </div>
         )
     }
 }
 
 function mapStateToProps(state, props) {
-    console.log(556677,state)
+    //console.log(556677,state)
     return {
         user: state.user,
         auth: state.auth

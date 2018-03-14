@@ -89,8 +89,8 @@ export function register(data, callback) {
             .then(function (response) {
                 if (response.data.code === 1) {
                     // console.log(1,response.data)
-                    dispatch({type: 'SHOW_LOGIN'})
-                    message.success(response.data.message);
+                    dispatch({type: 'SHOW_REGTIP'})
+                    //message.success(response.data.message);
                     // dispatch({type: 'LOGIN', data: response.data.data})
                     // callback()
                 } else if (response.data.code === 0) {
@@ -155,11 +155,10 @@ export function resetPwd(data, callback) {
                     message.error(response.data.message);
                 }else if (response.data.code === 1) {
                     //重置密码并登录
-                    dispatch({type: 'SHOW_LOGIN'})
+                    dispatch({type: 'SHOW_REGTIP'})
                     //callback()
                     //console.log(response.data.message)
                     Toast.hide()
-                    message.success(response.data.message);
                 }
             })
             .catch(function (error) {
@@ -182,7 +181,7 @@ export function forgetPwdSet(data, callback) {
                     // dispatch({type: 'MODIFYPWD'})
                     // callback()
                     Toast.hide()
-                    message.error(response.data.message);
+                    message.error('重置密码成功，请登录...');
                 }else if (response.data.code === 1) {
                     //重置密码并登录
                     dispatch({type: 'SHOW_LOGIN'})

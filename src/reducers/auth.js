@@ -5,7 +5,7 @@ let initialState = {
     mesList:true,
     shenList:false,
     showChangePwd:false,
-    showForgetTip:false,
+    showRegisterTip:false,
     isLogin:false
 }
 
@@ -18,21 +18,21 @@ export default function auth(state = initialState, action = {}) {
             state.showRegisterBox = false
             state.showResetPwdBox = false
             state.showChangePwd = false
-            state.showForgetTip = false
+            state.showRegisterTip = false
             return Object.assign({}, state, {})
 
         case 'SHOW_REGISTER':
             state.showLoginBox = false
             state.showRegisterBox = true
             state.showChangePwd = false
-            state.showForgetTip = false
+            state.showRegisterTip = false
             return Object.assign({}, state, {})
 
         case 'SHOW_RESETPWD':
             state.showLoginBox = false
             state.showResetPwdBox = true
             state.showChangePwd = false
-            state.showForgetTip = false
+            state.showRegisterTip = false
             return Object.assign({}, state, {})
 
         case 'HIDE_AUTH':
@@ -40,7 +40,7 @@ export default function auth(state = initialState, action = {}) {
             state.showRegisterBox = false
             state.showResetPwdBox = false
             state.showChangePwd = false
-            state.showForgetTip = false
+            state.showRegisterTip = false
             return Object.assign({}, state, {})
 
         case 'SHOW_NUM':
@@ -63,7 +63,15 @@ export default function auth(state = initialState, action = {}) {
             state.showLoginBox = false
             state.showResetPwdBox = false
             state.showChangePwd = true
-            state.showForgetTip = false
+            state.showRegisterTip = false
+            return Object.assign({}, state, {})
+
+        case 'SHOW_REGTIP':
+            state.showLoginBox = false
+            state.showRegisterBox = false
+            state.showResetPwdBox = false
+            state.showChangePwd = false
+            state.showRegisterTip = true
             return Object.assign({}, state, {})
 
         default:
