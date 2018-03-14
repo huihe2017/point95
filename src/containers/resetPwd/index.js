@@ -44,14 +44,19 @@ class ImportPwd extends React.Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
+        var sli1=window.location.hash.slice(3,-10);
+        //console.log(sli1.split("&"))
+        var slisr=sli1.split("&");
+        var slisr1=slisr[0].split("=");
+        var slisr2=slisr[1].split("=");
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 Toast.loading('', 0, null, false)
                 this.props.forgetPwdSet({
 
                     pwd: this.state.password,
-                    token: '',
-                    email:''
+                    token: slisr1[1],
+                    email:slisr2[1]
                 }, (errorText) => {
                     Toast.hide()
                     this.setState({picImg: this.getPicImg()})
