@@ -32,7 +32,6 @@ class UserData extends React.Component {
 
     componentWillMount(){
         var that=this;
-
         //获取初级认证的资料
         axios.get('http://192.168.100.105:8000/primaryAuthMsg', {params:{
             token:localStorage.getItem('token')
@@ -47,11 +46,22 @@ class UserData extends React.Component {
                 that.setState({
                     url:'',
                     url1:'',
+                    address:'',
+                    realName:'',
+                    ID:'',
+                    thirdParty:'',
+                    employStatu:'',
                 })
             }else {
+                console.log(response.data.result["0"]);
                 that.setState({
                     url:response.data.result["0"].frontCard,
                     url1:response.data.result["0"].backCard,
+                    address:response.data.result["0"].address,
+                    realName:response.data.result["0"].realName,
+                    ID:response.data.result["0"].ID,
+                    thirdParty:response.data.result["0"].thirdParty,
+                    employStatu:response.data.result["0"].employStatu,
                     canChange:true
                 })
             }
@@ -87,57 +97,7 @@ class UserData extends React.Component {
         })
     }
 
-    click(){
-        var that=this;
-        if(!this.state.url&&!this.state.url1&&!this.state.url12){
-            message.error('请上传图片')
-            return
-        }else if(!this.state.url){
-            message.error('请上传身份证正面图片')
-            return
-        }else if(!this.state.url1){
-            message.error('请上传身份证反面图片')
-            return
-        }else if(!this.state.url2){
-            message.error('请上传银行卡正面图片')
-            return
-        }
-        //提交初级认证资料
-        axios.post('http://192.168.100.105:8000/primaryAuth',
-            {
-                frontCard: this.state.url,
-                backCard: this.state.url1,
-                handCard: this.state.url2,
-                token:localStorage.getItem('token')
-            })
-            .then(function (response) {
-                //console.log(response.data.code)
-                if(response.data.code===0){
-                    message.error('请上传照片')
-                }else if(response.data.code===1){
-                    message.success('上传成功，请耐心等待')
-                    that.setState({
-                        primaryCertified:1,
-                        canChange:true
-                    })
-                    axios.post('http://192.168.100.105:8000/addMessage', {
-                            sender:localStorage.getItem('userName'),
-                            receiver: 'admin',
-                            type: 1,
-                            token:localStorage.getItem('token')
-                        }).then(function (response) {
-                        console.log(response)
-                    }).catch(function (error) {
-                        console.log(error)
-                    })
-                }
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
 
-
-    }
     onUpload(files) {
         // set onprogress function before uploading
         files.map(function (f) {
@@ -221,6 +181,7 @@ class UserData extends React.Component {
     }
 
     handleSubmit = (e) => {
+        var that=this
         e.preventDefault();
         if(!this.state.url&&!this.state.url1){
             message.error('请上传图片')
@@ -233,10 +194,9 @@ class UserData extends React.Component {
             return
         }
         this.props.form.validateFieldsAndScroll((err, values) => {
-
             if (!err) {
                 //提交初级认证资料
-                console.log(this.state);
+                console.log(147,this.state);
                 axios.post('http://192.168.100.105:8000/primaryAuth',
                     {
                         frontCard: this.state.url,
@@ -246,21 +206,22 @@ class UserData extends React.Component {
                         //code:this.state.code,
                         //email:this.state.email,
                         realName:this.state.realName,
-                        ID:this.state.id,
+                        ID:this.state.ID,
                         thirdParty:this.state.thirdParty,
                         employStatu:this.state.employStatu
                     })
                     .then(function (response) {
                         //console.log(response.data.code)
+
                         if(response.data.code===0){
                             message.error('请完善您的资料')
                         }else if(response.data.code===1){
                             message.success('上传成功，请耐心等待')
-                            this.setState({
+                            console.log(741,this)
+                            that.setState({
                                 primaryCertified:1,
                                 canChange:true
                             })
-
                             // axios.post('http://192.168.100.105:8000/addMessage', {
                             //     sender:localStorage.getItem('userName'),
                             //     receiver: 'admin',
@@ -380,7 +341,7 @@ class UserData extends React.Component {
                                     <div className={style.right}>
                                         请填写15位一代身份证号或18位二代身份证号，同一个身份证号只能绑定一个海豚汇账号【必填】</div>}
                                     {getFieldDecorator('idCard', {
-                                        initialValue: this.state.id,
+                                        initialValue: this.state.ID,
                                         rules: [{
                                             required: true,
                                             whitespace: true,
@@ -391,7 +352,7 @@ class UserData extends React.Component {
                                     })(<Input
                                         className={style.input} disabled={this.state.canChange} defaultValue={897987} placeholder="身份证号"
                                         onChange={(e) => {
-                                            this.setState({id: e.target.value})
+                                            this.setState({ID: e.target.value})
                                         }}/>)}</FormItem>
                             </div>
                             <div className={style.percontent}>

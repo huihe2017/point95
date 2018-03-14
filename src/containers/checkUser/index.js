@@ -120,16 +120,13 @@ class PartnerEntry extends React.Component {
 
     }
 
-    fore(a,b,c){
-            // console.log(111,e[i])
+    fore(a){
+        console.log(111,a)
         return(
             <div className={style.imgshow}>
                 <p>身份证</p>
-                <img src={a} alt=""/>
-                <img src={b} alt=""/>
-                <br/>
-                <p>银行</p>
-                <img src={c} alt=""/>
+                {/*<img src={a} alt=""/>*/}
+                {/*<img src={a} alt=""/>*/}
             </div>)
 
     }
@@ -158,7 +155,7 @@ class PartnerEntry extends React.Component {
         const columns = [
             { title: '昵称', dataIndex: 'nickname', key: 'nickname' },
 
-            { title: '账号', dataIndex: 'phone', key: 'phone' },
+            { title: '账号', dataIndex: 'email', key: 'email' },
 
             { title: '审核等级', dataIndex: 'createdAt', key: 'createdAt' },
             { title: '审核操作', key: 'operation', render: (a,b,c) => <ButtonGroup >
@@ -181,7 +178,7 @@ class PartnerEntry extends React.Component {
                     <Table className="components-table-demo-nested"
                         columns={columns}
                         expandedRowRender={
-                            record => record.primaryCertified==1?this.fore(record.frontCard,record.backCard,record.handCard):this.fore1(record.passport)
+                            record => record.primaryCertified==1?this.fore(record):this.fore1(record.passport)
                         }
                         dataSource={this.state.data}
                     />

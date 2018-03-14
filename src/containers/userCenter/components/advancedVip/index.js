@@ -86,7 +86,7 @@ class AdvanVip extends React.Component {
     }
     dataChange(date){
         this.setState({
-            data:date._d
+            passportTime:date._d
         })
     }
 
@@ -161,11 +161,11 @@ class AdvanVip extends React.Component {
                         passport: this.state.url,
                         token:localStorage.getItem('token'),
                         code:this.state.code,
-                        cleardate:this.state.cleardate,
-                        passportid:this.state.id,
-                        ingold:this.state.ingold,
-                        employStatu:this.state.employStatu,
-                        data:this.state.data
+                        netYearIncome:this.state.netYearIncome,
+                        passportNo:this.state.passportNo,
+                        yearIncome:this.state.yearIncome,
+                        fundsSource:this.state.fundsSource,
+                        passportTime:this.state.passportTime
                     })
                     .then(function (response) {
                         //console.log(response.data.code)
@@ -207,7 +207,7 @@ class AdvanVip extends React.Component {
     handleChange1(value) {
         //console.log(`selected ${value}`);
         this.setState({
-            employStatu:value
+            fundsSource:value
         })
     }
 
@@ -242,33 +242,54 @@ class AdvanVip extends React.Component {
                 <div className={style.partreg}>
                     <div className={style.personal}>
                         <div className={style.perimport}>
-                            <div className={style.percontent} hidden={this.state.checkNick ? 'hidden' : ''}>
-                                <FormItem>
-                                    {(getFieldError('yanzhegnma')) ?
-                                        <div className={style.errors}>请输入收到的短信验证码【必填】</div> :
-                                        <div className={style.right}>请输入收到的短信验证码【必填】</div>}
-                                    {getFieldDecorator('yanzhegnma', {
+                            {/*<div className={style.percontent} hidden={this.state.checkNick ? 'hidden' : ''}>*/}
+                                {/*<FormItem>*/}
+                                    {/*{(getFieldError('yanzhegnma')) ?*/}
+                                        {/*<div className={style.errors}>请输入收到的短信验证码【必填】</div> :*/}
+                                        {/*<div className={style.right}>请输入收到的短信验证码【必填】</div>}*/}
+                                    {/*{getFieldDecorator('yanzhegnma', {*/}
+                                        {/*rules: [{*/}
+                                            {/*required: true, pattern: /^[0-9]*$/,message: ' '*/}
+                                        {/*}]*/}
+                                    {/*})(*/}
+                                        {/*<Countdown*/}
+                                            {/*beforeClick={() => {*/}
+                                                {/*return true*/}
+                                            {/*}}*/}
+                                            {/*phone={localStorage.getItem('userName')}*/}
+                                            {/*business='VERIFICATION'*/}
+                                            {/*failCallback={() => {*/}
+                                            {/*}}*/}
+                                            {/*type="big"*/}
+                                            {/*onChange={(e) => {*/}
+                                                {/*this.setState({code: e.target.value})*/}
+                                            {/*}}*/}
+                                        {/*/>*/}
+                                    {/*)}*/}
+
+
+                                {/*</FormItem>*/}
+                            {/*</div>*/}
+
+                            <div className={style.percontent}>
+                                <FormItem
+                                    hasFeedback
+                                >{(getFieldError('idCard')) ? <div className={style.errors}>
+                                        请填写护照号码【必填】</div> :
+                                    <div className={style.right}>
+                                        请填写护照号码【必填】</div>}
+                                    {getFieldDecorator('idCard', {
                                         rules: [{
-                                            required: true, pattern: /^[0-9]*$/,message: ' '
-                                        }]
-                                    })(
-                                        <Countdown
-                                            beforeClick={() => {
-                                                return true
-                                            }}
-                                            phone={localStorage.getItem('userName')}
-                                            business='VERIFICATION'
-                                            failCallback={() => {
-                                            }}
-                                            type="big"
-                                            onChange={(e) => {
-                                                this.setState({code: e.target.value})
-                                            }}
-                                        />
-                                    )}
-
-
-                                </FormItem>
+                                            required: true,
+                                            whitespace: true,
+                                            initialValue: '36363@ww.com',message: ' ',
+                                            pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+                                        }],
+                                    })(<Input
+                                        className={style.input} disabled={this.state.checkNick} placeholder="护照号码"
+                                        onChange={(e) => {
+                                            this.setState({passportNo: e.target.value})
+                                        }}/>)}</FormItem>
                             </div>
                             <div className={style.percontent}>
                                 <FormItem>
@@ -289,27 +310,7 @@ class AdvanVip extends React.Component {
                             <div className={style.percontent}>
                                 <FormItem
                                     hasFeedback
-                                >{(getFieldError('idCard')) ? <div className={style.errors}>
-                                        请填写护照号码【必填】</div> :
-                                    <div className={style.right}>
-                                        请填写护照号码【必填】</div>}
-                                    {getFieldDecorator('idCard', {
-                                        rules: [{
-                                            required: true,
-                                            whitespace: true,
-                                            initialValue: '36363@ww.com',message: ' ',
-                                            pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
-                                        }],
-                                    })(<Input
-                                        className={style.input} disabled={this.state.checkNick} placeholder="护照号码"
-                                        onChange={(e) => {
-                                            this.setState({id: e.target.value})
-                                        }}/>)}</FormItem>
-                            </div>
-                            <div className={style.percontent}>
-                                <FormItem
-                                    hasFeedback
-                                >{(getFieldError('ingold')) ? <div className={style.errors}>
+                                >{(getFieldError('yearIncome')) ? <div className={style.errors}>
                                         预期年收入【选填】</div> :
                                     <div className={style.right}>
                                         预期年收入【选填】</div>}
@@ -325,7 +326,7 @@ class AdvanVip extends React.Component {
                                         className={style.input} disabled={this.state.checkNick} placeholder="预期年收入"
                                         suffix={<span>￥</span>}
                                         onChange={(e) => {
-                                            this.setState({ingold: e.target.value})
+                                            this.setState({yearIncome: e.target.value})
                                         }}/>)}</FormItem>
                             </div>
                             <div className={style.percontent}>
@@ -345,7 +346,7 @@ class AdvanVip extends React.Component {
                                         className={style.input} disabled={this.state.checkNick} placeholder="净值"
                                         suffix={<p>￥</p>}
                                         onChange={(e) => {
-                                            this.setState({cleardate: e.target.value})
+                                            this.setState({netYearIncome: e.target.value})
                                         }}/>)}</FormItem>
                             </div>
                             <div className={style.percontent}>
