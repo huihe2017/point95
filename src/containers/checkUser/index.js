@@ -124,9 +124,12 @@ class PartnerEntry extends React.Component {
         console.log(111,a)
         return(
             <div className={style.imgshow}>
+                <p>姓名：{a.realName}</p>
+                <p>护照号码：{a.ID}</p>
                 <p>身份证</p>
-                {/*<img src={a} alt=""/>*/}
-                {/*<img src={a} alt=""/>*/}
+
+                <img src={a.backCard} alt=""/>
+                <img src={a.frontCard} alt=""/>
             </div>)
 
     }
