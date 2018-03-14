@@ -9,7 +9,7 @@ import Footer from '../../components/footer'
 import 'antd-mobile/lib/toast/style/css';
 import axios from  '../../common/axiosConf'
 import {hideAuth, showLogin} from '../../actions/auth'
-import {resetPwd} from '../../actions/user'
+import {forgetPwdSet} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 import Toast from 'antd-mobile/lib/toast';
 import Crumb from '../../components/crumbs'
@@ -33,15 +33,7 @@ class ImportPwd extends React.Component {
 
     componentDidMount(){
         var that=this;
-        axios.get('http://192.168.100.105:8000/captcha')
-            .then(function(response){
-                that.setState({
-                    picImg:that.getPicImg(response.data.result.txt)
-                })
-            })
-            .catch(function(err){
-                console.log(11,err);
-            });
+
     }
 
     hideModal = () => {
@@ -55,10 +47,11 @@ class ImportPwd extends React.Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 Toast.loading('', 0, null, false)
-                this.props.resetPwd({
-                    tel: this.state.phone,
+                this.props.forgetPwdSet({
+
                     pwd: this.state.password,
-                    code: this.state.code
+                    token: '',
+                    email:''
                 }, (errorText) => {
                     Toast.hide()
                     this.setState({picImg: this.getPicImg()})
@@ -86,24 +79,7 @@ class ImportPwd extends React.Component {
     }
 
 
-    getPicImg(e) {
-        return <div dangerouslySetInnerHTML={{__html:e}}/>
-    }
 
-    regetPicImg(){
-        var that=this
-        axios.get('http://192.168.100.105:8000/captcha')
-            .then(function(response){
-                console.log(that);
-                that.setState({
-                    picImg:that.getPicImg(response.data.result.txt)
-                })
-                //console.log(response.data.result.txt);
-            })
-            .catch(function(err){
-                console.log(22,err);
-            });
-    }
 
 
     render() {
@@ -111,14 +87,14 @@ class ImportPwd extends React.Component {
         return(
             <div className={style.aboutus}>
                 <Header/>
-                <Crumb position={[{pos:'重设密码'}]}/>
+                <Crumb position={[{pos:'重置密码'}]}/>
                 <div className={style.wlop}>
                     <div className={style.content}>
                         <Form onSubmit={this.handleSubmit}>
                             <div className={style.content}>
-                        <span className={style.llctitle}>
-                            重设密码
-                        </span>
+                                <span className={style.llctitle}>
+                                    重置密码
+                                </span>
                                 <div className={style.perselphone}>
                                     <div className={style.tuxing}>
                                         <FormItem>{getFieldDecorator('password', {
@@ -192,7 +168,7 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
     return {
         hideAuth: bindActionCreators(hideAuth, dispatch),
-        resetPwd: bindActionCreators(resetPwd, dispatch),
+        forgetPwdSet: bindActionCreators(forgetPwdSet, dispatch),
         showLogin: bindActionCreators(showLogin, dispatch)
     }
 }

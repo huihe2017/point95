@@ -32,6 +32,13 @@ export function shenList() {
     }
 }
 
+export function isLogin() {
+    return dispatch => {
+        dispatch({type: 'NOW_LOGIN'})
+
+    }
+}
+
 export function yinlist() {
     return dispatch => {
         dispatch({type: 'HIDDEN_SHENNUM'})

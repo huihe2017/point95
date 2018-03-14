@@ -6,6 +6,7 @@ let initialState = {
     shenList:false,
     showChangePwd:false,
     showForgetTip:false,
+    isLogin:false
 }
 
 export default function auth(state = initialState, action = {}) {
@@ -52,6 +53,10 @@ export default function auth(state = initialState, action = {}) {
 
         case 'HIDDEN_SHENNUM':
             state.shenList = false;
+            return Object.assign({}, state, {})
+
+        case 'NOW_LOGIN':
+            state.isLogin = true;
             return Object.assign({}, state, {})
 
         case 'SHOW_IMPORTPWD':

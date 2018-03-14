@@ -12,14 +12,11 @@ export function login(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 1) {
-                    Toast.loading('', 0, null, false)
-                    //console.log(response.data.result.token);
-                    //console.log(999,response.data.result.role);
-                    localStorage.setItem('token',response.data.result.token);
-                    localStorage.setItem('role',response.data.result.role);
-                    localStorage.setItem('userName',data.tel);
-
-                    window.location.reload();
+                    dispatch({type: 'LOGIN', data: response.data.result})
+                    dispatch({type: 'HIDE_AUTH'})
+                    // localStorage.setItem('token',response.data.result.token);
+                    // localStorage.setItem('role',response.data.result.role);
+                    hashHistory.push('/')
                 }else if (response.data.code === 0) {
                     console.log(response.data.message)
                     Toast.hide()
@@ -148,6 +145,36 @@ export function resetPwd(data, callback) {
             email: data.email,
             // pwd: data.pwd,
             code: data.code
+        })
+            .then(function (response) {
+                console.log(response)
+                if (response.data.code === 0) {
+                    // dispatch({type: 'MODIFYPWD'})
+                    // callback()
+                    Toast.hide()
+                    message.error(response.data.message);
+                }else if (response.data.code === 1) {
+                    //重置密码并登录
+                    dispatch({type: 'SHOW_LOGIN'})
+                    //callback()
+                    //console.log(response.data.message)
+                    Toast.hide()
+                    message.success(response.data.message);
+                }
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
+    }
+}
+
+export function forgetPwdSet(data, callback) {
+    return dispatch => {
+        axios.post('http://192.168.100.105:8000/forgetPwdSet', {
+            pwd: data.pwd,
+            // pwd: data.pwd,
+            token: data.token,
+            email:data.email
         })
             .then(function (response) {
                 console.log(response)

@@ -64,7 +64,6 @@ class RegisterBox extends React.Component {
                 //Toast.loading('', 0, null, false)
                 this.props.register({
                     // tel: this.state.areaCode + " " + this.state.phone,
-
                     pwd: this.state.password,
                     code: this.state.authCode,
                     email: this.state.email,

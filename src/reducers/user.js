@@ -29,25 +29,27 @@ export default function sign(state = initialState, action = {}) {
     switch (action.type) {
 
         case 'LOGIN':
-
-            const {phone,mt4_live_id,status,address,email} = action.data
-            state.userName = phone
-            localStorage.setItem('token', true)
-            localStorage.setItem('userName', phone)
-            localStorage.setItem('MT4', mt4_live_id)
-            localStorage.setItem('status', (status===11?"2":status))
-            localStorage.setItem('address', address)
-            localStorage.setItem('email', email)
+            console.log(159,action.data)
+            const {token,role,email} = action.data
+            state.userName = email
+            localStorage.setItem('token', token)
+            localStorage.setItem('role', role)
+            localStorage.setItem('userName',email);
+            // localStorage.setItem('MT4', mt4_live_id)
+            // localStorage.setItem('status', (status===11?"2":status))
+            // localStorage.setItem('address', address)
+            // localStorage.setItem('email', email)
             state.token = true
-            state.email = email
-            state.address = address
-            state.status = (status===11?"2":status)
+            // state.email = email
+            // state.address = address
+            // state.status = (status===11?"2":status)
             // state.MT4 = mt4_live_id
             return Object.assign({}, state, {})
 
         case 'LOGOUT':
             localStorage.removeItem('token')
             localStorage.removeItem('userName')
+            localStorage.removeItem('role', role)
             // localStorage.removeItem('MT4')
             // localStorage.removeItem('status')
             // localStorage.removeItem('address')
