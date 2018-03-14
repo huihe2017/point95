@@ -9,10 +9,10 @@ class LinkMan extends React.Component{
         var that=this;
 
         //获取高级认证的资料
-        axios.get('http://192.168.100.105:8000/seniorAuthMsg', {params:{
+        axios.get('http://192.168.100.105:8000/primaryAuthMsg', {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
-            if(response.data.result["0"].seniorCertified==3){
+            if(response.data.result["0"].primaryCertified==3){
                 that.setState({
                     canChange:true
                 })
@@ -40,7 +40,7 @@ class LinkMan extends React.Component{
     render(){
         return(
             <div className={style.wlop} >
-                {this.state.canChange?'联系人微信：lalala':'高级审核未通过'}
+                {this.state.canChange?'联系人微信：lalala':'初级审核未通过'}
 
             </div>
         )

@@ -146,13 +146,13 @@ class AdvanVip extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-
+        var that=this
         if(!this.state.url){
             message.error('请上传图片')
             return
         }
         this.props.form.validateFieldsAndScroll((err, values) => {
-            console.log(165,this.state)
+
             if (!err) {
                 //提交初级认证资料
                 console.log(this.state);
@@ -170,10 +170,10 @@ class AdvanVip extends React.Component {
                     .then(function (response) {
                         //console.log(response.data.code)
                         if(response.data.code===0){
-                            message.error('请上传照片')
+                            message.error(response.data.message)
                         }else if(response.data.code===1){
                             message.success('上传成功，请耐心等待')
-                            this.setState({
+                            that.setState({
                                 primaryCertified:1,
                                 canChange:true
                             })
@@ -293,8 +293,8 @@ class AdvanVip extends React.Component {
                             </div>
                             <div className={style.percontent}>
                                 <FormItem>
-                                    {(getFieldError('linedate')) ? <div className={style.errors}>证件到期日期【必填】</div> :
-                                        <div className={style.right}>证件到期日期【必填】</div>}
+                                    {(getFieldError('linedate')) ? <div className={style.errors}>护照到期日期【必填】</div> :
+                                        <div className={style.right}>护照到期日期【必填】</div>}
                                     {getFieldDecorator('linedate', {
                                         rules: [{
                                             required: true,
