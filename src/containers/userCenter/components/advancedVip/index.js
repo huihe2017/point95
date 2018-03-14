@@ -156,7 +156,7 @@ class AdvanVip extends React.Component {
             if (!err) {
                 //提交初级认证资料
                 console.log(this.state);
-                axios.post('http://192.168.100.105:8000/primaryAuth',
+                axios.post('http://192.168.100.105:8000/seniorAuth',
                     {
                         passport: this.state.url,
                         token:localStorage.getItem('token'),
