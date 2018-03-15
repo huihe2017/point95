@@ -124,16 +124,22 @@ class PartnerEntry extends React.Component {
         console.log(111,a)
         return(
             <div className={style.imgshow}>
-                <p>姓名：{a.realName}</p>
-                <p>身份证号码：{a.ID}</p>
-                <p>地址：{a.address}</p>
-                <p>
-                    就业情况：{a.employStatu}
-                </p>
-                <p>是否代表第三方购买或选购：{a.thirdParty==1?'是':'否'}</p>
-                <p>身份证</p>
-                <img src={a.backCard} alt=""/>
-                <img src={a.frontCard} alt=""/>
+                <div className={style.imgl}>
+                    <p><span>姓名：</span>{a.realName}</p>
+                    <p><span>身份证号码：</span>{a.ID}</p>
+                    <p><span>地址：</span>{a.address}</p>
+                    <p>
+                        <span>就业情况：</span>{a.employStatu}
+                    </p>
+                    <p><span>是否代购：</span>{a.thirdParty==1?'是':'否'}</p>
+                </div>
+                <div className={style.imgr}>
+                    <p>身份证正面照：</p>
+                    <img src={a.backCard} alt=""/>
+                    <p>身份证反面照：</p>
+                    <img src={a.frontCard} alt=""/>
+                </div>
+
             </div>)
 
     }
@@ -141,13 +147,17 @@ class PartnerEntry extends React.Component {
         console.log(222,a)
         return(
             <div className={style.imgshow}>
-                <p>护照号码：{a.passportNo}</p>
-                <p>护照到期：{a.passportTime}</p>
-                <p>年净值：{a.netYearIncome}</p>
-                <p>年收入：{a.yearIncome}</p>
-                <p>资金来源：{a.fundsSource}</p>
-                <p>护照</p>
-                <img src={a.passport} alt=""/>
+                <div className={style.imgl}>
+                    <p><span>护照号码：</span>{a.passportNo}</p>
+                    <p><span>护照到期：</span>{a.passportTime}</p>
+                    <p><span>年净值：</span>{a.netYearIncome}</p>
+                    <p><span>年收入：</span>{a.yearIncome}</p>
+                    <p><span>资金来源：</span>{a.fundsSource}</p>
+                </div>
+                <div className={style.imgr}>
+                    <p>护照：</p>
+                    <img src={a.passport} alt=""/>
+                </div>
             </div>)
     }
 

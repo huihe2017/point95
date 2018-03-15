@@ -72,8 +72,31 @@
     /*vertical-align:bottom;*/
     /*width: 100px;*/
 /*}*/
-:local(.imgshow)>img{
+:local(.imgshow) img{
     width: 380px;
     height: 240px;
     outline: 1px solid #0f0e20;
+}
+:local(.imgl){
+    float: left;
+}
+:local(.imgl)>p{
+    margin: 20px 0;
+    font-size: 16px;
+}
+:local(.imgl)>p>span{
+   display: inline-block;
+    width: 150px;
+    text-align: right;
+}
+:local(.imgr){
+    float: right;
+    width: 582px;
+    margin-top: 20px;
+}
+
+:local(.imgr)>p{
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: top;
 }

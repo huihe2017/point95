@@ -448,14 +448,14 @@ class UserData extends React.Component {
                     <div className={style.lupingbox}>
                         <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop1.bind(this)} className={style.qiniu} token={this.state.token}  onUpload={this.onUpload}>
-                            <div className={style.tipword}>点击上传身份证正面</div>
+                            <div style={this.state.canChange?{'display':'none'}:{'display':'block'}} className={style.tipword}>点击上传身份证正面</div>
                             <img className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt=""/>
                         </QQiniu>
                     </div>
                     <div className={style.rupingbox}>
                         <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop2.bind(this)} className={style.qiniu} token={this.state.token}  onUpload={this.onUpload}>
-                            <div className={style.tipword}>点击上传身份证反面</div>
+                            <div style={this.state.canChange?{'display':'none'}:{'display':'block'}} className={style.tipword}>点击上传身份证反面</div>
                             <img  className={style.egimg} src={this.state.isLink22?this.state.url22:this.state.url1} alt=""/>
                         </QQiniu>
                     </div>

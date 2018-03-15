@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu, Icon, Button,Badge } from 'antd';
 import {bindActionCreators} from 'redux'
-import {mesList} from '../../../actions/auth'
+import {mesList,hmesList} from '../../../actions/auth'
 import {connect} from 'react-redux'
 import style from './index.css'
 
@@ -21,8 +21,9 @@ class SideMenu extends React.Component {
         });
         this.props.page(e)
         if(e.key==4){
+            console.log(111)
             //localStorage.setItem('meslist',0)
-            // this.props.mesList()
+            this.props.hmesList()
             localStorage.removeItem('unReadMsg')
         }
     }
@@ -77,6 +78,7 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
     return {
         mesList: bindActionCreators(mesList, dispatch),
+        hmesList: bindActionCreators(hmesList, dispatch),
     }
 }
 

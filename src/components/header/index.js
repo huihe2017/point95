@@ -38,16 +38,11 @@ class Header extends React.Component {
         console.log(llll.indexOf('email'));
         console.log(llll.indexOf('token'));
         if(llll.indexOf('email')>0&&llll.indexOf('token')==0){
-
             //console.log(window.location.hash.slice(3,-10));
             var sli1=window.location.hash.slice(3,-10);
-            //console.log(sli1.split("&"))
             var slisr=sli1.split("&");
             var slisr1=slisr[0].split("=");
             var slisr2=slisr[1].split("=");
-            //console.log(slisr1[1]);
-            //console.log(slisr2[1]);
-            // that.props.importpwd()
             axios.post('http://192.168.100.105:8000/active', {
                 email:slisr2[1],
                 token:slisr1[1]
@@ -62,8 +57,7 @@ class Header extends React.Component {
                     console.log(22,err);
                 });
         }
-
-
+        
         this.choceType();
     }
 
@@ -155,7 +149,7 @@ class Header extends React.Component {
                     <Badge dot={localStorage.getItem('unReadMsg')==2?true:false}>
                     <Link to="/userCenter"><h5  className={style.authtp}>用户中心</h5></Link>
                     </Badge>
-                    <h5  className={style.authtp} onClick={this.logout} >退出</h5></div>)
+                    <h5 className={style.authtp} onClick={this.logout} >退出</h5></div>)
             }
         }else {
             return(<div><h5 onClick={()=>{this.props.showLogin()}} >登录</h5>      <h5 onClick={this.props.showRegister}  >注册</h5></div>)

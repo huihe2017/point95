@@ -26,7 +26,7 @@ class AdvanVip extends React.Component {
             token: '',
             url11:'',
             canChange:false,
-            passportTime:moment('Thu Jan 01 1970 10:50:40 GMT+0800 (中国标准时间)', dateFormat),
+
 
         }
     }
@@ -52,7 +52,7 @@ class AdvanVip extends React.Component {
                     passportNo:'',
                     yearIncome:'',
                     fundsSource:'',
-                    passportTime:'1970.1.1',
+                    passportTime:moment('Thu Jan 01 1970 10:50:40 GMT+0800 (中国标准时间)', dateFormat),
                 })
             }else {
                 that.setState({

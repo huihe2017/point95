@@ -6,7 +6,10 @@ export function showLogin(data, callback) {
         callback&&callback()
     }
 }
-
+/*
+* localStorage.getItem('unReadMsg')
+* localStorage.getItem('unReadMsg')==1?false:true
+* */
 export function showRegister() {
     return dispatch => {
         dispatch({type: 'SHOW_REGISTER'})
@@ -15,6 +18,12 @@ export function showRegister() {
 export function mesList() {
     return dispatch => {
         dispatch({type: 'SHOW_NUM'})
+    }
+}
+
+export function hmesList() {
+    return dispatch => {
+        dispatch({type: 'HIDE_NUM'})
     }
 }
 
