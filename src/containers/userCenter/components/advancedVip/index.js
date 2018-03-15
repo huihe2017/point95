@@ -47,7 +47,14 @@ class AdvanVip extends React.Component {
             }else {
                 that.setState({
                     url:response.data.result["0"].passport,
-                    canChange:true
+                    canChange:true,
+                    code:response.data.result["0"].code,
+                    netYearIncome:response.data.result["0"].netYearIncome,
+                    passportNo:response.data.result["0"].passportNo,
+                    yearIncome:response.data.result["0"].yearIncome,
+                    fundsSource:response.data.result["0"].fundsSource,
+                    passportTime:response.data.result["0"].passportTime,
+                    primaryCertified:response.data.result["0"].primaryCertified
                 })
             }
         }).catch(function (error) {
@@ -151,6 +158,10 @@ class AdvanVip extends React.Component {
             message.error('请上传图片')
             return
         }
+        if(!this.state.primaryCertified==1){
+            message.error('请先通过初级审核')
+            return
+        }
         this.props.form.validateFieldsAndScroll((err, values) => {
 
             if (!err) {
@@ -174,19 +185,19 @@ class AdvanVip extends React.Component {
                         }else if(response.data.code===1){
                             message.success('上传成功，请耐心等待')
                             that.setState({
-                                primaryCertified:1,
+                                seniorCertified:1,
                                 canChange:true
                             })
-                            axios.post('http://192.168.100.105:8000/addMessage', {
-                                sender:localStorage.getItem('userName'),
-                                receiver: 'admin',
-                                type: 1,
-                                token:localStorage.getItem('token')
-                            }).then(function (response) {
-                                console.log(response)
-                            }).catch(function (error) {
-                                console.log(error)
-                            })
+                            // axios.post('http://192.168.100.105:8000/addMessage', {
+                            //     sender:localStorage.getItem('userName'),
+                            //     receiver: 'admin',
+                            //     type: 1,
+                            //     token:localStorage.getItem('token')
+                            // }).then(function (response) {
+                            //     console.log(response)
+                            // }).catch(function (error) {
+                            //     console.log(error)
+                            // })
                         }
                     })
                     .catch(function (error) {

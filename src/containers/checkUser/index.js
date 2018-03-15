@@ -125,23 +125,30 @@ class PartnerEntry extends React.Component {
         return(
             <div className={style.imgshow}>
                 <p>姓名：{a.realName}</p>
-                <p>护照号码：{a.ID}</p>
+                <p>身份证号码：{a.ID}</p>
+                <p>地址：{a.address}</p>
+                <p>
+                    就业情况：{a.employStatu}
+                </p>
+                <p>是否代表第三方购买或选购：{a.thirdParty==1?'是':'否'}</p>
                 <p>身份证</p>
-
                 <img src={a.backCard} alt=""/>
                 <img src={a.frontCard} alt=""/>
             </div>)
 
     }
     fore1(a){
-        for(var i in a){
-            // console.log(111,e[i])
-             return(
-                 <div className={style.imgshow}>
-                     <p>护照</p>
-                     <img src={a} alt=""/>
-                 </div>)
-        }
+        console.log(222,a)
+        return(
+            <div className={style.imgshow}>
+                <p>姓名：{a.realName}</p>
+                <p>护照到期：{a.passportTime}</p>
+                <p>年净值：{a.netYearIncome}</p>
+                <p>年收入：{a.yearIncome}</p>
+                <p>资金来源：{a.fundsSource}</p>
+                <p>护照</p>
+                <img src={a.passport} alt=""/>
+            </div>)
     }
 
 
@@ -181,7 +188,7 @@ class PartnerEntry extends React.Component {
                     <Table className="components-table-demo-nested"
                         columns={columns}
                         expandedRowRender={
-                            record => record.primaryCertified==1?this.fore(record):this.fore1(record.passport)
+                            record => record.primaryCertified==1?this.fore(record):this.fore1(record)
                         }
                         dataSource={this.state.data}
                     />
