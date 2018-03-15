@@ -12,8 +12,15 @@ export function login(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 1) {
+                    console.log(response.data.result.unReadMsg);
                     dispatch({type: 'LOGIN', data: response.data.result})
                     dispatch({type: 'HIDE_AUTH'})
+                    if(response.data.result.unReadMsg==1){
+                        dispatch({type: 'HIDE_NUM'})
+                    }else {
+                        dispatch({type: 'SHOW_NUM'})
+                    }
+
                     // localStorage.setItem('token',response.data.result.token);
                     // localStorage.setItem('role',response.data.result.role);
                     hashHistory.push('/')

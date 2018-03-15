@@ -2,7 +2,7 @@ let initialState = {
     showLoginBox: false,
     showResetPwdBox: false,
     showRegisterBox: false,
-    mesList:true,
+    mesList:false,
     shenList:false,
     showChangePwd:false,
     showRegisterTip:false,
@@ -43,8 +43,12 @@ export default function auth(state = initialState, action = {}) {
             state.showRegisterTip = false
             return Object.assign({}, state, {})
 
-        case 'SHOW_NUM':
+        case 'HIDE_NUM':
             state.mesList = false;
+            return Object.assign({}, state, {})
+
+        case 'SHOW_NUM':
+            state.mesList = true;
             return Object.assign({}, state, {})
 
         case 'SHOW_SHENNUM':

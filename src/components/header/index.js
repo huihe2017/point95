@@ -52,14 +52,11 @@ class Header extends React.Component {
                 email:slisr2[1],
                 token:slisr1[1]
             }).then(function(response){
-                    console.log(response.data.code);
-                    if(response.data.code==1){
-                        that.props.showLogin()
+                console.log(response.data.code);if(response.data.code==1){
+                    that.props.showLogin()
                     }else if(response.data.code==0){
                         message.error(response.data.message);
                     }
-
-
                 })
                 .catch(function(err){
                     console.log(22,err);
@@ -141,7 +138,7 @@ class Header extends React.Component {
                 return(<div><h5 className={style.authtp}>{this.props.user.userName}</h5>
 
                         <Link to="/userCenter">
-                            <Badge dot={this.props.auth.mesList}>
+                            <Badge dot={localStorage.getItem('unReadMsg')==2?true:false}>
                                 <h5 className={style.authtp}>用户中心</h5>
                             </Badge>
                         </Link>
@@ -155,7 +152,7 @@ class Header extends React.Component {
                     <h5  className={style.authtp} onClick={this.logout} >退出</h5></div>)
             }else {
                 return(<div><h5 className={style.authtp}>{this.props.user.userName}</h5>
-                    <Badge dot={this.props.auth.mesList}>
+                    <Badge dot={localStorage.getItem('unReadMsg')==2?true:false}>
                     <Link to="/userCenter"><h5  className={style.authtp}>用户中心</h5></Link>
                     </Badge>
                     <h5  className={style.authtp} onClick={this.logout} >退出</h5></div>)

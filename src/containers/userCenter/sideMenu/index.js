@@ -21,9 +21,9 @@ class SideMenu extends React.Component {
         });
         this.props.page(e)
         if(e.key==4){
-            console.log(111)
             //localStorage.setItem('meslist',0)
-            this.props.mesList()
+            // this.props.mesList()
+            localStorage.removeItem('unReadMsg')
         }
     }
 
@@ -58,7 +58,7 @@ class SideMenu extends React.Component {
                     <Menu.Item key="4">
 
                         <Icon type="mail" />
-                        <Badge dot={this.props.auth.mesList}>
+                        <Badge dot={localStorage.getItem('unReadMsg')==2?true:false}>
                             <span className={style.titword}>消息中心</span>
                         </Badge>
                     </Menu.Item>

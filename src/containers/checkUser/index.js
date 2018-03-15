@@ -141,7 +141,7 @@ class PartnerEntry extends React.Component {
         console.log(222,a)
         return(
             <div className={style.imgshow}>
-                <p>姓名：{a.realName}</p>
+                <p>护照号码：{a.passportNo}</p>
                 <p>护照到期：{a.passportTime}</p>
                 <p>年净值：{a.netYearIncome}</p>
                 <p>年收入：{a.yearIncome}</p>

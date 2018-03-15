@@ -7,10 +7,13 @@ import qiniu from "qiniu";
 import axios from  '../../../../common/axiosConf'
 import Countdown from '../../../../components/countdown/index'
 import Toast from 'antd-mobile/lib/toast';
+import moment from "moment/moment";
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-
+const dateFormat = 'YYYY/MM/DD';
 
 class AdvanVip extends React.Component {
     constructor(props) {
@@ -23,6 +26,7 @@ class AdvanVip extends React.Component {
             token: '',
             url11:'',
             canChange:false,
+            passportTime:moment('Thu Jan 01 1970 10:50:40 GMT+0800 (中国标准时间)', dateFormat),
 
         }
     }
@@ -40,15 +44,20 @@ class AdvanVip extends React.Component {
             that.setState({
                 seniorCertified:response.data.result["0"].seniorCertified
             })
+
             if(response.data.result["0"].seniorCertified==2){
                 that.setState({
                     url:'',
+                    netYearIncome:'',
+                    passportNo:'',
+                    yearIncome:'',
+                    fundsSource:'',
+                    passportTime:'1970.1.1',
                 })
             }else {
                 that.setState({
                     url:response.data.result["0"].passport,
                     canChange:true,
-                    code:response.data.result["0"].code,
                     netYearIncome:response.data.result["0"].netYearIncome,
                     passportNo:response.data.result["0"].passportNo,
                     yearIncome:response.data.result["0"].yearIncome,
@@ -92,8 +101,9 @@ class AdvanVip extends React.Component {
         console.log(`checked = ${e.target.checked}`);
     }
     dataChange(date){
+        console.log(date);
         this.setState({
-            passportTime:date._d
+            passportTime:date?date._d:''
         })
     }
 
@@ -158,7 +168,7 @@ class AdvanVip extends React.Component {
             message.error('请上传图片')
             return
         }
-        if(!this.state.primaryCertified==1){
+        if(!this.state.primaryCertified==3){
             message.error('请先通过初级审核')
             return
         }
@@ -290,6 +300,7 @@ class AdvanVip extends React.Component {
                                     <div className={style.right}>
                                         请填写护照号码【必填】</div>}
                                     {getFieldDecorator('idCard', {
+                                        initialValue: this.state.passportNo,
                                         rules: [{
                                             required: true,
                                             whitespace: true,
@@ -297,7 +308,7 @@ class AdvanVip extends React.Component {
                                             pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
                                         }],
                                     })(<Input
-                                        className={style.input} disabled={this.state.checkNick} placeholder="护照号码"
+                                        className={style.input} disabled={this.state.canChange} placeholder="护照号码"
                                         onChange={(e) => {
                                             this.setState({passportNo: e.target.value})
                                         }}/>)}</FormItem>
@@ -307,6 +318,7 @@ class AdvanVip extends React.Component {
                                     {(getFieldError('linedate')) ? <div className={style.errors}>护照到期日期【必填】</div> :
                                         <div className={style.right}>护照到期日期【必填】</div>}
                                     {getFieldDecorator('linedate', {
+                                        initialValue: moment(this.state.passportTime, dateFormat),
                                         rules: [{
                                             required: true,
                                             message: ' ',
@@ -314,7 +326,7 @@ class AdvanVip extends React.Component {
                                     })(
                                         <DatePicker
                                             onChange={this.dataChange.bind(this)}
-                                            disabled={this.state.canchange}/>
+                                            disabled={this.state.canChange}/>
                                     )}
                                 </FormItem>
                             </div>
@@ -326,6 +338,7 @@ class AdvanVip extends React.Component {
                                     <div className={style.right}>
                                         预期年收入【选填】</div>}
                                     {getFieldDecorator('yeargold', {
+                                        initialValue: this.state.yearIncome,
                                         rules: [{
                                             required: false,
 
@@ -334,7 +347,7 @@ class AdvanVip extends React.Component {
                                             pattern: /^[0-9].*$/
                                         }],
                                     })(<Input
-                                        className={style.input} disabled={this.state.checkNick} placeholder="预期年收入"
+                                        className={style.input} disabled={this.state.canChange} placeholder="预期年收入"
                                         suffix={<span>￥</span>}
                                         onChange={(e) => {
                                             this.setState({yearIncome: e.target.value})
@@ -348,13 +361,14 @@ class AdvanVip extends React.Component {
                                     <div className={style.right}>
                                         净值（排除房屋、车辆等非流动资产）【选填】</div>}
                                     {getFieldDecorator('cleardate', {
+                                        initialValue: this.state.netYearIncome,
                                         rules: [{
                                             required: false,
                                             initialValue: '36363@ww.com',message: ' ',
                                             pattern: /^[0-9].*$/
                                         }],
                                     })(<Input
-                                        className={style.input} disabled={this.state.checkNick} placeholder="净值"
+                                        className={style.input} disabled={this.state.canChange} placeholder="净值"
                                         suffix={<p>￥</p>}
                                         onChange={(e) => {
                                             this.setState({netYearIncome: e.target.value})
@@ -365,12 +379,13 @@ class AdvanVip extends React.Component {
                                     {(getFieldError('job')) ? <div className={style.errors}>资金来源【必填】</div> :
                                         <div className={style.right}>资金来源【必填】</div>}
                                     {getFieldDecorator('job', {
+                                        initialValue: this.state.fundsSource,
                                         rules: [{
                                             required: true,
                                             message: ' ',
                                         }],
                                     })(
-                                        <Select placeholder="请选择" size={'large'} disabled={this.state.checkNick}
+                                        <Select placeholder="请选择" size={'large'} disabled={this.state.canChange}
                                                 style={{width: '100%', height: 40, lineHeight: 40}}
                                                 onChange={this.handleChange1.bind(this)}>
                                             <Option value={1}>收入</Option>

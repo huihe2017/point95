@@ -16,11 +16,8 @@ let initialState = {
     bankFrontImg:'',
     frontImg:'',
     reverseImg:'',
-    bankCode:''
-
-
-
-
+    bankCode:'',
+    unReadMsg:1
 
 }
 
@@ -30,7 +27,7 @@ export default function sign(state = initialState, action = {}) {
 
         case 'LOGIN':
             console.log(159,action.data)
-            const {token,role,email} = action.data
+            const {token,role,email,unReadMsg} = action.data
             state.userName = email
             localStorage.setItem('token', token)
             localStorage.setItem('role', role)
@@ -38,7 +35,7 @@ export default function sign(state = initialState, action = {}) {
             // localStorage.setItem('MT4', mt4_live_id)
             // localStorage.setItem('status', (status===11?"2":status))
             // localStorage.setItem('address', address)
-            // localStorage.setItem('email', email)
+            localStorage.setItem('unReadMsg', unReadMsg)
             state.token = true
             // state.email = email
             // state.address = address
@@ -49,7 +46,8 @@ export default function sign(state = initialState, action = {}) {
         case 'LOGOUT':
             localStorage.removeItem('token')
             localStorage.removeItem('userName')
-            localStorage.removeItem('role', role)
+            localStorage.removeItem('role')
+            localStorage.removeItem('meslist')
             // localStorage.removeItem('MT4')
             // localStorage.removeItem('status')
             // localStorage.removeItem('address')
