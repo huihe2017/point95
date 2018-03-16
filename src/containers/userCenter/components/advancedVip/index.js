@@ -52,7 +52,8 @@ class AdvanVip extends React.Component {
                     passportNo:'',
                     yearIncome:'',
                     fundsSource:'',
-                    passportTime:moment('Thu Jan 01 1970 10:50:40 GMT+0800 (中国标准时间)', dateFormat),
+                    passportTime:'1997.1.1',
+
                 })
             }else {
                 that.setState({
@@ -130,10 +131,9 @@ class AdvanVip extends React.Component {
         var l1=files[0].name.indexOf('.');
         var ex=files[0].name.slice(l1,100);
         var ll=files[0].preview;
-
-        console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex);
+        var llar=ll.split('')
         this.setState({
-            url:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex+'?imageView2/2/w/308/h/210/interlace/1/q/100',
+            url:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(ll.lastIndexOf('/')+1,llar.length)+ex+'?imageView2/2/w/308/h/210/interlace/1/q/100',
             url11:files[0].preview
         },()=>{
             var that=this;

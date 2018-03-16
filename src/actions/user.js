@@ -188,14 +188,21 @@ export function forgetPwdSet(data, callback) {
                     // dispatch({type: 'MODIFYPWD'})
                     // callback()
                     Toast.hide()
-                    message.error('重置密码成功，请登录...');
+                    message.error(response.data.message);
                 }else if (response.data.code === 1) {
                     //重置密码并登录
-                    dispatch({type: 'SHOW_LOGIN'})
+
                     //callback()
                     //console.log(response.data.message)
                     Toast.hide()
-                    message.success(response.data.message);
+                    message.success('重置密码成功，请登录...')
+                    setTimeout(function () {
+                        dispatch({type: 'SHOW_LOGIN'})
+                    },3500)
+
+
+
+
                 }
             })
             .catch(function (error) {

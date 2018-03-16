@@ -33,10 +33,7 @@ class Header extends React.Component {
 
     componentWillMount() {
         var that=this;
-        console.log(1987,window.location.hash);
         var llll=window.location.hash.slice(3, -10)
-        console.log(llll.indexOf('email'));
-        console.log(llll.indexOf('token'));
         if(llll.indexOf('email')>0&&llll.indexOf('token')==0){
             //console.log(window.location.hash.slice(3,-10));
             var sli1=window.location.hash.slice(3,-10);
@@ -57,7 +54,16 @@ class Header extends React.Component {
                     console.log(22,err);
                 });
         }
-        
+        axios.get('http://192.168.100.105:8000/unRead', {
+            params: {
+                token:localStorage.getItem('token')
+            }
+        }).then(function(response){
+            console.log(response);
+        }).catch(function(err){
+                console.log(err);
+            });
+
         this.choceType();
     }
 

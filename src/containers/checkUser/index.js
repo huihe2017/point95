@@ -36,7 +36,8 @@ class PartnerEntry extends React.Component {
             previewImage: '',
             previewVisible: false,
             isBase:true,
-            data:[]
+            data:[],
+            visible:false
         }
     }
 
@@ -80,6 +81,13 @@ class PartnerEntry extends React.Component {
         });
     }
 
+    handlec = (e) => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    }
+
     tong(e,i){
         var that=this;
         console.log(this.state.data[i])
@@ -119,7 +127,12 @@ class PartnerEntry extends React.Component {
         }
 
     }
-
+    cli(e){
+        this.setState({
+            visible: true,
+        });
+        console.log(e);
+    }
     fore(a){
         console.log(111,a)
         return(
@@ -135,7 +148,13 @@ class PartnerEntry extends React.Component {
                 </div>
                 <div className={style.imgr}>
                     <p>身份证正面照：</p>
-                    <img src={a.backCard} alt=""/>
+                    <img onClick={this.cli.bind(this,a.backCard)} src={a.backCard} alt=""/>
+                    <Modal
+                        visible={this.state.visible}
+                        onCancel={this.handlec}
+                    >
+                        <img src={a.backCard} alt=""/>
+                    </Modal>
                     <p>身份证反面照：</p>
                     <img src={a.frontCard} alt=""/>
                 </div>

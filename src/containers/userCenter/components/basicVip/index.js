@@ -121,10 +121,10 @@ class UserData extends React.Component {
         var l1=files[0].name.indexOf('.');
         var ex=files[0].name.slice(l1,100);
         var ll=files[0].preview;
-
-        console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex);
+        var llar=ll.split('')
+        //console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(ll.lastIndexOf('/')+1,llar.length)+ex);
         this.setState({
-            url:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex+'?imageView2/2/w/308/h/210/interlace/1/q/100',
+            url:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(ll.lastIndexOf('/')+1,llar.length)+ex+'?imageView2/2/w/308/h/210/interlace/1/q/100',
             url11:files[0].preview
         },()=>{
             var that=this;
@@ -148,9 +148,10 @@ class UserData extends React.Component {
         // var l2=files[0].name.split('').length;
         var ex=files[0].name.slice(l1,100);
         var ll=files[0].preview;
-        console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex);
+        var llar=ll.split('')
+        //console.log('http://p543qsy5q.bkt.clouddn.com/'+ll.slice(ll.lastIndexOf('/')+1,llar.length)+ex);
         this.setState({
-            url1:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(27,63)+ex+'?imageView2/2/w/308/h/210/interlace/1/q/100',
+            url1:'http://p543qsy5q.bkt.clouddn.com/'+ll.slice(ll.lastIndexOf('/')+1,llar.length)+ex+'?imageView2/2/w/308/h/210/interlace/1/q/100',
             url22:files[0].preview
         },()=>{
 
@@ -196,7 +197,7 @@ class UserData extends React.Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 //提交初级认证资料
-                console.log(147,this.state);
+                //console.log(147,this.state);
                 axios.post('http://192.168.100.105:8000/primaryAuth',
                     {
                         frontCard: this.state.url,
@@ -217,7 +218,7 @@ class UserData extends React.Component {
                             message.error('请完善您的资料')
                         }else if(response.data.code===1){
                             message.success('上传成功，请耐心等待')
-                            console.log(741,this)
+                            //console.log(741,this)
                             that.setState({
                                 primaryCertified:1,
                                 canChange:true
