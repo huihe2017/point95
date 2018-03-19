@@ -234,8 +234,8 @@ class Header extends React.Component {
                 {this.props.auth.showLoginBox ? <LoginBox/> : ''}
                 {this.props.auth.showRegisterBox ? <RegisterBox/> : ''}
                 {this.props.auth.showResetPwdBox ? <ResetPwdBox/> : ''}
-                {this.props.auth.showRegisterTip ? <ImportPwd/> : ''}
-                {/*{this.props.auth.showForgetTip ? <ImportPwd/> : ''}*/}
+                {this.props.auth.showRegisterTip ? <ImportPwd word={'注册成功'}/> : ''}
+                {this.props.auth.showForgetTip ? <ImportPwd  word={'提交成功'}/> : ''}
             </div>
         )
     }

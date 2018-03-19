@@ -49,8 +49,8 @@ class UserData extends React.Component {
                     address:'',
                     realName:'',
                     ID:'',
-                    thirdParty:'',
-                    employStatu:'',
+                    thirdParty:null,
+                    employStatu:null,
                 })
             }else {
                 console.log(response.data.result["0"]);
@@ -238,6 +238,8 @@ class UserData extends React.Component {
                     .catch(function (error) {
                         console.log(error)
                     });
+            }else {
+                message.error('请完善信息')
             }
         });
     }
@@ -449,15 +451,16 @@ class UserData extends React.Component {
                     <div className={style.lupingbox}>
                         <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop1.bind(this)} className={style.qiniu} token={this.state.token}  onUpload={this.onUpload}>
-                            <div style={this.state.canChange?{'display':'none'}:{'display':'block'}} className={style.tipword}>点击上传身份证正面</div>
-                            <img className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt=""/>
+                            <div style={this.state.url?{'display':'none'}:{'display':'block'}} className={style.tipword}>点击上传身份证正面</div>
+                            <img style={this.state.url1?{'display':'block'}:{'display':'none'}} className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt="图片加载中"/>
                         </QQiniu>
                     </div>
                     <div className={style.rupingbox}>
                         <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop2.bind(this)} className={style.qiniu} token={this.state.token}  onUpload={this.onUpload}>
-                            <div style={this.state.canChange?{'display':'none'}:{'display':'block'}} className={style.tipword}>点击上传身份证反面</div>
-                            <img  className={style.egimg} src={this.state.isLink22?this.state.url22:this.state.url1} alt=""/>
+
+                            <div style={this.state.url1?{'display':'none'}:{'display':'block'}} className={style.tipword}>点击上传身份证反面</div>
+                            <img style={this.state.url1?{'display':'block'}:{'display':'none'}} className={style.egimg} src={this.state.isLink22?this.state.url22:this.state.url1} alt="图片加载中"/>
                         </QQiniu>
                     </div>
                     <div className={style.uprequire}>
@@ -480,6 +483,7 @@ class UserData extends React.Component {
                         }}>{this.reword()}</Button>
                     </FormItem>
                 </div>
+
             </Form>
 
         )

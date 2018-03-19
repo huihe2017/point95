@@ -6,6 +6,7 @@ let initialState = {
     shenList:false,
     showChangePwd:false,
     showRegisterTip:false,
+    showForgetTip:false,
     isLogin:false
 }
 
@@ -19,6 +20,7 @@ export default function auth(state = initialState, action = {}) {
             state.showResetPwdBox = false
             state.showChangePwd = false
             state.showRegisterTip = false
+            state.showForgetTip = false
             return Object.assign({}, state, {})
 
         case 'SHOW_REGISTER':
@@ -26,6 +28,7 @@ export default function auth(state = initialState, action = {}) {
             state.showRegisterBox = true
             state.showChangePwd = false
             state.showRegisterTip = false
+            state.showForgetTip = false
             return Object.assign({}, state, {})
 
         case 'SHOW_RESETPWD':
@@ -33,6 +36,7 @@ export default function auth(state = initialState, action = {}) {
             state.showResetPwdBox = true
             state.showChangePwd = false
             state.showRegisterTip = false
+            state.showForgetTip = false
             return Object.assign({}, state, {})
 
         case 'HIDE_AUTH':
@@ -41,6 +45,7 @@ export default function auth(state = initialState, action = {}) {
             state.showResetPwdBox = false
             state.showChangePwd = false
             state.showRegisterTip = false
+            state.showForgetTip = false
             return Object.assign({}, state, {})
 
         case 'HIDE_NUM':
@@ -76,6 +81,16 @@ export default function auth(state = initialState, action = {}) {
             state.showResetPwdBox = false
             state.showChangePwd = false
             state.showRegisterTip = true
+            state.showForgetTip=false
+            return Object.assign({}, state, {})
+
+        case 'SHOW_SETPWDTIP':
+            state.showLoginBox = false
+            state.showRegisterBox = false
+            state.showResetPwdBox = false
+            state.showChangePwd = false
+            state.showRegisterTip = false
+            state.showForgetTip = true
             return Object.assign({}, state, {})
 
         default:

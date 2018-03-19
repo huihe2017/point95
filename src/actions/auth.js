@@ -61,9 +61,22 @@ export function hideAuth(data, callback) {
     }
 }
 
+export function showForgetTip() {
+    return dispatch => {
+        dispatch({type: 'SHOW_SERPWDTIP'})
+    }
+}
+
 export function showResetPwd(data, callback) {
     return dispatch => {
         dispatch({type: 'SHOW_RESETPWD'})
+        callback&&callback()
+    }
+}
+
+export function showrePwdTip(data, callback) {
+    return dispatch => {
+        dispatch({type: 'SHOW_SERPWDTIP'})
         callback&&callback()
     }
 }

@@ -46,14 +46,12 @@ class LoginBox extends React.Component {
         var that=this
         axios.get('http://192.168.100.105:8000/captcha')
             .then(function(response){
-                console.log(that);
                 that.setState({
                     picImg:that.getPicImg(response.data.result.txt)
                 })
-                //console.log(response.data.result.txt);
             })
             .catch(function(err){
-                console.log(22,err);
+                console.log(err);
             });
     }
 
@@ -73,6 +71,7 @@ class LoginBox extends React.Component {
                 }, (errorText) => {
                     Toast.hide()
                     this.setState({picImg: this.getPicImg()})
+                    //console.log('lwlwlwl',errorText)
                     if (errorText) {
                         Toast.info(errorText, 3, null, false)
                     } else {
@@ -85,7 +84,6 @@ class LoginBox extends React.Component {
 
     render() {
         const { getFieldDecorator} = this.props.form;
-
         return (
             <div className={style.wrap}>
                 <Modal

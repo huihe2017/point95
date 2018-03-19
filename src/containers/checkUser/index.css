@@ -103,3 +103,10 @@
     display: inline-block;
     vertical-align: top;
 }
+
+:local(.bi){
+    margin-top: 24px;
+    margin-left: 24px;
+    margin-bottom: 20px;
+    width: 440px;
+}

@@ -61,8 +61,9 @@ class NewsLink extends React.Component {
                 console.log(response.data.result[i].createAt);
                 var m=new Date(response.data.result[i].createAt).getMonth()+1
                 var mm=m<10?'0'+m:m
-                var d=new Date(response.data.result[i].createAt).getDate()?'0'+new Date(response.data.result[i].createAt).getDate():new Date(response.data.result[i].createAt).getDate()
-                var time=new Date(response.data.result[i].createAt).getFullYear()+'/'+mm+'/'+d+' '+new Date(response.data.result[i].createAt).getHours()+':'+new Date(response.data.result[i].createAt).getMinutes();
+                var d=new Date(response.data.result[i].createAt).getDate()<10?'0'+new Date(response.data.result[i].createAt).getDate():new Date(response.data.result[i].createAt).getDate()
+                var h=new Date(response.data.result[i].createAt).getHours()<10?'0'+new Date(response.data.result[i].createAt).getHours():new Date(response.data.result[i].createAt).getHours()
+                var time=new Date(response.data.result[i].createAt).getFullYear()+'/'+mm+'/'+d+' '+h+':'+new Date(response.data.result[i].createAt).getMinutes();
                 response.data.result[i].createAt=time;
 
             }

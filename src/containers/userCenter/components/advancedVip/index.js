@@ -33,7 +33,7 @@ class AdvanVip extends React.Component {
 
     componentWillMount(){
         var that=this;
-
+        console.log(moment(this.state.passportTime,dateFormat)._d=='Invalid Date')
         //获取高级认证的资料
         axios.get('http://192.168.100.105:8000/seniorAuthMsg', {params:{
             token:localStorage.getItem('token')
@@ -51,11 +51,12 @@ class AdvanVip extends React.Component {
                     netYearIncome:'',
                     passportNo:'',
                     yearIncome:'',
-                    fundsSource:'',
-                    passportTime:'1997.1.1',
-
+                    fundsSource:null,
+                    passportTime:null,
+                    primaryCertified:response.data.result["0"].primaryCertified
                 })
             }else {
+                console.log(response.data.result)
                 that.setState({
                     url:response.data.result["0"].passport,
                     canChange:true,
@@ -164,19 +165,20 @@ class AdvanVip extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         var that=this
-        if(!this.state.url){
-            message.error('请上传图片')
+
+        if(this.state.primaryCertified!==3){
+            message.error('请先通过初级审核')
             return
         }
-        if(!this.state.primaryCertified==3){
-            message.error('请先通过初级审核')
+        if(!this.state.url){
+            message.error('请上传图片')
             return
         }
         this.props.form.validateFieldsAndScroll((err, values) => {
 
             if (!err) {
                 //提交初级认证资料
-                console.log(this.state);
+                // console.log(this.state);
                 axios.post('http://192.168.100.105:8000/seniorAuth',
                     {
                         passport: this.state.url,
@@ -214,7 +216,7 @@ class AdvanVip extends React.Component {
                         console.log(error)
                     });
             }else {
-
+                message.error('请完善信息')
             }
         });
     }
@@ -318,7 +320,7 @@ class AdvanVip extends React.Component {
                                     {(getFieldError('linedate')) ? <div className={style.errors}>护照到期日期【必填】</div> :
                                         <div className={style.right}>护照到期日期【必填】</div>}
                                     {getFieldDecorator('linedate', {
-                                        initialValue: moment(this.state.passportTime, dateFormat),
+                                        initialValue:moment(this.state.passportTime,dateFormat)._d=='Invalid Date'?null:moment(this.state.passportTime,dateFormat),
                                         rules: [{
                                             required: true,
                                             message: ' ',
@@ -440,8 +442,8 @@ class AdvanVip extends React.Component {
                     <div className={style.lupingbox}>
                         <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop1.bind(this)} className={style.qiniu} token={this.state.token}  onUpload={this.onUpload}>
-                            <div className={style.tipword}>点击上传上传护照照片</div>
-                            <img className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt=""/>
+                            <div style={this.state.url?{'display':'none'}:{'display':'block'}}  className={style.tipword}>点击上传上传护照照片</div>
+                            <img style={this.state.url?{'display':'block'}:{'display':'none'}} className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt=""/>
                         </QQiniu>
                     </div>
 

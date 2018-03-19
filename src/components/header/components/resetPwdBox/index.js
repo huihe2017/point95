@@ -79,14 +79,6 @@ class ResetPwdBox extends React.Component {
         const value = e.target.value;
         this.setState({confirmDirty: this.state.confirmDirty || !!value});
     }
-    checkPassword = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && value !== form.getFieldValue('password')) {
-            callback('两次输入的密码不同!');
-        } else {
-            callback();
-        }
-    }
     checkConfirm = (rule, value, callback) => {
         const form = this.props.form;
         if (value && this.state.confirmDirty) {

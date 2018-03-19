@@ -30,7 +30,7 @@ class ImportPwdBox extends React.Component {
 
     success() {
         Modal.success({
-            title: '注册成功',
+            title: this.props.word,
             content: '请前往注册的邮箱，根据提示进行下一步操作',
         });
     }

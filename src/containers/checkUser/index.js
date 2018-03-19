@@ -37,7 +37,8 @@ class PartnerEntry extends React.Component {
             previewVisible: false,
             isBase:true,
             data:[],
-            visible:false
+            visible:false,
+            visible1:false
         }
     }
 
@@ -82,9 +83,15 @@ class PartnerEntry extends React.Component {
     }
 
     handlec = (e) => {
-        console.log(e);
+        //console.log(e);
         this.setState({
             visible: false,
+        });
+    }
+    handlec1 = (e) => {
+        //console.log(e);
+        this.setState({
+            visible1: false,
         });
     }
 
@@ -131,7 +138,13 @@ class PartnerEntry extends React.Component {
         this.setState({
             visible: true,
         });
-        console.log(e);
+        //console.log(e);
+    }
+    cli1(e){
+        this.setState({
+            visible1: true,
+        });
+        //console.log(e);
     }
     fore(a){
         console.log(111,a)
@@ -142,7 +155,7 @@ class PartnerEntry extends React.Component {
                     <p><span>身份证号码：</span>{a.ID}</p>
                     <p><span>地址：</span>{a.address}</p>
                     <p>
-                        <span>就业情况：</span>{a.employStatu}
+                        <span>就业情况：</span>{this.showjob(a.employStatu)}
                     </p>
                     <p><span>是否代购：</span>{a.thirdParty==1?'是':'否'}</p>
                 </div>
@@ -150,13 +163,21 @@ class PartnerEntry extends React.Component {
                     <p>身份证正面照：</p>
                     <img onClick={this.cli.bind(this,a.backCard)} src={a.backCard} alt=""/>
                     <Modal
+                        style={{position:'relative'}}
                         visible={this.state.visible}
                         onCancel={this.handlec}
                     >
-                        <img src={a.backCard} alt=""/>
+                        <img className={style.bi} src={a.backCard} alt=""/>
                     </Modal>
                     <p>身份证反面照：</p>
-                    <img src={a.frontCard} alt=""/>
+                    <img onClick={this.cli1.bind(this,a.frontCard)} src={a.frontCard} alt=""/>
+                    <Modal
+                        style={{position:'relative'}}
+                        visible={this.state.visible1}
+                        onCancel={this.handlec1}
+                    >
+                        <img className={style.bi} src={a.frontCard} alt=""/>
+                    </Modal>
                 </div>
 
             </div>)
@@ -171,15 +192,46 @@ class PartnerEntry extends React.Component {
                     <p><span>护照到期：</span>{a.passportTime}</p>
                     <p><span>年净值：</span>{a.netYearIncome}</p>
                     <p><span>年收入：</span>{a.yearIncome}</p>
-                    <p><span>资金来源：</span>{a.fundsSource}</p>
+                    <p><span>资金来源：</span>{this.showmony(a.fundsSource)}</p>
                 </div>
                 <div className={style.imgr}>
                     <p>护照：</p>
-                    <img src={a.passport} alt=""/>
+                    <img onClick={this.cli.bind(this,a.passport)} src={a.passport} alt=""/>
+                    <Modal
+                        style={{position:'relative'}}
+                        visible={this.state.visible}
+                        onCancel={this.handlec}
+                    >
+                        <img className={style.bi} src={a.passport} alt=""/>
+                    </Modal>
                 </div>
             </div>)
     }
 
+    showjob(e){
+        if(e==1){
+            return '工作中'
+        }else if(e==2){
+            return '学生'
+        }else if(e==3){
+            return '失业'
+        }else if(e==4){
+            return '退休'
+        }else if(e==5){
+            return '其他'
+        }
+    }
+    showmony(e){
+        if(e==1){
+            return '收入'
+        }else if(e==2){
+            return '投资收益'
+        }else if(e==3){
+            return '退休金/退休积蓄'
+        }else if(e==4){
+            return '其他'
+        }
+    }
 
     render() {
         if (!localStorage.getItem('token')) {

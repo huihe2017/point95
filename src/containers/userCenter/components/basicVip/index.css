@@ -27,7 +27,7 @@
     float: right;
     width: 300px;
 
-    height: 562px;
+    height: 510px;
 }
 :local(.egimg){
     position: absolute;
@@ -36,6 +36,7 @@
     width: 200px;
     height: 130px;
     border-radius: 3px;
+
 }
 :local(.but){
     clear: both;

@@ -7,7 +7,7 @@
 
     width: 1200px;
     margin: 0 auto;
-    min-height: 600px;
+    min-height: 640px;
     margin-bottom: 40px;
     clear: both;
 }
@@ -273,7 +273,7 @@
     float: right;
     width: 924px;
     background-color: #fff;
-    min-height: 600px;
+    min-height: 640px;
 }
 /*{!*<Upload.Dragger name="files" action="/upload.do">*!}*/
 /*{!*<p className="ant-upload-drag-icon">*!}*/

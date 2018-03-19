@@ -145,7 +145,6 @@ export function getDetailMsg(data, callback) {
     }
 }
 
-
 export function resetPwd(data, callback) {
     return dispatch => {
         axios.post('http://192.168.100.105:8000/forgetPwd', {
@@ -162,7 +161,7 @@ export function resetPwd(data, callback) {
                     message.error(response.data.message);
                 }else if (response.data.code === 1) {
                     //重置密码并登录
-                    dispatch({type: 'SHOW_REGTIP'})
+                    dispatch({type: 'SHOW_SETPWDTIP'})
                     //callback()
                     //console.log(response.data.message)
                     Toast.hide()
@@ -199,10 +198,59 @@ export function forgetPwdSet(data, callback) {
                     setTimeout(function () {
                         dispatch({type: 'SHOW_LOGIN'})
                     },3500)
+                }
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
+    }
+}
 
+// export function getPrimaryData(data, callback) {
+//     return dispatch => {
+//         axios.post('http://192.168.100.105:8000/primaryVerify', {
+//             email:data.email,
+//             token:data.token,
+//             primaryCertified:data.primaryCertified
+//         })
+//             .then(function (response) {
+//                 console.log(response)
+//                 if (response.data.code === 0) {
+//                     Toast.hide()
+//                     message.error(response.data.message);
+//                 }
+//             })
+//             .catch(function (error) {
+//                 console.log(error)
+//             });
+//     }
+// }
 
+export function getCaptcha(data, callback) {
+    return dispatch => {
+        axios.post('http://192.168.100.105:8000/forgetPwdSet', {
+            pwd: data.pwd,
+            // pwd: data.pwd,
+            token: data.token,
+            email:data.email
+        })
+            .then(function (response) {
+                console.log(response)
+                if (response.data.code === 0) {
+                    // dispatch({type: 'MODIFYPWD'})
+                    // callback()
+                    Toast.hide()
+                    message.error(response.data.message);
+                }else if (response.data.code === 1) {
+                    //重置密码并登录
 
-
+                    //callback()
+                    //console.log(response.data.message)
+                    Toast.hide()
+                    message.success('重置密码成功，请登录...')
+                    setTimeout(function () {
+                        dispatch({type: 'SHOW_LOGIN'})
+                    },3500)
                 }
             })
             .catch(function (error) {
