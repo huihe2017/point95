@@ -443,7 +443,7 @@ class AdvanVip extends React.Component {
                         <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop1.bind(this)} className={style.qiniu} token={this.state.token}  onUpload={this.onUpload}>
                             <div style={this.state.url?{'display':'none'}:{'display':'block'}}  className={style.tipword}>点击上传上传护照照片</div>
-                            <img style={this.state.url?{'display':'block'}:{'display':'none'}} className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt=""/>
+                            <img style={this.state.url?{'display':'block'}:{'display':'none'}} className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt="图片加载中"/>
                         </QQiniu>
                     </div>
 
