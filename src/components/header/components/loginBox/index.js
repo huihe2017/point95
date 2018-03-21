@@ -5,6 +5,7 @@ import { Modal,Input,Select,Form,Button } from 'antd';
 import {bindActionCreators} from 'redux'
 import {hideAuth,showRegister,showResetPwd} from '../../../../actions/auth'
 import {login,resetPwd} from '../../../../actions/user'
+import {getCaption} from '../../../../actions/unit'
 import Toast from 'antd-mobile/lib/toast';
 import 'antd-mobile/lib/toast/style/css';
 import axios from  '../../../../common/axiosConf'
@@ -27,15 +28,12 @@ class LoginBox extends React.Component {
     }
     componentDidMount(){
         var that=this;
-        axios.get('http://192.168.100.105:8000/captcha')
-            .then(function(response){
-                that.setState({
-                    picImg:that.getPicImg(response.data.result.txt)
-                })
+        this.props.getCaption({},(img) => {
+            //console.log('huhu'+img)
+            that.setState({
+                picImg:that.getPicImg(img)
             })
-            .catch(function(err){
-                console.log(11,err);
-            });
+        });
     }
 
     getPicImg(e) {
@@ -44,15 +42,12 @@ class LoginBox extends React.Component {
 
     regetPicImg(){
         var that=this
-        axios.get('http://192.168.100.105:8000/captcha')
-            .then(function(response){
-                that.setState({
-                    picImg:that.getPicImg(response.data.result.txt)
-                })
+        this.props.getCaption({},(img) => {
+            //console.log('huhu'+img)
+            that.setState({
+                picImg:that.getPicImg(img)
             })
-            .catch(function(err){
-                console.log(err);
-            });
+        });
     }
 
     hideModal = () => {
@@ -191,7 +186,8 @@ function mapDispatchToProps(dispatch) {
         login: bindActionCreators(login, dispatch),
         resetPwd: bindActionCreators(resetPwd, dispatch),
         showResetPwd: bindActionCreators(showResetPwd, dispatch),
-        showRegister: bindActionCreators(showRegister, dispatch)
+        showRegister: bindActionCreators(showRegister, dispatch),
+        getCaption: bindActionCreators(getCaption, dispatch)
     }
 }
 

@@ -1,49 +1,38 @@
 import React, { Component } from 'react';
 import configureStore from './store/configureStore' 
 import createRouter from './routes'
-import { Provider } from 'react-redux';
+import {connect, Provider} from 'react-redux';
 import '../node_modules/antd/dist/antd.min.css';
 import './common.css';
-import io from 'socket.io-client'
+import {IntlProvider} from 'react-intl';
+import zh_CN from './common/zh_CN';
+import en_US from './common/en_US';
+import zh from 'react-intl/locale-data/zh';
+import en from 'react-intl/locale-data/en'
+import {addLocaleData } from 'react-intl';
 
+
+
+addLocaleData([...en,...zh]);
 
 const store = configureStore(window.__initState__)
 console.log(store.getState())
+let state=store.getState();
+console.log(state);
 
 
 class App extends Component {
   render() {
     return (
-		<Provider store={store} >
-		    {createRouter()}
-	    </Provider>
+        <IntlProvider locale={state.auth.isEnglish?'en':'zh'} messages={state.auth.isEnglish?en_US:zh_CN} >
+            <Provider store={store} >
+                {createRouter()}
+            </Provider>
+        </IntlProvider>
     );
   }
 }
 
-var socket=io.connect("ws://192.168.100.105:8000",{withCredentials:''});
-//通知用户有用户登录
-// socket.on('getData',(data)=>{
-//     // console.log(data)
-//     // console.log(this.state.btcPlatformData)
-//     //
-//
-//     data.time=data.time.substr(11,5);
-//     let btcPlatformData = this.state.btcPlatformData
-//     if(btcPlatformData.length>100){
-//         btcPlatformData.shift()
-//     }
-//     let newData = btcPlatformData.concat()
-//     newData.push(data)
-//     // this.setState({btcPlatformData})
-//     //data.time=data.time.substr(11,5);
-//     // console.log(this.state.btcPlatformData.push(data))
-//     this.setState({btcPlatformData:newData})
-// })
 
-socket.on('message',(data)=>{
-    alert(data.message)
-})
 
-window.socket = socket
 export default App;

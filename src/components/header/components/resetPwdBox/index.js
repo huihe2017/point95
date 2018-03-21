@@ -5,6 +5,7 @@ import {Modal, Input, Select, Form, AutoComplete, Button, Row, Col} from 'antd';
 import {bindActionCreators} from 'redux'
 import {hashHistory} from 'react-router'
 import {hideAuth, showLogin,importpwd} from '../../../../actions/auth'
+import {getCaption} from '../../../../actions/unit'
 import {resetPwd} from '../../../../actions/user'
 import Countdown from '../../../countdown/index'
 import Toast from 'antd-mobile/lib/toast';
@@ -32,16 +33,13 @@ class ResetPwdBox extends React.Component {
     }
 
     componentDidMount(){
-        var that=this;
-        axios.get('http://192.168.100.105:8000/captcha')
-            .then(function(response){
-                that.setState({
-                    picImg:that.getPicImg(response.data.result.txt)
-                })
+        var that=this
+        this.props.getCaption({},(img) => {
+            //console.log('huhu'+img)
+            that.setState({
+                picImg:that.getPicImg(img)
             })
-            .catch(function(err){
-                console.log(11,err);
-            });
+        });
     }
 
     hideModal = () => {
@@ -103,17 +101,12 @@ class ResetPwdBox extends React.Component {
 
     regetPicImg(){
         var that=this
-        axios.get('http://192.168.100.105:8000/captcha')
-            .then(function(response){
-                //console.log(that);
-                that.setState({
-                    picImg:that.getPicImg(response.data.result.txt)
-                })
-                //console.log(response.data.result.txt);
+        this.props.getCaption({},(img) => {
+            //console.log('huhu'+img)
+            that.setState({
+                picImg:that.getPicImg(img)
             })
-            .catch(function(err){
-                console.log(22,err);
-            });
+        });
     }
 
 
@@ -304,7 +297,8 @@ function mapDispatchToProps(dispatch) {
     return {
         hideAuth: bindActionCreators(hideAuth, dispatch),
         resetPwd: bindActionCreators(resetPwd, dispatch),
-        showLogin: bindActionCreators(showLogin, dispatch)
+        showLogin: bindActionCreators(showLogin, dispatch),
+        getCaption: bindActionCreators(getCaption, dispatch),
     }
 }
 

@@ -5,6 +5,7 @@ import {Modal, Input, Select, Form, AutoComplete, Button, Row, Col,message} from
 import {bindActionCreators} from 'redux'
 import {hashHistory} from 'react-router'
 import {hideAuth, showLogin} from '../../../../actions/auth'
+import {getCaption} from '../../../../actions/unit'
 import {register} from '../../../../actions/user'
 import Countdown from '../../../countdown/index'
 import Toast from 'antd-mobile/lib/toast';
@@ -34,16 +35,13 @@ class RegisterBox extends React.Component {
     }
 
     componentDidMount(){
-        var that=this;
-        axios.get('http://192.168.100.105:8000/captcha')
-            .then(function(response){
-                that.setState({
-                    picImg:that.getPicImg(response.data.result.txt)
-                })
+        var that=this
+        this.props.getCaption({},(img) => {
+            //console.log('huhu'+img)
+            that.setState({
+                picImg:that.getPicImg(img)
             })
-            .catch(function(err){
-                console.log(11,err);
-            });
+        });
     }
 
 
@@ -117,20 +115,12 @@ class RegisterBox extends React.Component {
 
     regetPicImg(){
         var that=this
-        axios.get('http://192.168.100.105:8000/captcha')
-            .then(function(response){
-                that.setState({
-                    picImg:that.getPicImg(response.data.result.txt)
-                })
-                if (response.data.code === 0) {
-                    console.log(response.data.message)
-                    message.error(response.data.message);
-
-                }
+        this.props.getCaption({},(img) => {
+            //console.log('huhu'+img)
+            that.setState({
+                picImg:that.getPicImg(img)
             })
-            .catch(function(err){
-                console.log(22,err);
-            });
+        });
     }
 
 
@@ -302,7 +292,8 @@ function mapDispatchToProps(dispatch) {
     return {
         hideAuth: bindActionCreators(hideAuth, dispatch),
         register: bindActionCreators(register, dispatch),
-        showLogin: bindActionCreators(showLogin, dispatch)
+        showLogin: bindActionCreators(showLogin, dispatch),
+        getCaption: bindActionCreators(getCaption, dispatch)
     }
 }
 

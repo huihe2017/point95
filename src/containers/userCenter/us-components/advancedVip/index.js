@@ -9,16 +9,8 @@ import Countdown from '../../../../components/countdown/index'
 import Toast from 'antd-mobile/lib/toast';
 import moment from "moment/moment";
 import 'moment/locale/zh-cn';
-import zh_CN from '../../../../common/zh_CN';
-import en_US from '../../../../common/en_US';
-import intl from 'intl';
-import { IntlProvider,addLocaleData,FormattedMessage } from 'react-intl';
-import zh from 'react-intl/locale-data/zh';
-import en from 'react-intl/locale-data/en'
+moment.locale('en');
 
-
-moment.locale('zh-cn');
-addLocaleData([...en,...zh]);
 const FormItem = Form.Item;
 const Option = Select.Option;
 const dateFormat = 'YYYY/MM/DD';
@@ -160,16 +152,13 @@ class AdvanVip extends React.Component {
 
     reword(){
         if(this.state.seniorCertified==1){
-            return '审核中';
+            return 'In review';
 
         }else if(this.state.seniorCertified==2){
-            return <FormattedMessage
-                id='hello'
-                defaultMessage='提交'
-            />
+            return 'Submit'
 
         }else if(this.state.seniorCertified==3){
-            return '审核通过'
+            return 'Verified'
         }
     }
 
@@ -178,11 +167,11 @@ class AdvanVip extends React.Component {
         var that=this
 
         if(this.state.primaryCertified!==3){
-            message.error('请先通过初级审核')
+            message.error('Please pass the preliminary examination first!')
             return
         }
         if(!this.state.url){
-            message.error('请上传图片')
+            message.error('Please upload pictures!')
             return
         }
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -206,7 +195,7 @@ class AdvanVip extends React.Component {
                         if(response.data.code===0){
                             message.error(response.data.message)
                         }else if(response.data.code===1){
-                            message.success('上传成功，请耐心等待')
+                            message.success('Upload success, please be patient...')
                             that.setState({
                                 seniorCertified:1,
                                 canChange:true
@@ -227,7 +216,7 @@ class AdvanVip extends React.Component {
                         console.log(error)
                     });
             }else {
-                message.error('请完善信息')
+                message.error('Please improve the information!')
             }
         });
     }
@@ -253,7 +242,7 @@ class AdvanVip extends React.Component {
             wrapperCol: { span: 14 },
         };
         const config = {
-            rules: [{ type: 'object', required: true, message: '请选择生日!' }],
+            rules: [{ type: 'object', required: true, message: 'Please choose your birthday!' }],
         };
         const userNameError = isFieldTouched('userName') && getFieldError('userName');
         const file=[ {uid: -1,
@@ -309,9 +298,9 @@ class AdvanVip extends React.Component {
                                 <FormItem
                                     hasFeedback
                                 >{(getFieldError('idCard')) ? <div className={style.errors}>
-                                        请填写护照号码【必填】</div> :
+                                        Please fill in your passport number【required】</div> :
                                     <div className={style.right}>
-                                        请填写护照号码【必填】</div>}
+                                        Please fill in your passport number【required】</div>}
                                     {getFieldDecorator('idCard', {
                                         initialValue: this.state.passportNo,
                                         rules: [{
@@ -321,15 +310,15 @@ class AdvanVip extends React.Component {
                                             pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
                                         }],
                                     })(<Input
-                                        className={style.input} disabled={this.state.canChange} placeholder="护照号码"
+                                        className={style.input} disabled={this.state.canChange} placeholder="Passport Number"
                                         onChange={(e) => {
                                             this.setState({passportNo: e.target.value})
                                         }}/>)}</FormItem>
                             </div>
                             <div className={style.percontent}>
                                 <FormItem>
-                                    {(getFieldError('linedate')) ? <div className={style.errors}>护照到期日期【必填】</div> :
-                                        <div className={style.right}>护照到期日期【必填】</div>}
+                                    {(getFieldError('linedate')) ? <div className={style.errors}>Expiration date【required】</div> :
+                                        <div className={style.right}>Expiration date【required】</div>}
                                     {getFieldDecorator('linedate', {
                                         initialValue:moment(this.state.passportTime,dateFormat)._d=='Invalid Date'?null:moment(this.state.passportTime,dateFormat),
                                         rules: [{
@@ -347,9 +336,9 @@ class AdvanVip extends React.Component {
                                 <FormItem
                                     hasFeedback
                                 >{(getFieldError('yearIncome')) ? <div className={style.errors}>
-                                        预期年收入【选填】</div> :
+                                        Expected annual income【optional】</div> :
                                     <div className={style.right}>
-                                        预期年收入【选填】</div>}
+                                        Expected annual income【optional】</div>}
                                     {getFieldDecorator('yeargold', {
                                         initialValue: this.state.yearIncome,
                                         rules: [{
@@ -360,7 +349,7 @@ class AdvanVip extends React.Component {
                                             pattern: /^[0-9].*$/
                                         }],
                                     })(<Input
-                                        className={style.input} disabled={this.state.canChange} placeholder="预期年收入"
+                                        className={style.input} disabled={this.state.canChange} placeholder="Annual Income"
                                         suffix={<span>￥</span>}
                                         onChange={(e) => {
                                             this.setState({yearIncome: e.target.value})
@@ -370,9 +359,9 @@ class AdvanVip extends React.Component {
                                 <FormItem
                                     hasFeedback
                                 >{(getFieldError('cleardate')) ? <div className={style.errors}>
-                                        净值（排除房屋、车辆等非流动资产）【选填】</div> :
+                                        Net Worth(Excluding non-current assets such as houses and vehicles.)【optional】</div> :
                                     <div className={style.right}>
-                                        净值（排除房屋、车辆等非流动资产）【选填】</div>}
+                                        Net Worth(Excluding non-current assets such as houses and vehicles.)【optional】</div>}
                                     {getFieldDecorator('cleardate', {
                                         initialValue: this.state.netYearIncome,
                                         rules: [{
@@ -381,7 +370,7 @@ class AdvanVip extends React.Component {
                                             pattern: /^[0-9].*$/
                                         }],
                                     })(<Input
-                                        className={style.input} disabled={this.state.canChange} placeholder="净值"
+                                        className={style.input} disabled={this.state.canChange} placeholder="Net Worth"
                                         suffix={<p>￥</p>}
                                         onChange={(e) => {
                                             this.setState({netYearIncome: e.target.value})
@@ -389,8 +378,8 @@ class AdvanVip extends React.Component {
                             </div>
                             <div className={style.percontent}>
                                 <FormItem>
-                                    {(getFieldError('job')) ? <div className={style.errors}>资金来源【必填】</div> :
-                                        <div className={style.right}>资金来源【必填】</div>}
+                                    {(getFieldError('job')) ? <div className={style.errors}>Capital Source【required】</div> :
+                                        <div className={style.right}>Capital Source【required】</div>}
                                     {getFieldDecorator('job', {
                                         initialValue: this.state.fundsSource,
                                         rules: [{
@@ -398,14 +387,14 @@ class AdvanVip extends React.Component {
                                             message: ' ',
                                         }],
                                     })(
-                                        <Select placeholder="请选择" size={'large'} disabled={this.state.canChange}
+                                        <Select placeholder="Please Choose" size={'large'} disabled={this.state.canChange}
                                                 style={{width: '100%', height: 40, lineHeight: 40}}
                                                 onChange={this.handleChange1.bind(this)}>
-                                            <Option value={1}>收入</Option>
-                                            <Option value={2}>投资收益</Option>
-                                            <Option value={3}>退休金/退休积蓄</Option>
+                                            <Option value={1}>Income</Option>
+                                            <Option value={2}>Investment Proceeds</Option>
+                                            <Option value={3}>IRA/Retirement Saving</Option>
                                             <Option value={4}>
-                                                其它
+                                                Other
                                                 {/*{this.state.employStatu==4? <Input style={{ width: 100, marginLeft: 10 }} />:null}*/}
                                                 </Option>
 
@@ -449,20 +438,20 @@ class AdvanVip extends React.Component {
                     </div>
                 </div>
                 <div className={style.idbox}>
-                    <span className={style.id}>上传护照照片</span>
+                    <span className={style.id}>Upload passport photos</span>
                     <div className={style.lupingbox}>
                         <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop1.bind(this)} className={style.qiniu} token={this.state.token}  onUpload={this.onUpload}>
-                            <div style={this.state.url?{'display':'none'}:{'display':'block'}}  className={style.tipword}>点击上传上传护照照片</div>
-                            <img style={this.state.url?{'display':'block'}:{'display':'none'}} className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt="图片加载中"/>
+                            <div style={this.state.url?{'display':'none'}:{'display':'block'}}  className={style.tipword}>Click to upload your passport photo</div>
+                            <img style={this.state.url?{'display':'block'}:{'display':'none'}} className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt="Loading"/>
                         </QQiniu>
                     </div>
 
                     <div className={style.uprequire}>
                         <p>
-                            1.文件为数码照片，请勿进行美化和修改，以免申请失败 <br/>
-                            2.上传文件格式支持png，jpg和bmp <br/>
-                            3.文件大小不超过3MB，文件尺寸最小为200px*150px
+                            1.Files are digital photos,Please do not beautify and modify them so as not to fail. <br/>
+                            2.Upload file format which support png, jpg and bmp.<br/>
+                            3.The file size is no more than 3MB，the minimum file size is 200px*150px.
 
                         </p>
                     </div>

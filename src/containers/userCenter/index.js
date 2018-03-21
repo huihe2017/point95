@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import {hashHistory} from 'react-router';
 import {bindActionCreators} from 'redux'
 import {showLogin} from '../../actions/auth'
-import {getDetailMsg} from '../../actions/user'
 
 import Header from '../../components/header'
 import Footer from '../../components/footer'
@@ -17,6 +16,7 @@ import SideMenu from './sideMenu'
 import UserData from './components/userData';
 import BasicVip from './components/basicVip';
 import AdvancedVip from './components/advancedVip';
+import UadvancedVip from './us-components/advancedVip';
 import LinkMan from './components/linkMan';
 import NewsLink from './components/newsList'
 
@@ -79,12 +79,7 @@ class userCenterHeadView extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getDetailMsg({}, (errorText) => {
-            if (errorText) {
-                Toast.fail(errorText, 3, null, false)
-            } else {
-            }
-        })
+
     }
 
     page(e){
@@ -95,11 +90,15 @@ class userCenterHeadView extends React.Component {
 
     pageShow(){
         if(this.state.current=='5'){
-            return  <div><UserData/></div>
+            return  <div>
+                <UserData/>
+            </div>
         }else if(this.state.current=='1'){
             return  <div><BasicVip/></div>
         }else if(this.state.current=='2'){
-            return  <div><AdvancedVip/></div>
+            return  <div>
+                <AdvancedVip/>
+            </div>
         }else if(this.state.current=='3'){
             return  <div><LinkMan/></div>
         }else if(this.state.current=='4'){
@@ -153,7 +152,7 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
     return {
         showLogin: bindActionCreators(showLogin, dispatch),
-        getDetailMsg: bindActionCreators(getDetailMsg, dispatch)
+
 
     }
 }

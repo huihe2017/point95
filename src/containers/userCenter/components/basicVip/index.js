@@ -7,6 +7,7 @@ import qiniu from "qiniu";
 import axios from  '../../../../common/axiosConf'
 import Countdown from '../../../../components/countdown/index'
 import Toast from 'antd-mobile/lib/toast';
+import {IntlProvider, FormattedMessage,FormattedDate} from 'react-intl';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -285,6 +286,9 @@ class UserData extends React.Component {
 
         return (
             <Form onSubmit={this.handleSubmit}>
+                {/*<FormattedDate*/}
+                    {/*value={new Date('Tue Mar 20 2018 11:27:44 GMT+0800 (中国标准时间)')}*/}
+                {/*/>*/}
                 <div className={style.partreg}>
                     <div className={style.personal}>
                         <div className={style.perimport}>

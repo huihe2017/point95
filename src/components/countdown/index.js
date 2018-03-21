@@ -3,8 +3,10 @@ import style from "./index.css"
 import {connect} from 'react-redux'
 import axios from '../../common/axiosConf'
 import {Input, Button, Row, Col,message} from 'antd';
+import {getCaption, getTelCaption} from '../../actions/unit'
 import Toast from 'antd-mobile/lib/toast';
 import 'antd-mobile/lib/toast/style/css';
+import {bindActionCreators} from "redux";
 
 class Countdown extends React.Component {
     constructor(props) {
@@ -23,13 +25,13 @@ class Countdown extends React.Component {
             }
             console.log(this.props.phone);
             let _this = this
-            axios.get('http://192.168.100.105:8000/telCaptcha',{params: {
+
+            this.props.getTelCaption({
                 business: this.props.business,
                 captcha: this.props.picCode,
                 tel: this.props.phone
-            }}).then(function (response) {
-                console.log(response);
-                if (response.data.code === 0) {
+            },(data)=>{
+                if(data.code===0){
                     _this.setState({counting: true})
                     let seconds = 60
                     _this.inter = setInterval(() => {
@@ -42,10 +44,8 @@ class Countdown extends React.Component {
                             }
                         })
                     }, 1000)
-                    console.log(response.data.message)
-                    message.error(response.data.message);
-
-
+                    console.log(data.code)
+                    message.error(data.message);
                 } else {
                     _this.setState({counting: true})
                     let seconds = 60
@@ -59,15 +59,10 @@ class Countdown extends React.Component {
                             }
                         })
                     }, 1000)
-                    // Toast.fail(response.data.msg, 3, null, false)
-                    // Toast.info(response.data.msg, 3, null, false)
-                    // console.log(1111)
-                    // _this.props.failCallback()
                 }
             })
-                .catch(function (error) {
-                    console.log(error);
-                });
+
+
 
         }
     }
@@ -99,7 +94,9 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {}
+    return {
+        getTelCaption: bindActionCreators(getTelCaption, dispatch)
+    }
 }
 
 Countdown = connect(mapStateToProps, mapDispatchToProps)(Countdown)

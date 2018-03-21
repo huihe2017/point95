@@ -47,6 +47,20 @@ export function isLogin() {
     }
 }
 
+export function isChinese() {
+    return dispatch => {
+        dispatch({type: 'SHOW_CHINESE'})
+
+    }
+}
+
+export function isEnglish() {
+    return dispatch => {
+        dispatch({type: 'SHOW_ENGLISH'})
+
+    }
+}
+
 export function yinlist() {
     return dispatch => {
         dispatch({type: 'HIDDEN_SHENNUM'})
@@ -80,3 +94,4 @@ export function showrePwdTip(data, callback) {
         callback&&callback()
     }
 }
+

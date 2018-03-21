@@ -4,15 +4,20 @@ import {hashHistory, Link} from 'react-router';
 import {connect} from 'react-redux'
 import SideBar from './components/sideBar'
 import {bindActionCreators} from 'redux'
-import {showLogin, showRegister, hideAuth,yinlist,shenList,importpwd} from '../../actions/auth'
+import {showLogin, showRegister, hideAuth,yinlist,shenList,importpwd,isChinese,isEnglish} from '../../actions/auth'
 import {logout} from '../../actions/user'
 import LoginBox from './components/loginBox'
 import RegisterBox from './components/registerBox'
 import ResetPwdBox from './components/resetPwdBox'
-import ImportPwd from './components/importPwd'
-import { Badge,message } from 'antd';
+import { Badge,message,Radio,Button  } from 'antd';
 import io from 'socket.io-client'
 import axios from  '../../common/axiosConf'
+import enUS from 'antd/lib/locale-provider/en_US';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('en');
+
+const ButtonGroup = Button.Group;
 
 class Header extends React.Component {
     constructor(props) {
@@ -67,6 +72,15 @@ class Header extends React.Component {
         this.choceType();
     }
 
+    tozh(){
+        alert(this.props.auth.isEnglish)
+        this.props.isChinese()
+    }
+    toen(){
+        alert(this.props.auth.isEnglish)
+        this.props.isEnglish()
+    }
+
     componentWillReceiveProps() {
         // if (window.location.hash.substr(1).indexOf('/') !== -1) {
         //     this.setState({position: 'relative'})
@@ -114,7 +128,9 @@ class Header extends React.Component {
     cli(){
 
     }
-
+    changeLocale(e){
+        console.log('ee',e);
+    }
 
     openSlider = () => {
         this.setState({open: true});
@@ -211,6 +227,10 @@ class Header extends React.Component {
 
                             </div>
                     }
+                    <ButtonGroup>
+                        <Button onClick={this.tozh.bind(this)}>中文</Button>
+                        <Button onClick={this.toen.bind(this)}>English</Button>
+                    </ButtonGroup>
                     <div onMouseOver={this.openSlider} onMouseLeave={this.closeSlider} className={style.sider} hidden={true}>
                         全部导航
                         <SideBar show={this.state.open}/>
@@ -234,15 +254,13 @@ class Header extends React.Component {
                 {this.props.auth.showLoginBox ? <LoginBox/> : ''}
                 {this.props.auth.showRegisterBox ? <RegisterBox/> : ''}
                 {this.props.auth.showResetPwdBox ? <ResetPwdBox/> : ''}
-                {this.props.auth.showRegisterTip ? <ImportPwd word={'注册成功'}/> : ''}
-                {this.props.auth.showForgetTip ? <ImportPwd  word={'提交成功'}/> : ''}
+
             </div>
         )
     }
 }
 
 function mapStateToProps(state, props) {
-    //console.log(556677,state)
     return {
         user: state.user,
         auth: state.auth
@@ -255,7 +273,9 @@ function mapDispatchToProps(dispatch) {
         logout: bindActionCreators(logout, dispatch),
         showRegister: bindActionCreators(showRegister, dispatch),
         shenList: bindActionCreators(shenList, dispatch),
-        importpwd:bindActionCreators(importpwd,dispatch)
+        importpwd:bindActionCreators(importpwd,dispatch),
+        isChinese:bindActionCreators(isChinese,dispatch),
+        isEnglish:bindActionCreators(isEnglish,dispatch),
     }
 }
 var socket=io.connect("ws://192.168.100.105:8000",{withCredentials:''});

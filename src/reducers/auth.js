@@ -7,7 +7,8 @@ let initialState = {
     showChangePwd:false,
     showRegisterTip:false,
     showForgetTip:false,
-    isLogin:false
+    isLogin:false,
+    isEnglish:false,
 }
 
 export default function auth(state = initialState, action = {}) {
@@ -91,6 +92,14 @@ export default function auth(state = initialState, action = {}) {
             state.showChangePwd = false
             state.showRegisterTip = false
             state.showForgetTip = true
+            return Object.assign({}, state, {})
+
+        case 'SHOW_CHINESE':
+            state.isEnglish=false
+            return Object.assign({}, state, {})
+
+        case 'SHOW_ENGLISH':
+            state.isEnglish=true
             return Object.assign({}, state, {})
 
         default:
