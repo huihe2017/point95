@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import configureStore from './store/configureStore' 
-import createRouter from './routes'
+import CreateRouter from './routes'
 import {connect, Provider} from 'react-redux';
 import '../node_modules/antd/dist/antd.min.css';
 import './common.css';
@@ -10,7 +10,7 @@ import en_US from './common/en_US';
 import zh from 'react-intl/locale-data/zh';
 import en from 'react-intl/locale-data/en'
 import {addLocaleData } from 'react-intl';
-
+import IntlProviderWrap from './intlProviderWrap';
 
 
 addLocaleData([...en,...zh]);
@@ -24,11 +24,11 @@ console.log(state);
 class App extends Component {
   render() {
     return (
-        <IntlProvider locale={state.auth.isEnglish?'en':'zh'} messages={state.auth.isEnglish?en_US:zh_CN} >
             <Provider store={store} >
-                {createRouter()}
+
+                <CreateRouter></CreateRouter>
+
             </Provider>
-        </IntlProvider>
     );
   }
 }
