@@ -7,7 +7,10 @@ import qiniu from "qiniu";
 import axios from  '../../../../common/axiosConf'
 import Countdown from '../../../../components/countdown/index'
 import Toast from 'antd-mobile/lib/toast';
-import {IntlProvider, FormattedMessage,FormattedDate} from 'react-intl';
+import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
+import {forgetPwdSet} from "../../../../actions/user";
+import {hideAuth, showLogin} from "../../../../actions/auth";
+import {connect} from "react-redux";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -172,13 +175,22 @@ class UserData extends React.Component {
 
     reword(){
         if(this.state.primaryCertified==1){
-            return '审核中';
+            return <FormattedMessage
+                id='submit1'
+                defaultMessage='提交'
+            />;
 
         }else if(this.state.primaryCertified==2){
-            return '提交'
+            return <FormattedMessage
+                id='submit2'
+                defaultMessage='提交'
+            />
 
         }else if(this.state.primaryCertified==3){
-            return '审核通过'
+            return <FormattedMessage
+                id='submit3'
+                defaultMessage='提交'
+            />
         }
     }
 
@@ -186,13 +198,13 @@ class UserData extends React.Component {
         var that=this
         e.preventDefault();
         if(!this.state.url&&!this.state.url1){
-            message.error('请上传图片')
+            message.error(this.props.auth.isEnglish?'Please upload pictures.':'请上传图片')
             return
         }else if(!this.state.url){
-            message.error('请上传身份证正面图片')
+            message.error(this.props.auth.isEnglish?'Please upload a positive picture of your id card':'请上传身份证正面图片')
             return
         }else if(!this.state.url1){
-            message.error('请上传身份证反面图片')
+            message.error(this.props.auth.isEnglish?'Please upload the negative picture of your id card':'请上传身份证反面图片')
             return
         }
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -216,9 +228,9 @@ class UserData extends React.Component {
                         //console.log(response.data.code)
 
                         if(response.data.code===0){
-                            message.error('请完善您的资料')
+                            message.error(that.props.auth.isEnglish?'Please complete your information':'请完善您的资料')
                         }else if(response.data.code===1){
-                            message.success('上传成功，请耐心等待')
+                            message.success(that.props.auth.isEnglish?'Upload successful, please wait patiently':'上传成功，请耐心等待')
                             //console.log(741,this)
                             that.setState({
                                 primaryCertified:1,
@@ -240,7 +252,7 @@ class UserData extends React.Component {
                         console.log(error)
                     });
             }else {
-                message.error('请完善信息')
+                message.error(this.props.auth.isEnglish?'Please improve the information':'请完善信息')
             }
         });
     }
@@ -261,6 +273,31 @@ class UserData extends React.Component {
     render() {
 
         const { getFieldDecorator,getFieldError, isFieldTouched ,getFieldValue} = this.props.form;
+
+        const { intl: { formatMessage } } = this.props
+        const basicVIPTip1 = formatMessage({id:'basicVIPTip1'});
+        const basicVIPTip2 = formatMessage({id:'basicVIPTip2'});
+        const basicVIPTip3 = formatMessage({id:'basicVIPTip3'});
+        const basicVIPTip4 = formatMessage({id:'basicVIPTip4'});
+        const basicVIPTip5 = formatMessage({id:'basicVIPTip5'});
+        const basicVIPTip6 = formatMessage({id:'basicVIPTip6'});
+        const basicVIPTip7 = formatMessage({id:'basicVIPTip7'});
+        const basicVIPTip8 = formatMessage({id:'basicVIPTip8'});
+        const basicVIPTip9 = formatMessage({id:'basicVIPTip9'});
+        const basicVIPTip10 = formatMessage({id:'basicVIPTip10'});
+        const basicVIPTip11 = formatMessage({id:'basicVIPTip11'});
+        const basicVIPTip12 = formatMessage({id:'basicVIPTip12'});
+        const basicVIPTip13 = formatMessage({id:'basicVIPTip13'});
+        const basicVIPTip14 = formatMessage({id:'basicVIPTip14'});
+        const basicVIPTip15 = formatMessage({id:'basicVIPTip15'});
+        const basicVIPOption1 = formatMessage({id:'basicVIPOption1'});
+        const basicVIPOption2 = formatMessage({id:'basicVIPOption2'});
+        const basicVIPOption3 = formatMessage({id:'basicVIPOption3'});
+        const basicVIPOption4 = formatMessage({id:'basicVIPOption4'});
+        const basicVIPOption5 = formatMessage({id:'basicVIPOption5'});
+        const yes = formatMessage({id:'yes'});
+        const no = formatMessage({id:'no'});
+
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
@@ -344,9 +381,9 @@ class UserData extends React.Component {
                                 <FormItem
                                     hasFeedback
                                 >{(getFieldError('idCard')) ? <div className={style.errors}>
-                                        请填写15位一代身份证号或18位二代身份证号，同一个身份证号只能绑定一个海豚汇账号【必填】</div> :
+                                        {basicVIPTip1}</div> :
                                     <div className={style.right}>
-                                        请填写15位一代身份证号或18位二代身份证号，同一个身份证号只能绑定一个海豚汇账号【必填】</div>}
+                                        {basicVIPTip1}</div>}
                                     {getFieldDecorator('idCard', {
                                         initialValue: this.state.ID,
                                         rules: [{
@@ -357,7 +394,7 @@ class UserData extends React.Component {
                                             pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
                                         }],
                                     })(<Input
-                                        className={style.input} disabled={this.state.canChange} defaultValue={897987} placeholder="身份证号"
+                                        className={style.input} disabled={this.state.canChange} defaultValue={897987} placeholder={basicVIPTip12}
                                         onChange={(e) => {
                                             this.setState({ID: e.target.value})
                                         }}/>)}</FormItem>
@@ -365,9 +402,9 @@ class UserData extends React.Component {
                             <div className={style.percontent}>
                                 <FormItem hasFeedback>
                                     {(getFieldError('userName')) ?
-                                        <div className={style.errors}>姓名需与身份证姓名一致【必填】
+                                        <div className={style.errors}>{basicVIPTip2}
                                         </div> :
-                                        <div className={style.right}>姓名需与身份证姓名一致【必填】</div>}
+                                        <div className={style.right}>{basicVIPTip2} </div>}
                                     {getFieldDecorator('userName', {
                                         initialValue: this.state.realName,
                                         rules: [{
@@ -375,7 +412,7 @@ class UserData extends React.Component {
                                         }]
                                     })(
                                         <Input
-                                            className={style.input} disabled={this.state.canChange} placeholder="姓名"
+                                            className={style.input} disabled={this.state.canChange} placeholder={basicVIPTip13}
                                             onChange={(e) => {
                                                 this.setState({realName: e.target.value})
                                             }}/>
@@ -384,8 +421,8 @@ class UserData extends React.Component {
                             </div>
                             <div className={style.percontent}>
                                 <FormItem>
-                                    {(getFieldError('address')) ? <div className={style.errors}>住址需与身份证住址一致【选填】</div> :
-                                        <div className={style.right}>住址需与身份证住址一致【选填】</div>}
+                                    {(getFieldError('address')) ? <div className={style.errors}>{basicVIPTip3}</div> :
+                                        <div className={style.right}>{basicVIPTip3}</div>}
                                     {getFieldDecorator('address', {
                                         initialValue: this.state.address,
                                         rules: [{
@@ -394,7 +431,7 @@ class UserData extends React.Component {
                                         }],
                                     })(
                                         <Input
-                                            className={style.input} disabled={this.state.canChange} placeholder="住址"
+                                            className={style.input} disabled={this.state.canChange} placeholder={basicVIPTip14}
                                             onChange={(e) => {
                                                 this.setState({address: e.target.value})
                                             }}/>
@@ -403,8 +440,8 @@ class UserData extends React.Component {
                             </div>
                             <div className={style.percontent}>
                                 <FormItem>
-                                    {(getFieldError('job')) ? <div className={style.errors}>就业情况【必填】</div> :
-                                        <div className={style.right}>就业情况【必填】</div>}
+                                    {(getFieldError('job')) ? <div className={style.errors}>{basicVIPTip4}</div> :
+                                        <div className={style.right}>{basicVIPTip4}</div>}
                                     {getFieldDecorator('job', {
                                         initialValue: this.state.employStatu,
                                         rules: [{
@@ -415,11 +452,11 @@ class UserData extends React.Component {
                                         <Select placeholder="请选择" size={'large'} disabled={this.state.canChange}
                                                 style={{width: '100%', height: 40, lineHeight: 40}}
                                                 onChange={this.handleChange1.bind(this)}>
-                                            <Option value={1}>工作中</Option>
-                                            <Option value={2}>学生</Option>
-                                            <Option value={3}>失业</Option>
-                                            <Option value={4}>退休</Option>
-                                            <Option value={5}>其它</Option>
+                                            <Option value={1}>{basicVIPOption1}</Option>
+                                            <Option value={2}>{basicVIPOption2}</Option>
+                                            <Option value={3}>{basicVIPOption3}</Option>
+                                            <Option value={4}>{basicVIPOption4}</Option>
+                                            <Option value={5}>{basicVIPOption5}</Option>
 
                                         </Select>
                                     )}
@@ -427,8 +464,8 @@ class UserData extends React.Component {
                             </div>
                             <div className={style.percontent}>
                                 <FormItem>
-                                    {(getFieldError('elvan')) ? <div className={style.errors}>您是代表第三方购买或选购么【必填】</div> :
-                                        <div className={style.right}>您是代表第三方购买或选购么【必填】</div>}
+                                    {(getFieldError('elvan')) ? <div className={style.errors}>{basicVIPTip5}</div> :
+                                        <div className={style.right}>{basicVIPTip5}</div>}
                                     {getFieldDecorator('elvan', {
                                         initialValue: this.state.thirdParty,
                                         rules: [{
@@ -439,8 +476,8 @@ class UserData extends React.Component {
                                         <Select placeholder="请选择" size={'large'} disabled={this.state.canChange}
                                                 style={{width: '100%', height: 40, lineHeight: 40}}
                                                 onChange={this.handleChange.bind(this)}>
-                                            <Option value={1}>是</Option>
-                                            <Option value={2}>否</Option>
+                                            <Option value={1}>{yes}</Option>
+                                            <Option value={2}>{no}</Option>
 
                                         </Select>
                                     )}
@@ -451,11 +488,11 @@ class UserData extends React.Component {
 
                 </div>
                 <div className={style.idbox}>
-                    <span className={style.id}>上传身份证照片</span>
+                    <span className={style.id}>{basicVIPTip6}</span>
                     <div className={style.lupingbox}>
                         <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop1.bind(this)} className={style.qiniu} token={this.state.token}  onUpload={this.onUpload}>
-                            <div style={this.state.url?{'display':'none'}:{'display':'block'}} className={style.tipword}>点击上传身份证正面</div>
+                            <div style={this.state.url?{'display':'none'}:{'display':'block'}} className={style.tipword}>{basicVIPTip10}</div>
                             <img style={this.state.url1?{'display':'block'}:{'display':'none'}} className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt="图片加载中"/>
                         </QQiniu>
                     </div>
@@ -463,15 +500,15 @@ class UserData extends React.Component {
                         <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop2.bind(this)} className={style.qiniu} token={this.state.token}  onUpload={this.onUpload}>
 
-                            <div style={this.state.url1?{'display':'none'}:{'display':'block'}} className={style.tipword}>点击上传身份证反面</div>
-                            <img style={this.state.url1?{'display':'block'}:{'display':'none'}} className={style.egimg} src={this.state.isLink22?this.state.url22:this.state.url1} alt="图片加载中"/>
+                            <div style={this.state.url1?{'display':'none'}:{'display':'block'}} className={style.tipword}>{basicVIPTip11}</div>
+                            <img style={this.state.url1?{'display':'block'}:{'display':'none'}} className={style.egimg} src={this.state.isLink22?this.state.url22:this.state.url1} alt={basicVIPTip15}/>
                         </QQiniu>
                     </div>
                     <div className={style.uprequire}>
                         <p>
-                            1.文件为数码照片，请勿进行美化和修改，以免申请失败 <br/>
-                            2.上传文件格式支持png，jpg和bmp <br/>
-                            3.文件大小不超过3MB，文件尺寸最小为200px*150px
+                            {basicVIPTip7}<br/>
+                            {basicVIPTip8}<br/>
+                            {basicVIPTip9}
                         </p>
                     </div>
                 </div>
@@ -494,7 +531,21 @@ class UserData extends React.Component {
     }
 }
 
+function mapStateToProps(state, props) {
+    return {
+        auth:state.auth
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+
+    }
+}
+
+UserData = connect(mapStateToProps, mapDispatchToProps)(UserData)
+
 const WrapUserData = Form.create()(UserData);
-export default WrapUserData;
+export default injectIntl(WrapUserData);
 
 

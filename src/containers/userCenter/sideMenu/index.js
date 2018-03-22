@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux'
 import {mesList,hmesList} from '../../../actions/auth'
 import {connect} from 'react-redux'
 import style from './index.css'
+import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
 
 const SubMenu = Menu.SubMenu;
 
@@ -13,7 +14,6 @@ class SideMenu extends React.Component {
         this.state = {
             current: '1'
         }
-
     }
     handleClick(e){
         this.setState({
@@ -46,21 +46,21 @@ class SideMenu extends React.Component {
                     {/*</Menu.Item>*/}
                     <Menu.Item key="1">
                         <Icon type="idcard" />
-                        <span className={style.titword}>初级认证</span>
+                        <span className={style.titword}><FormattedMessage id='basicVIP' defaultMessage='初级认证'/></span>
                     </Menu.Item>
                     <Menu.Item key="2">
                         <Icon type="safety" />
-                        <span className={style.titword}>高级认证</span>
+                        <span className={style.titword}><FormattedMessage id='advancedVIP' defaultMessage='高级认证'/></span>
                     </Menu.Item>
                     <Menu.Item key="3">
                         <Icon type="contacts" />
-                        <span className={style.titword}>联系人</span>
+                        <span className={style.titword}><FormattedMessage id='linkman' defaultMessage='联系人'/></span>
                     </Menu.Item>
                     <Menu.Item key="4">
 
                         <Icon type="mail" />
                         <Badge dot={localStorage.getItem('unReadMsg')==2?true:false}>
-                            <span className={style.titword}>消息中心</span>
+                            <span className={style.titword}><FormattedMessage id='messageCenter' defaultMessage='消息中心'/></span>
                         </Badge>
                     </Menu.Item>
                 </Menu>

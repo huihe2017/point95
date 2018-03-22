@@ -13,6 +13,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {showRegister} from '../../actions/auth'
 import io from 'socket.io-client'
+import { IntlProvider,addLocaleData,FormattedMessage } from 'react-intl';
 
 class Home extends React.Component {
     constructor() {
@@ -40,14 +41,14 @@ class Home extends React.Component {
                 <div className={style.header} onClick={this.cll.bind(this)}>
                     <div className={style.button}>
                         <Button onClick={this.props.showRegister} type="primary"
-                                style={localStorage.getItem('token')?{width: '200', height: '60', fontSize: '24px',display:'none'}:{width: '200', height: '60', fontSize: '24px',display:'block'}} >立即注册</Button>
+                                style={localStorage.getItem('token')?{width: '200', height: '60', fontSize: '24px',display:'none'}:{width: '200', height: '60', fontSize: '24px',display:'block'}} ><FormattedMessage id='registerNow' defaultMessage='立即注册'/></Button>
                     </div>
                     <div style={{width: 420, top: 67, position: 'absolute', right: 0}} hidden={true}><PageTable/></div>
                 </div>
                 <div className="section">
                     <div className={style.superiority}>
                         <div className={style.suptitle}>
-                            我们的优势
+                            <FormattedMessage id='ourAdvantages' defaultMessage='我们的优势'/>
                             <p className={style.supdtitle}>
                                 Our advantages
                             </p>
@@ -72,7 +73,7 @@ class Home extends React.Component {
                     <div className={style.vision}>
                         <div className={style.viscontent}>
                             <p className={style.vistitle}>
-                                我们的愿景
+                                <FormattedMessage id='ourVision' defaultMessage='我们的愿景'/>
                             </p>
                             <p className={style.visdtitle}>
                                 Our vision
@@ -91,7 +92,7 @@ class Home extends React.Component {
                     </div>
                     <div className={style.conus}>
                         <p className={style.contitle}>
-                            联络我们
+                            <FormattedMessage id='contactUsTitle' defaultMessage='联络我们'/>
                         </p>
                         <p className={style.condtitle}>
                             contact us

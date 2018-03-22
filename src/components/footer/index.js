@@ -5,6 +5,7 @@ import ContentList from '../contentList/index'
 import {hashHistory, Link} from 'react-router';
 import {connect} from 'react-redux'
 import ImportPwd from '../header/components/importPwd'
+import { IntlProvider,addLocaleData,FormattedMessage } from 'react-intl';
 
 class Footer extends React.Component {
     constructor(props) {
@@ -31,8 +32,8 @@ class Footer extends React.Component {
                 <p className={style.footcopy}>
                     Copyright © Point95 Global (Hong Kong) Limited 2018 All Rights Reserved
                 </p>
-                {this.props.auth.showRegisterTip ? <ImportPwd word={'注册成功'}/> : ''}
-                {this.props.auth.showForgetTip ? <ImportPwd  word={'提交成功'}/> : ''}
+                {this.props.auth.showRegisterTip ? <ImportPwd word='reg'/> : ''}
+                {this.props.auth.showForgetTip ? <ImportPwd  word='forget'/> : ''}
             </div>
 
         )

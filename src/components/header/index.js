@@ -15,6 +15,7 @@ import axios from  '../../common/axiosConf'
 import enUS from 'antd/lib/locale-provider/en_US';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import { IntlProvider,addLocaleData,FormattedMessage } from 'react-intl';
 moment.locale('en');
 
 const ButtonGroup = Button.Group;
@@ -73,11 +74,11 @@ class Header extends React.Component {
     }
 
     tozh(){
-        alert(this.props.auth.isEnglish)
+        //alert(this.props.auth.isEnglish)
         this.props.isChinese()
     }
     toen(){
-        alert(this.props.auth.isEnglish)
+        //alert(this.props.auth.isEnglish)
         this.props.isEnglish()
     }
 
@@ -155,26 +156,50 @@ class Header extends React.Component {
 
                         <Link to="/userCenter">
                             <Badge dot={localStorage.getItem('unReadMsg')==2?true:false}>
-                                <h5 className={style.authtp}>用户中心</h5>
+                                <h5 className={style.authtp}>
+                                    <FormattedMessage
+                                    id='userCenter'
+                                    defaultMessage='用户中心'
+                                />
+                                </h5>
                             </Badge>
                         </Link>
 
                     <Link to="/checkUser" >
                         <Badge dot={this.props.auth.shenList}>
-                        <h5 className={style.authtp}>用户审核</h5>
+                        <h5 className={style.authtp}>
+                            <FormattedMessage
+                            id='userCheck'
+                            defaultMessage='用户审核'
+                        /></h5>
                         </Badge>
                     </Link>
 
-                    <h5  className={style.authtp} onClick={this.logout} >退出</h5></div>)
+                    <h5  className={style.authtp} onClick={this.logout} ><FormattedMessage
+                        id='logout'
+                        defaultMessage='退出'
+                    /></h5></div>)
             }else {
                 return(<div><h5 className={style.authtp}>{this.props.user.userName}</h5>
                     <Badge dot={localStorage.getItem('unReadMsg')==2?true:false}>
-                    <Link to="/userCenter"><h5  className={style.authtp}>用户中心</h5></Link>
+                    <Link to="/userCenter"><h5  className={style.authtp}><FormattedMessage
+                        id='userCenter'
+                        defaultMessage='用户中心'
+                    /></h5></Link>
                     </Badge>
-                    <h5 className={style.authtp} onClick={this.logout} >退出</h5></div>)
+                    <h5 className={style.authtp} onClick={this.logout} ><FormattedMessage
+                        id='logout'
+                        defaultMessage='退出'
+                    /></h5></div>)
             }
         }else {
-            return(<div><h5 onClick={()=>{this.props.showLogin()}} >登录</h5>      <h5 onClick={this.props.showRegister}  >注册</h5></div>)
+            return(<div><h5 onClick={()=>{this.props.showLogin()}} ><FormattedMessage
+                id='login'
+                defaultMessage='登陆'
+            /></h5>      <h5 onClick={this.props.showRegister}  ><FormattedMessage
+                id='register'
+                defaultMessage='注册'
+            /></h5></div>)
         }
     }
 
@@ -200,10 +225,18 @@ class Header extends React.Component {
 
                                     </div>
                                     <span  >
-                                        <Link to="/">首页</Link>
+                                        <Link to="/">
+                                            <FormattedMessage
+                                            id='home'
+                                            defaultMessage='首页'
+                                        />
+                                        </Link>
                                     </span>
                                     <span  >
-                                        <Link to="/aboutUs">联系我们</Link>
+                                        <Link to="/aboutUs">
+                                            <FormattedMessage
+                                                id='contactUs' defaultMessage='联系我们'/>
+                                        </Link>
                                     </span>
                                     {/*<span >*/}
                                         {/*<Link to="/DolphinSchool">海豚学院</Link>*/}
@@ -215,10 +248,15 @@ class Header extends React.Component {
                                     <div className={style.linet}>
                                     </div>
                                     <span >
-                                        <Link to="/">首页</Link>
+                                        <Link to="/">
+                                            <FormattedMessage
+                                                id='home'
+                                                defaultMessage='首页'
+                                            /></Link>
                                     </span>
                                     <span >
-                                        <Link to="/aboutUs">联系我们</Link>
+                                        <Link to="/aboutUs"><FormattedMessage
+                                            id='contactUs' defaultMessage='联系我们'/></Link>
                                     </span>
                                     {/*<span >*/}
                                         {/*<Link to="/DolphinSchool">海豚学院</Link>*/}

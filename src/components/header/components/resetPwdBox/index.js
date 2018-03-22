@@ -11,6 +11,7 @@ import Countdown from '../../../countdown/index'
 import Toast from 'antd-mobile/lib/toast';
 import 'antd-mobile/lib/toast/style/css';
 import axios from  '../../../../common/axiosConf'
+import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
 
 const confirm = Modal.info;
 const FormItem = Form.Item;
@@ -59,7 +60,8 @@ class ResetPwdBox extends React.Component {
                 this.props.resetPwd({
                     email: this.state.email,
                     // pwd: this.state.password,
-                    code: this.state.authCode
+                    code: this.state.authCode,
+                    language:this.props.auth.isEnglish
                 }, (errorText) => {
                     Toast.hide()
                     this.setState({picImg: this.getPicImg()})
@@ -113,21 +115,27 @@ class ResetPwdBox extends React.Component {
     render() {
         const {getFieldDecorator, getFieldError, getFieldValue} = this.props.form;
 
+        const { intl: { formatMessage } } = this.props
+        const forget = formatMessage({id:'forget'});
+        const importLEmail = formatMessage({id:'importLEmail'});
+        const importRLEmail = formatMessage({id:'importRLEmail'});
+        const importLCode = formatMessage({id:'importLCode'});
+        const importRLCode = formatMessage({id:'importRLCode'});
+        const submit2 = formatMessage({id:'submit2'});
+
         return (
             <div className={style.wrap}>
                 <Modal
                     visible={this.state.visible}
                     onOk={this.hideModal}
                     onCancel={this.hideModal}
-                    okText="确认"
-                    cancelText="取消"
                     width="520"
                 >
 
                     <Form onSubmit={this.handleSubmit}>
                         <div className={style.content}>
                         <span className={style.llctitle}>
-                            忘记密码
+                            {forget}
                         </span>
                             <div className={style.perselphone}>
                                 <div className={style.selphone}>
@@ -138,11 +146,11 @@ class ResetPwdBox extends React.Component {
                                                 required: true,
                                                 initialValue: '36363@ww.com',
                                                 pattern: /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/,
-                                                message:'请输入正确格式的邮箱!'
+                                                message:importRLEmail
                                             }],
                                         })(
                                             <Input className={style.inputp} disabled={this.state.checkNick}
-                                                   placeholder="请输入邮箱" onChange={(e) => {
+                                                   placeholder={importLEmail} onChange={(e) => {
                                                 this.setState({email: e.target.value})
                                             }}/>
                                         )}
@@ -185,7 +193,7 @@ class ResetPwdBox extends React.Component {
                                         {this.state.picImg}
                                     </div>
                                     <FormItem>{getFieldDecorator('authCode', {
-                                        rules: [{required: true, message: '请输入正确格式的验证码!'}],
+                                        rules: [{required: true, message: importRLCode}],
                                     })(<div>
                                         <Input onChange={
                                             (e) => {
@@ -193,7 +201,7 @@ class ResetPwdBox extends React.Component {
                                             }
                                         }
                                                className={style.inputp}
-                                               placeholder="请输入图形验证码"/></div>
+                                               placeholder={importLCode}/></div>
                                     )}
                                     </FormItem>
                                 </div>
@@ -276,7 +284,7 @@ class ResetPwdBox extends React.Component {
                                                 height: 40,
                                                 marginTop: 20,
                                                 marginBottom: 60
-                                            }}>提交</Button>
+                                            }}>{submit2}</Button>
                                 </FormItem>
 
                             </div>
@@ -290,7 +298,9 @@ class ResetPwdBox extends React.Component {
 }
 
 function mapStateToProps(state, props) {
-    return {}
+    return {
+        auth:state.auth
+    }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -305,4 +315,4 @@ function mapDispatchToProps(dispatch) {
 ResetPwdBox = connect(mapStateToProps, mapDispatchToProps)(ResetPwdBox)
 const ResetPwdBoxWrap = Form.create()(ResetPwdBox)
 
-export default ResetPwdBoxWrap;
+export default injectIntl(ResetPwdBoxWrap);

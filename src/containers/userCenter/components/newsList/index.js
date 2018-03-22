@@ -9,34 +9,9 @@ import Crumb from '../../../../components/crumbs'
 import axios from  '../../../../common/axiosConf';
 import {showLogin} from '../../../../actions/auth'
 import {bindActionCreators} from 'redux'
+import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
 
 const ButtonGroup = Button.Group;
-
-
-
-const data = [
-    {
-        key: 0,
-        time: '2017/12/15 15:00',
-        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
-
-    },{
-        key: 1,
-        time: '2017/12/15 15:00',
-        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
-
-    },{
-        key: 2,
-        time: '2017/12/15 16:00',
-        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
-
-    },{
-        key: 3,
-        time: '2017/12/15 12:00',
-        description: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内',
-
-    },
-];
 
 class NewsLink extends React.Component {
     constructor(props) {
@@ -136,10 +111,16 @@ class NewsLink extends React.Component {
             })
             return null
         }
-        const columns = [
-            { title: '时间', dataIndex: 'createAt', key: 'createAt',width:130 },
 
-            { title: '内容', key: 'content',render:(data)=>{
+        const { intl: { formatMessage } } = this.props
+        const mesList1 = formatMessage({id:'mesList1'});
+        const mesList2 = formatMessage({id:'mesList2'});
+
+
+        const columns = [
+            { title: mesList1, dataIndex: 'createAt', key: 'createAt',width:130 },
+
+            { title: mesList2, key: 'content',render:(data)=>{
                 //console.log(data.content)
 
                 return <div className={style.pcontent}>{data.content}</div>
@@ -170,7 +151,8 @@ class NewsLink extends React.Component {
 
 function mapStateToProps(state, props) {
     return {
-        user: state.user
+        user: state.user,
+        auth:state.auth
     }
 }
 
@@ -181,4 +163,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 NewsLink = connect(mapStateToProps, mapDispatchToProps)(NewsLink);
-export default NewsLink;
+export default injectIntl(NewsLink);

@@ -11,7 +11,7 @@ import Countdown from '../../../countdown/index'
 import Toast from 'antd-mobile/lib/toast';
 import 'antd-mobile/lib/toast/style/css';
 import axios from  '../../../../common/axiosConf'
-
+import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
 
 const confirm = Modal.info;
 const FormItem = Form.Item;
@@ -65,6 +65,7 @@ class RegisterBox extends React.Component {
                     pwd: this.state.password,
                     code: this.state.authCode,
                     email: this.state.email,
+                    language:this.props.auth.isEnglish
                 }, (errorText) => {
                     Toast.hide()
                     this.setState({picImg: this.getPicImg()})
@@ -82,10 +83,10 @@ class RegisterBox extends React.Component {
         const value = e.target.value;
         this.setState({confirmDirty: this.state.confirmDirty || !!value});
     }
-    checkPassword = (rule, value, callback) => {
+    checkPassword = (a,rule, value, callback) => {
         const form = this.props.form;
         if (value && value !== form.getFieldValue('password')) {
-            callback('两次输入的密码不同!');
+            callback(a);
         } else {
             callback();
         }
@@ -127,21 +128,34 @@ class RegisterBox extends React.Component {
     render() {
         const {getFieldDecorator, getFieldError, getFieldValue} = this.props.form;
 
+        const { intl: { formatMessage } } = this.props
+        const regBoxTitle = formatMessage({id:'regBoxTitle'});
+        const importLEmail = formatMessage({id:'importLEmail'});
+        const importRLEmail = formatMessage({id:'importRLEmail'});
+        const importLCode = formatMessage({id:'importLCode'});
+        const importRLCode = formatMessage({id:'importRLCode'});
+        const importLPwd = formatMessage({id:'importLPwd'});
+        const importRLPwd = formatMessage({id:'importRLPwd'});
+        const importRTPwd = formatMessage({id:'importRTPwd'});
+        const importRRTPwd = formatMessage({id:'importRRTPwd'});
+        const login = formatMessage({id:'login'});
+        const importCLPwd = formatMessage({id:'importCLPwd'});
+        const yesAccount = formatMessage({id:'yesAccount'});
+        const regComplete = formatMessage({id:'regComplete'});
+
         return (
             <div className={style.wrap}>
                 <Modal
                     visible={this.state.visible}
                     onOk={this.hideModal}
                     onCancel={this.hideModal}
-                    okText="确认"
-                    cancelText="取消"
                     width="520"
                 >
 
                     <Form onSubmit={this.handleSubmit}>
                         <div className={style.content}>
                         <span className={style.llctitle}>
-                            注册账号
+                            <FormattedMessage id='regBoxTitle' defaultMessage='注册账号'/>
                         </span>
                             <div className={style.perselphone}>
                                 <div className={style.selphone}>
@@ -152,11 +166,11 @@ class RegisterBox extends React.Component {
                                                 required: true,
                                                 initialValue: '36363@ww.com',
                                                 pattern: /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/,
-                                                message:'请输入正确格式的邮箱!'
+                                                message:importRLEmail
                                             }],
                                         })(
                                             <Input className={style.inputp} disabled={this.state.checkNick}
-                                                   placeholder="请输入邮箱" onChange={(e) => {
+                                                   placeholder={importLEmail} onChange={(e) => {
                                                        this.setState({email: e.target.value})
                                             }}/>
                                         )}
@@ -201,7 +215,7 @@ class RegisterBox extends React.Component {
 
 
                                     <FormItem >{getFieldDecorator('authCode', {
-                                        rules: [{required: true, message: '请输入正确格式的验证码!'}],
+                                        rules: [{required: true, message: importRLCode}],
                                     })(<div>
                                         <Input onChange={
                                             (e) => {
@@ -209,7 +223,7 @@ class RegisterBox extends React.Component {
                                             }
                                         }
                                                className={style.inputp}
-                                               placeholder="请输入图形验证码"/></div>
+                                               placeholder={importLCode}/></div>
                                     )}
                                     </FormItem>
                                 </div>
@@ -225,14 +239,14 @@ class RegisterBox extends React.Component {
                                     <FormItem>{getFieldDecorator('password', {
                                         rules: [{
                                             required: true,
-                                            message: '请输入正确格式的密码!',
+                                            message: importRLPwd,
                                             pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/
                                         }],
                                     })(<div>
                                         <Input onChange={
                                             (e) => {
                                                 this.setState({password: e.target.value})
-                                            }} className={style.inputp} placeholder="密码6-24位字母、数字"
+                                            }} className={style.inputp} placeholder={importLPwd}
                                                type={'password'}/></div>
                                     )}
                                     </FormItem>
@@ -243,9 +257,9 @@ class RegisterBox extends React.Component {
                                     >
                                         {getFieldDecorator('confirm', {
                                             rules: [{
-                                                required: true, message: '请检查你的密码!',
+                                                required: true, message: importCLPwd,
                                             }, {
-                                                validator: this.checkPassword,
+                                                validator: this.checkPassword.bind(this,importRRTPwd),
                                             }],
                                         })(
                                             <Input
@@ -257,21 +271,21 @@ class RegisterBox extends React.Component {
                                                     }
                                                 }
                                                 onBlur={this.handleConfirmBlur}
-                                                placeholder="请再次输入密码"/>
+                                                placeholder={importRTPwd}/>
                                         )}
                                     </FormItem>
                                 </div>
                                 <FormItem>
                                     <Button type="primary" htmlType="submit"
-                                            style={{width: '100%', height: 40, marginTop: 20}}>完成注册并登录</Button>
+                                            style={{width: '100%', height: 40, marginTop: 20}}>{regComplete}</Button>
                                 </FormItem>
 
                                 <div className={style.toggletab}>
                                     <a onClick={() => {
                                         this.props.showLogin()
-                                    }} className={style.reg} href="javascript:void (0)">立即登录</a>
+                                    }} className={style.reg} href="javascript:void (0)">{login}</a>
                                     <span className={style.noacc}>
-                                    已有账户、
+                                        {yesAccount}、
                                 </span>
                                 </div>
                             </div>
@@ -285,7 +299,9 @@ class RegisterBox extends React.Component {
 }
 
 function mapStateToProps(state, props) {
-    return {}
+    return {
+        auth:state.auth
+    }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -300,6 +316,6 @@ function mapDispatchToProps(dispatch) {
 RegisterBox = connect(mapStateToProps, mapDispatchToProps)(RegisterBox)
 const WrappedRegisterBox = Form.create()(RegisterBox)
 
-export default WrappedRegisterBox;
+export default injectIntl(WrappedRegisterBox);
 
 

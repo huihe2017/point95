@@ -10,6 +10,7 @@ import Countdown from '../../../countdown/index'
 import Toast from 'antd-mobile/lib/toast';
 import 'antd-mobile/lib/toast/style/css';
 import axios from  '../../../../common/axiosConf'
+import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl'
 
 const confirm = Modal.info;
 const FormItem = Form.Item;
@@ -20,19 +21,23 @@ function handleChange(value) {
     console.log(`selected ${value}`);
 }
 
+
+
 class ImportPwdBox extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible:true
+            visible:true,
+            intl: intlShape.isRequired,
         }
+
     }
 
-    success() {
+    success(a,b,c) {
         Modal.success({
-            title: this.props.word,
-            content: '请前往注册的邮箱，根据提示进行下一步操作',
-        });
+            title: this.props.word=='reg'?b:c,
+            content: a,
+        })
     }
 
     hideModal = () => {
@@ -41,10 +46,16 @@ class ImportPwdBox extends React.Component {
 
     render() {
         const {getFieldDecorator, getFieldError, getFieldValue} = this.props.form;
+        const { intl: { formatMessage } } = this.props
+        const title = formatMessage({id:'importBoxTitle'});
+        const regSuccess = formatMessage({id:'regSuccess'});
+        const submitSuccess = formatMessage({id:'submitSuccess'});
 
         return (
             <div className={style.wrap}>
-                {this.success()}
+                {
+                    this.success(title,regSuccess,submitSuccess)
+                }
             </div>
         )
 
@@ -66,4 +77,4 @@ function mapDispatchToProps(dispatch) {
 ImportPwdBox = connect(mapStateToProps, mapDispatchToProps)(ImportPwdBox)
 const ImportPwdBoxWrap = Form.create()(ImportPwdBox)
 
-export default ImportPwdBoxWrap;
+export default injectIntl(ImportPwdBoxWrap);

@@ -14,19 +14,15 @@ import ProductDeal from './containers/productDeal/'
 import PartnerEntry from './containers/partnerEntry/'
 import CheckUser from './containers/checkUser/'
 import ImportPwd from './containers/resetPwd/'
-
+import { LocaleProvider } from 'antd'
 import {IntlProvider} from 'react-intl';
 import zh_CN from './common/zh_CN';
 import en_US from './common/en_US';
 import {connect} from "react-redux";
-
-
-
-
-
-
-
-
+import enUS from 'antd/lib/locale-provider/en_US';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('en');
 
 
 class FF extends React.Component {
@@ -40,6 +36,7 @@ class FF extends React.Component {
     render() {
         return (
             <IntlProvider locale={this.props.auth.isEnglish?'en':'zh'} messages={this.props.auth.isEnglish?en_US:zh_CN}>
+                <LocaleProvider locale={this.props.auth.isEnglish?enUS:''}>
                 <Router history={hashHistory}>
                     <Route path="/" component={Home}/>
                     <Route path="/partnerReg" component={PartnerReg}/>
@@ -54,6 +51,7 @@ class FF extends React.Component {
                     <Route path="/checkUser" component={CheckUser}/>
                     <Route path="/importPwd" component={ImportPwd}/>
                 </Router>
+                </LocaleProvider>
             </IntlProvider>
         )
     }

@@ -22,13 +22,13 @@ export function login(data, callback) {
                     }
                     hashHistory.push('/')
                 }else if (response.data.code === 0) {
-                    console.log(response.data.message)
+                    //console.log(response.data.message)
                     Toast.hide()
-                    message.error(response.data.message);
+                    message.error(data.language?response.data.message.en:response.data.message.zh);
                 }
             })
             .catch(function (error) {
-                console.log(error)
+                message.error(data.language?"Internal Server Error":"网络错误");
 
             });
     }
@@ -80,7 +80,7 @@ export function register(data, callback) {
                 } else if (response.data.code === 0) {
                     //console.log(response.data.message)
                     Toast.hide()
-                    message.error(response.data.message);
+                    message.error(data.language?response.data.message.en:response.data.message.zh);
                 }
             })
             .catch(function (error) {
@@ -131,15 +131,11 @@ export function resetPwd(data, callback) {
             .then(function (response) {
                 console.log(response)
                 if (response.data.code === 0) {
-                    // dispatch({type: 'MODIFYPWD'})
-                    // callback()
                     Toast.hide()
-                    message.error(response.data.message);
+                    message.error(data.language?response.data.message.en:response.data.message.zh);
                 }else if (response.data.code === 1) {
                     //重置密码并登录
                     dispatch({type: 'SHOW_SETPWDTIP'})
-                    //callback()
-                    //console.log(response.data.message)
                     Toast.hide()
                 }
             })

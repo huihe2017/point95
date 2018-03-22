@@ -12,10 +12,10 @@ import 'moment/locale/zh-cn';
 import zh_CN from '../../../../common/zh_CN';
 import en_US from '../../../../common/en_US';
 import intl from 'intl';
-import { IntlProvider,addLocaleData,FormattedMessage } from 'react-intl';
+import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
 import zh from 'react-intl/locale-data/zh';
 import en from 'react-intl/locale-data/en'
-
+import {connect} from "react-redux";
 
 moment.locale('zh-cn');
 addLocaleData([...en,...zh]);
@@ -160,16 +160,22 @@ class AdvanVip extends React.Component {
 
     reword(){
         if(this.state.seniorCertified==1){
-            return '审核中';
+            return <FormattedMessage
+                id='submit1'
+                defaultMessage='提交'
+            />;
 
         }else if(this.state.seniorCertified==2){
             return <FormattedMessage
-                id='hello'
+                id='submit2'
                 defaultMessage='提交'
             />
 
         }else if(this.state.seniorCertified==3){
-            return '审核通过'
+            return <FormattedMessage
+                id='submit3'
+                defaultMessage='提交'
+            />
         }
     }
 
@@ -178,11 +184,11 @@ class AdvanVip extends React.Component {
         var that=this
 
         if(this.state.primaryCertified!==3){
-            message.error('请先通过初级审核')
+            message.error(this.props.auth.isEnglish?'Please pass the preliminary examination first':'请先通过初级审核')
             return
         }
         if(!this.state.url){
-            message.error('请上传图片')
+            message.error(this.props.auth.isEnglish?'Please upload pictures.':'请上传图片')
             return
         }
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -204,9 +210,9 @@ class AdvanVip extends React.Component {
                     .then(function (response) {
                         //console.log(response.data.code)
                         if(response.data.code===0){
-                            message.error(response.data.message)
+                            message.error(that.props.auth.isEnglish?response.data.message.en:response.data.message.zh)
                         }else if(response.data.code===1){
-                            message.success('上传成功，请耐心等待')
+                            message.success(that.props.auth.isEnglish?'Upload successful, please wait patiently':'上传成功，请耐心等待')
                             that.setState({
                                 seniorCertified:1,
                                 canChange:true
@@ -227,7 +233,7 @@ class AdvanVip extends React.Component {
                         console.log(error)
                     });
             }else {
-                message.error('请完善信息')
+                message.error(that.props.auth.isEnglish?'Please complete your information':'请完善您的资料')
             }
         });
     }
@@ -248,6 +254,30 @@ class AdvanVip extends React.Component {
     render() {
 
         const { getFieldDecorator,getFieldError, isFieldTouched ,getFieldValue} = this.props.form;
+
+        const { intl: { formatMessage } } = this.props
+        const advancedVIPTip1 = formatMessage({id:'advancedVIPTip1'});
+        const advancedVIPTip2 = formatMessage({id:'advancedVIPTip2'});
+        const advancedVIPTip3 = formatMessage({id:'advancedVIPTip3'});
+        const advancedVIPTip4 = formatMessage({id:'advancedVIPTip4'});
+        const advancedVIPTip5 = formatMessage({id:'advancedVIPTip5'});
+        const advancedVIPTip6 = formatMessage({id:'advancedVIPTip6'});
+        const basicVIPTip7 = formatMessage({id:'basicVIPTip7'});
+        const basicVIPTip8 = formatMessage({id:'basicVIPTip8'});
+        const basicVIPTip9 = formatMessage({id:'basicVIPTip9'});
+        const advancedVIPTip7 = formatMessage({id:'advancedVIPTip7'});
+        const advancedVIPTip8 = formatMessage({id:'advancedVIPTip8'});
+        const advancedVIPTip9 = formatMessage({id:'advancedVIPTip9'});
+        const advancedVIPTip10 = formatMessage({id:'advancedVIPTip10'});
+        const basicVIPTip15 = formatMessage({id:'basicVIPTip15'});
+
+        const advancedVIPOption1 = formatMessage({id:'basicVIPOption1'});
+        const advancedVIPOption2 = formatMessage({id:'basicVIPOption2'});
+        const advancedVIPOption3 = formatMessage({id:'basicVIPOption3'});
+        const basicVIPOption5 = formatMessage({id:'basicVIPOption5'});
+
+
+
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
@@ -309,9 +339,9 @@ class AdvanVip extends React.Component {
                                 <FormItem
                                     hasFeedback
                                 >{(getFieldError('idCard')) ? <div className={style.errors}>
-                                        请填写护照号码【必填】</div> :
+                                        {advancedVIPTip1}</div> :
                                     <div className={style.right}>
-                                        请填写护照号码【必填】</div>}
+                                        {advancedVIPTip1}</div>}
                                     {getFieldDecorator('idCard', {
                                         initialValue: this.state.passportNo,
                                         rules: [{
@@ -321,15 +351,15 @@ class AdvanVip extends React.Component {
                                             pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
                                         }],
                                     })(<Input
-                                        className={style.input} disabled={this.state.canChange} placeholder="护照号码"
+                                        className={style.input} disabled={this.state.canChange} placeholder={advancedVIPTip8}
                                         onChange={(e) => {
                                             this.setState({passportNo: e.target.value})
                                         }}/>)}</FormItem>
                             </div>
                             <div className={style.percontent}>
                                 <FormItem>
-                                    {(getFieldError('linedate')) ? <div className={style.errors}>护照到期日期【必填】</div> :
-                                        <div className={style.right}>护照到期日期【必填】</div>}
+                                    {(getFieldError('linedate')) ? <div className={style.errors}>{advancedVIPTip2}</div> :
+                                        <div className={style.right}>{advancedVIPTip2}</div>}
                                     {getFieldDecorator('linedate', {
                                         initialValue:moment(this.state.passportTime,dateFormat)._d=='Invalid Date'?null:moment(this.state.passportTime,dateFormat),
                                         rules: [{
@@ -347,9 +377,9 @@ class AdvanVip extends React.Component {
                                 <FormItem
                                     hasFeedback
                                 >{(getFieldError('yearIncome')) ? <div className={style.errors}>
-                                        预期年收入【选填】</div> :
+                                        {advancedVIPTip3}</div> :
                                     <div className={style.right}>
-                                        预期年收入【选填】</div>}
+                                        {advancedVIPTip3}</div>}
                                     {getFieldDecorator('yeargold', {
                                         initialValue: this.state.yearIncome,
                                         rules: [{
@@ -360,7 +390,7 @@ class AdvanVip extends React.Component {
                                             pattern: /^[0-9].*$/
                                         }],
                                     })(<Input
-                                        className={style.input} disabled={this.state.canChange} placeholder="预期年收入"
+                                        className={style.input} disabled={this.state.canChange} placeholder={advancedVIPTip9}
                                         suffix={<span>￥</span>}
                                         onChange={(e) => {
                                             this.setState({yearIncome: e.target.value})
@@ -370,9 +400,9 @@ class AdvanVip extends React.Component {
                                 <FormItem
                                     hasFeedback
                                 >{(getFieldError('cleardate')) ? <div className={style.errors}>
-                                        净值（排除房屋、车辆等非流动资产）【选填】</div> :
+                                        {advancedVIPTip4}</div> :
                                     <div className={style.right}>
-                                        净值（排除房屋、车辆等非流动资产）【选填】</div>}
+                                        {advancedVIPTip4}</div>}
                                     {getFieldDecorator('cleardate', {
                                         initialValue: this.state.netYearIncome,
                                         rules: [{
@@ -381,7 +411,7 @@ class AdvanVip extends React.Component {
                                             pattern: /^[0-9].*$/
                                         }],
                                     })(<Input
-                                        className={style.input} disabled={this.state.canChange} placeholder="净值"
+                                        className={style.input} disabled={this.state.canChange} placeholder={advancedVIPTip10}
                                         suffix={<p>￥</p>}
                                         onChange={(e) => {
                                             this.setState({netYearIncome: e.target.value})
@@ -389,8 +419,8 @@ class AdvanVip extends React.Component {
                             </div>
                             <div className={style.percontent}>
                                 <FormItem>
-                                    {(getFieldError('job')) ? <div className={style.errors}>资金来源【必填】</div> :
-                                        <div className={style.right}>资金来源【必填】</div>}
+                                    {(getFieldError('job')) ? <div className={style.errors}>{advancedVIPTip5}</div> :
+                                        <div className={style.right}>{advancedVIPTip5}</div>}
                                     {getFieldDecorator('job', {
                                         initialValue: this.state.fundsSource,
                                         rules: [{
@@ -401,11 +431,11 @@ class AdvanVip extends React.Component {
                                         <Select placeholder="请选择" size={'large'} disabled={this.state.canChange}
                                                 style={{width: '100%', height: 40, lineHeight: 40}}
                                                 onChange={this.handleChange1.bind(this)}>
-                                            <Option value={1}>收入</Option>
-                                            <Option value={2}>投资收益</Option>
-                                            <Option value={3}>退休金/退休积蓄</Option>
+                                            <Option value={1}>{advancedVIPOption1}</Option>
+                                            <Option value={2}>{advancedVIPOption2}</Option>
+                                            <Option value={3}>{advancedVIPOption3}</Option>
                                             <Option value={4}>
-                                                其它
+                                                {basicVIPOption5}
                                                 {/*{this.state.employStatu==4? <Input style={{ width: 100, marginLeft: 10 }} />:null}*/}
                                                 </Option>
 
@@ -449,21 +479,20 @@ class AdvanVip extends React.Component {
                     </div>
                 </div>
                 <div className={style.idbox}>
-                    <span className={style.id}>上传护照照片</span>
+                    <span className={style.id}>{advancedVIPTip6}</span>
                     <div className={style.lupingbox}>
                         <div className={style.boxs} style={this.state.canChange?{'display':'block'}:{'display':'none'}}></div>
                         <QQiniu onDrop={this.onDrop1.bind(this)} className={style.qiniu} token={this.state.token}  onUpload={this.onUpload}>
-                            <div style={this.state.url?{'display':'none'}:{'display':'block'}}  className={style.tipword}>点击上传上传护照照片</div>
-                            <img style={this.state.url?{'display':'block'}:{'display':'none'}} className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt="图片加载中"/>
+                            <div style={this.state.url?{'display':'none'}:{'display':'block'}}  className={style.tipword}>{advancedVIPTip7}</div>
+                            <img style={this.state.url?{'display':'block'}:{'display':'none'}} className={style.egimg} src={this.state.isLink11?this.state.url11:this.state.url} alt={basicVIPTip15}/>
                         </QQiniu>
                     </div>
 
                     <div className={style.uprequire}>
                         <p>
-                            1.文件为数码照片，请勿进行美化和修改，以免申请失败 <br/>
-                            2.上传文件格式支持png，jpg和bmp <br/>
-                            3.文件大小不超过3MB，文件尺寸最小为200px*150px
-
+                            {basicVIPTip7}<br/>
+                            {basicVIPTip8}<br/>
+                            {basicVIPTip9}
                         </p>
                     </div>
                 </div>
@@ -485,7 +514,21 @@ class AdvanVip extends React.Component {
     }
 }
 
+function mapStateToProps(state, props) {
+    return {
+        auth:state.auth
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+
+    }
+}
+
+AdvanVip = connect(mapStateToProps, mapDispatchToProps)(AdvanVip)
+
 const WrapAdvanVip = Form.create()(AdvanVip);
-export default WrapAdvanVip;
+export default injectIntl(WrapAdvanVip);
 
 

@@ -13,6 +13,7 @@ import {forgetPwdSet} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 import Toast from 'antd-mobile/lib/toast';
 import Crumb from '../../components/crumbs'
+import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
 
 import {Modal, Input, Select, Form, AutoComplete, Button, Row, Col} from 'antd';
 
@@ -72,10 +73,10 @@ class ImportPwd extends React.Component {
         const value = e.target.value;
         this.setState({confirmDirty: this.state.confirmDirty || !!value});
     }
-    checkPassword = (rule, value, callback) => {
+    checkPassword(a,rule, value, callback){
         const form = this.props.form;
         if (value && value !== form.getFieldValue('password')) {
-            callback('两次输入的密码不同!');
+            callback(a);
         } else {
             callback();
         }
@@ -87,6 +88,17 @@ class ImportPwd extends React.Component {
 
     render() {
         const {getFieldDecorator, getFieldError, getFieldValue} = this.props.form;
+
+        const { intl: { formatMessage } } = this.props
+        const importRLPwd = formatMessage({id:'importRLPwd'});
+        const importLPwd = formatMessage({id:'importLPwd'});
+        const importRTPwd = formatMessage({id:'importRTPwd'});
+        const importRRTPwd = formatMessage({id:'importRRTPwd'});
+        const importCLPwd = formatMessage({id:'importCLPwd'});
+
+
+
+
         return(
             <div className={style.aboutus}>
                 <Header/>
@@ -96,22 +108,21 @@ class ImportPwd extends React.Component {
                         <Form onSubmit={this.handleSubmit}>
                             <div className={style.content}>
                                 <span className={style.llctitle}>
-                                    重置密码
+                                    <FormattedMessage id='resetPwd' defaultMessage='重置密码'/>
                                 </span>
                                 <div className={style.perselphone}>
                                     <div className={style.tuxing}>
                                         <FormItem>{getFieldDecorator('password', {
                                             rules: [{
                                                 required: true,
-                                                message: '请输入正确格式的密码!',
+                                                message: importRLPwd,
                                                 pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/
                                             }],
                                         })(<div>
                                             <Input onChange={
                                                 (e) => {
                                                     this.setState({password: e.target.value})
-                                                }} className={style.inputp} placeholder="密码6-24位字母、数字、字符"
-                                                   type={'password'}/></div>
+                                                }} className={style.inputp} placeholder={importLPwd} type={'password'}/></div>
                                         )}
                                         </FormItem>
 
@@ -122,9 +133,9 @@ class ImportPwd extends React.Component {
                                         >
                                             {getFieldDecorator('confirm', {
                                                 rules: [{
-                                                    required: true, message: '请检查你的密码!',
+                                                    required: true, message: importCLPwd,
                                                 }, {
-                                                    validator: this.checkPassword,
+                                                    validator: this.checkPassword.bind(this,importRRTPwd),
                                                 }],
                                             })(
                                                 <Input
@@ -136,7 +147,7 @@ class ImportPwd extends React.Component {
                                                         }
                                                     }
                                                     onBlur={this.handleConfirmBlur}
-                                                    placeholder="请再次输入密码"/>
+                                                    placeholder={importRTPwd}/>
                                             )}
                                         </FormItem>
                                     </div>
@@ -147,7 +158,7 @@ class ImportPwd extends React.Component {
                                                     height: 40,
                                                     marginTop: 20,
                                                     marginBottom: 60
-                                                }}>确认修改密码</Button>
+                                                }}><FormattedMessage id='pwdChange' defaultMessage='确认修改密码'/></Button>
                                     </FormItem>
 
                                 </div>
@@ -178,4 +189,4 @@ function mapDispatchToProps(dispatch) {
 
 ImportPwd = connect(mapStateToProps, mapDispatchToProps)(ImportPwd)
 const ImportPwdWrap = Form.create()(ImportPwd)
-export default ImportPwdWrap;
+export default injectIntl(ImportPwdWrap);

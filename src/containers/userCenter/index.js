@@ -16,10 +16,9 @@ import SideMenu from './sideMenu'
 import UserData from './components/userData';
 import BasicVip from './components/basicVip';
 import AdvancedVip from './components/advancedVip';
-import UadvancedVip from './us-components/advancedVip';
 import LinkMan from './components/linkMan';
 import NewsLink from './components/newsList'
-
+import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
@@ -117,11 +116,13 @@ class userCenterHeadView extends React.Component {
             return null
         }
         let imgurl = "";
+        const { intl: { formatMessage } } = this.props
+        const userCenter = formatMessage({id:'userCenter'});
 
         return (
             <div className={style.aboutus}>
                 <Header/>
-                <Crumb position={[{pos:'用户中心'}]}/>
+                <Crumb position={[{pos:userCenter}]}/>
 
                 <div className={style.wlop}>
                     <div className={style.wlfll}>
@@ -159,4 +160,4 @@ function mapDispatchToProps(dispatch) {
 
 
 userCenterHeadView = connect(mapStateToProps, mapDispatchToProps)(userCenterHeadView)
-export default userCenterHeadView;
+export default injectIntl(userCenterHeadView);
