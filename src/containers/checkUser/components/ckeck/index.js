@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Table,  Modal,Popconfirm,Input  } from 'antd'
+import { Button, Table,  Modal,Popconfirm,Input,Form  } from 'antd'
 import style from './index.css';
 import axios from  '../../../../common/axiosConf'
 import Countdown from '../../../../components/countdown/index'
@@ -8,6 +8,7 @@ import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } fro
 import {connect} from "react-redux";
 
 const ButtonGroup = Button.Group;
+const FormItem = Form.Item;
 
 class Check extends React.Component {
     constructor(props) {
@@ -124,6 +125,59 @@ class Check extends React.Component {
         })
     }
 
+
+
+    handleSubmit = (i,e) => {
+        console.log(e)
+        var that=this
+        this.setState({
+            visible1:false
+        })
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                if(this.state.data["0"].primaryCertified==1){
+                    axios.post('http://192.168.100.105:8000/primaryVerify',
+                        {
+                            email:this.state.data[i].email,
+                            token:localStorage.getItem('token'),
+                            primaryCertified:2,
+                            _id:this.state.data[i]._id,
+                            reason:this.state.reason
+                        })
+                        .then(function (response) {
+                            console.log(response)
+                            that.setState({
+                                data: that.state.data.filter((_, a) => a !== i)
+                            })
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        });
+                }else if(this.state.data["0"].seniorCertified==1){
+                    axios.post('http://192.168.100.105:8000/seniorVerify',
+                        {
+                            email:this.state.data[i].email,
+                            token:localStorage.getItem('token'),
+                            seniorCertified:2,
+                            _id:this.state.data[i]._id,
+                            reason:this.state.reason
+                        })
+                        .then(function (response) {
+                            console.log(response);
+                            that.setState({
+                                data: that.state.data.filter((_, a) => a !== i)
+
+                            })
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        });
+                }
+            }
+        });
+    }
+
     cli(e){
         this.setState({
             visible: true,
@@ -161,13 +215,7 @@ class Check extends React.Component {
                     <p><FormattedMessage id='checkTip4' defaultMessage='身份证反面照'/>：</p>
                     <img onClick={this.cli1.bind(this,a.frontCard)} src={a.frontCard} alt=""/>
 
-                    <Modal
-                        style={{position:'relative'}}
-                        visible={this.state.visible1}
-                        onCancel={this.handlec1}
-                    >
-                        <img className={style.bi} src={a.frontCard} alt=""/>
-                    </Modal>
+
                 </div>
 
             </div>
@@ -194,17 +242,6 @@ class Check extends React.Component {
                         onCancel={this.handlec}
                     >
                         <img className={style.bi} src={a.passport} alt=""/>
-                    </Modal>
-                    <Modal
-                        style={{position:'relative'}}
-                        visible={this.state.visible1}
-                        onCancel={this.handlec1}
-                    >
-                        <Input
-                            className={style.input}
-                            onChange={(e) => {
-                                this.setState({reason : e.target.value})
-                            }}/>
                     </Modal>
                 </div>
             </div>)
@@ -252,32 +289,72 @@ class Check extends React.Component {
         const userCheck = formatMessage({id:'userCheck'});
 
         const columns = [
-            { title: userCheck1, dataIndex: 'nickname', key: 'nickname' },
+            { title: userCheck1, dataIndex: 'nickname', key: 'nickname',width:100 },
 
-            { title: userCheck2, dataIndex: 'email', key: 'email' },
-            { title: userCheck3, dataIndex: 'createdAt', key: 'createdAt' },
-            { title: userCheck4, key: 'operation', render: (a,b,c) => <ButtonGroup >
+            { title: userCheck2, dataIndex: 'email', key: 'email' ,width:200},
+            { title: userCheck3, dataIndex: 'createdAt', key: 'createdAt' ,width:200},
+            { title: userCheck4, key: 'operation',width:100, render: (a,b,c) => <ButtonGroup >
                     <Popconfirm title={isSure} onConfirm={this.tong.bind(this,3,c)}  okText={yes} cancelText={no}>
                         <Button>{pass}</Button>
                     </Popconfirm>
 
-                    <Button onClick={this.tong.bind(this,2,c)}>{noPass}</Button>
+                    <Button onClick={this.noTong.bind(this)}>{noPass}</Button>
+                    <Modal
+                        title="不通过理由"
+                        style={{position:'relative'}}
+                        visible={this.state.visible1}
+                        onCancel={this.handlec1}
+                        onOk={this.handleOk}
+                    >
+                        <Form onSubmit={this.handleSubmit.bind(this,c)} className="login-form">
+                            <div className={style.inputbox}>
+                                <FormItem>
+                                    {getFieldDecorator('userName', {
+                                        rules: [{ required: true, message: '请填写理由！' }],
+                                    })(
+                                        <Input placeholder="理由" onChange={(e) => {
+                                            this.setState({reason: e.target.value})
+                                        }}/>
+                                    )}
+                                </FormItem>
+                            </div>
+
+                            <FormItem>
+                                {getFieldDecorator('remember', {
+                                    valuePropName: 'checked',
+                                    initialValue: true,
+                                })}
+                                <Button className={style.ok} type="primary" htmlType="submit">
+                                    提交
+                                </Button>
+                                <Button className={style.cancel} onClick={this.handlec1}>
+                                    取消
+                                </Button>
+
+
+                            </FormItem>
+                        </Form>
+                    </Modal>
                 </ButtonGroup> },
         ];
         const {  previewImage,previewVisible  } = this.state;
 
-
+        const { getFieldDecorator } = this.props.form;
 
 
 
         return (
-            <Table className="components-table-demo-nested"
-                   columns={columns}
-                   expandedRowRender={
-                       record => record.primaryCertified==1?this.fore(record):this.fore1(record)
-                   }
-                   dataSource={this.state.data}
-            />
+            <div>
+                <Table className="components-table-demo-nested"
+                       columns={columns}
+                       expandedRowRender={
+                           record => record.primaryCertified==1?this.fore(record):this.fore1(record)
+                       }
+                       dataSource={this.state.data}
+                />
+
+            </div>
+
         )
     }
 }
@@ -295,6 +372,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 Check = connect(mapStateToProps, mapDispatchToProps)(Check)
-export default injectIntl(Check);
+const WrapCheck = Form.create()(Check);
+export default injectIntl(WrapCheck);
 
 

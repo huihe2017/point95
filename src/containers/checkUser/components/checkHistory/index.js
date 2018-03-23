@@ -62,7 +62,6 @@ class CheckHistory extends React.Component {
                     response.data.result[i].key=i;
                     // console.log(response.data.result[i].applyer.email);
                     response.data.result[i].email=response.data.result[i].applyer.email
-
                 }
 
                 that.setState({
@@ -182,11 +181,11 @@ class CheckHistory extends React.Component {
         const userCheck = formatMessage({id:'userCheck'});
 
         const columns = [
-            { title: userCheck1, dataIndex: 'nickname', key: 'nickname' },
+            { title: userCheck1, dataIndex: 'nickname', key: 'nickname',width:150},
 
-            { title: userCheck2, dataIndex: 'email', key: 'email' },
-            { title: userCheck3, dataIndex: 'createdAt', key: 'createdAt' },
-            { title: userCheck4,dataIndex: 'operation', key: 'operation',},
+            { title: userCheck2, dataIndex: 'email', key: 'email' ,width:250},
+            { title: userCheck3, dataIndex: 'createdAt', key: 'createdAt' ,width:150},
+            { title: userCheck4,dataIndex: 'operation', key: 'operation',width:250},
         ];
         const {  previewImage,previewVisible  } = this.state;
 
@@ -203,7 +202,7 @@ class CheckHistory extends React.Component {
                 <Table className="components-table-demo-nested"
                        columns={columns}
                        expandedRowRender={
-                           record => record.pass
+                           record => record.reason
                        }
                        dataSource={this.state.data}
                 />

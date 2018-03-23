@@ -91,3 +91,15 @@
 .ant-tabs.ant-tabs-card>.ant-tabs-bar .ant-tabs-tab-active{
     font-weight: bold!important;
 }
+:local(.ok){
+    margin-top: 20px;
+    float: right;
+    margin-left: 10px;
+}
+:local(.cancel){
+    margin-top: 20px;
+    float: right;
+}
+:local(.inputbox){
+   height: 60px;
+}
