@@ -9,6 +9,11 @@
     margin-left: 200px;
 
 }
+:local(.input){
+    height: 40px!important;
+    padding-left: 12px!important;
+
+}
 :local(.parencon) button{
     width: 220px;
     height: 60px;

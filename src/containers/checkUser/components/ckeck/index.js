@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Table,  Modal,Popconfirm  } from 'antd'
+import { Button, Table,  Modal,Popconfirm,Input  } from 'antd'
 import style from './index.css';
 import axios from  '../../../../common/axiosConf'
 import Countdown from '../../../../components/countdown/index'
@@ -85,7 +85,8 @@ class Check extends React.Component {
                 {
                     email:this.state.data[i].email,
                     token:localStorage.getItem('token'),
-                    primaryCertified:e
+                    primaryCertified:e,
+                    _id:this.state.data[i]._id,
                 })
                 .then(function (response) {
                     console.log(response)
@@ -101,7 +102,8 @@ class Check extends React.Component {
                 {
                     email:this.state.data[i].email,
                     token:localStorage.getItem('token'),
-                    seniorCertified:e
+                    seniorCertified:e,
+                    _id:this.state.data[i]._id,
                 })
                 .then(function (response) {
                     console.log(response);
@@ -116,6 +118,12 @@ class Check extends React.Component {
         }
 
     }
+    noTong(){
+        this.setState({
+            visible1:true
+        })
+    }
+
     cli(e){
         this.setState({
             visible: true,
@@ -152,6 +160,7 @@ class Check extends React.Component {
                     </Modal>
                     <p><FormattedMessage id='checkTip4' defaultMessage='身份证反面照'/>：</p>
                     <img onClick={this.cli1.bind(this,a.frontCard)} src={a.frontCard} alt=""/>
+
                     <Modal
                         style={{position:'relative'}}
                         visible={this.state.visible1}
@@ -191,7 +200,11 @@ class Check extends React.Component {
                         visible={this.state.visible1}
                         onCancel={this.handlec1}
                     >
-                        <img className={style.bi} src={a.passport} alt=""/>
+                        <Input
+                            className={style.input}
+                            onChange={(e) => {
+                                this.setState({reason : e.target.value})
+                            }}/>
                     </Modal>
                 </div>
             </div>)
