@@ -271,9 +271,9 @@ class AdvanVip extends React.Component {
         const advancedVIPTip10 = formatMessage({id:'advancedVIPTip10'});
         const basicVIPTip15 = formatMessage({id:'basicVIPTip15'});
 
-        const advancedVIPOption1 = formatMessage({id:'basicVIPOption1'});
-        const advancedVIPOption2 = formatMessage({id:'basicVIPOption2'});
-        const advancedVIPOption3 = formatMessage({id:'basicVIPOption3'});
+        const advancedVIPOption1 = formatMessage({id:'advancedVIPOption1'});
+        const advancedVIPOption2 = formatMessage({id:'advancedVIPOption2'});
+        const advancedVIPOption3 = formatMessage({id:'advancedVIPOption3'});
         const basicVIPOption5 = formatMessage({id:'basicVIPOption5'});
 
 

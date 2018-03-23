@@ -6,7 +6,7 @@ const en_US = {
     login:"Login",
     register:"Register",
     registerNow:"Register Now",
-    userCheck:"User Check",
+    userCheck:"Management Center",
     ourAdvantages:"Our advantages",
     ourVision:"Our Vision",
     contactUsTitle:"Contact Us",

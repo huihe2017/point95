@@ -1,5 +1,5 @@
 body,ul,ol,dl,h1,h2,h3,h4,h5,h6,p,input,span,header,b{
-    margin: 0;padding: 0;list-style: none;font-weight: normal;
+    margin: 0;padding: 0;list-style: none;
 }
 html{
     font-family: 'microsoft yahei','arial'!important;
@@ -44,4 +44,7 @@ body,html{
     color: rgba(0,0,0,.25)!important;
     background-color: #f7f7f7!important;
     border-color: #d9d9d9!important;
+}
+.ant-tabs-bar{
+    border-bottom: none;
 }

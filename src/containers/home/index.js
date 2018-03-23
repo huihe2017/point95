@@ -49,7 +49,7 @@ class Home extends React.Component {
                     <div className={style.superiority}>
                         <div className={style.suptitle}>
                             <FormattedMessage id='ourAdvantages' defaultMessage='我们的优势'/>
-                            <p className={style.supdtitle}>
+                            <p className={style.supdtitle} hidden={this.props.auth.isEnglish}>
                                 Our advantages
                             </p>
                         </div>
@@ -57,12 +57,12 @@ class Home extends React.Component {
                             <div className={style.supimg}>
                                 <img src={require('./images/biandian1.png')} alt=""/>
                             </div>
-                            <p className={style.supcontent1}>
+                            <p className={style.supcontent1}  hidden={this.props.auth.isEnglish}>
                                 我们结合了超过25年的金融行业经验与市场洞察力，
                                 关系网络，交易敏锐，以及复杂的交易策略
 
                             </p>
-                            <p className={style.supcontent2}>
+                            <p className={style.supcontent2} style={this.props.auth.isEnglish?{marginTop:'80px'}:{}}>
                                 The OSL team is led by industry veterans with comprehensive knowledge on Digital Assets and financial trading. The team is well structured with expertise in trading, infrastructure, onboarding support and security acumen, substantiating our position as the leading OTC trading desk for cryptocurrencies.
                             </p>
                         </div>
@@ -72,16 +72,16 @@ class Home extends React.Component {
                     </div>
                     <div className={style.vision}>
                         <div className={style.viscontent}>
-                            <p className={style.vistitle}>
+                            <p className={style.vistitle} style={this.props.auth.isEnglish?{marginTop:'120px'}:{}}>
                                 <FormattedMessage id='ourVision' defaultMessage='我们的愿景'/>
                             </p>
-                            <p className={style.visdtitle}>
+                            <p className={style.visdtitle}  hidden={this.props.auth.isEnglish}>
                                 Our vision
                             </p>
-                            <p className={style.visder}>
+                            <p className={style.visder}  hidden={this.props.auth.isEnglish}>
                                 我们专注于通过交易和投资策略来产生绝对回报，<br/>
                                 我们寻求利用机会，利用我们的最先进的专有技术和风险管理能力和经验
-                            </p><p className={style.visdder}>
+                            </p><p className={style.visdder} style={this.props.auth.isEnglish?{marginTop:'60px'}:{}}>
                             By leveraging extensive experience in risk management and trading strategies, in addition to having a state-of-the-art proprietary technology
                             <br/> and deep pools of liquidity, OSL offers high value, large volume block trades of Digital Assets while ensuring competitive pricing and premium
                             <br/>service.
@@ -94,7 +94,7 @@ class Home extends React.Component {
                         <p className={style.contitle}>
                             <FormattedMessage id='contactUsTitle' defaultMessage='联络我们'/>
                         </p>
-                        <p className={style.condtitle}>
+                        <p className={style.condtitle} hidden={this.props.auth.isEnglish}>
                             contact us
                         </p>
                         <div className={style.concontent}>
@@ -112,7 +112,9 @@ class Home extends React.Component {
 }
 
 function mapStateToProps(state, props) {
-
+    return {
+        auth:state.auth
+    }
 }
 
 function mapDispatchToProps(dispatch) {

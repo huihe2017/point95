@@ -1,32 +1,4 @@
 
-:local(.partnerEntry){
-
-    width: 100%;
-    background-color: rgb(245, 245, 246);
-    min-height: 556px;
-}
-:local(.wlop){
-
-    width: 1200px;
-    margin: 0 auto;
-    margin-bottom: 40px;
-    height: 100%;
-    min-height: 600px;
-    padding-bottom: 50px;
-    background-color: #fff;
-}
-:local(.parenimg){
-    width: 1200px;
-    height: 360px;
-
-}
-:local(.parencon){
-    width: 1200px;
-    height: 150px;
-    background-color: #fff;
-    padding-top: 40px;
-    font-size: 21px;
-}
 :local(.lbut){
     float: left;
     margin-left: 280px;
@@ -66,11 +38,11 @@
 }
 
 /*:local(.imgshow)>p{*/
-    /*line-height: 240px;*/
-    /*font-size: 16px;*/
-    /*display: inline-block;*/
-    /*vertical-align:bottom;*/
-    /*width: 100px;*/
+/*line-height: 240px;*/
+/*font-size: 16px;*/
+/*display: inline-block;*/
+/*vertical-align:bottom;*/
+/*width: 100px;*/
 /*}*/
 :local(.imgshow) img{
     width: 220px;
@@ -88,7 +60,7 @@
     font-size: 16px;
 }
 :local(.imgl)>p>span{
-   display: inline-block;
+    display: inline-block;
     width: 150px;
     text-align: right;
 }
@@ -114,17 +86,12 @@
 .ant-tabs.ant-tabs-card>.ant-tabs-bar .ant-tabs-tab-active{
     font-weight: bold!important;
 }
-:local(.tapcard){
-    height: 60px;
-    background-color: #fff;
-    padding-top: 21px;
+:local(.radioGroup){
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 50;
 }
-:local(.tapword){
-    display: block;
-    width: 300px;
-    border-right: 1px solid #989898;
-
-}
-.ant-tabs-bar{
-    margin-bottom: 0!important;
+:local(.wlop){
+    position: relative;
 }

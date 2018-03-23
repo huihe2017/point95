@@ -8,7 +8,7 @@ const zh_CN = {
     login:"登录",
     register:"注册",
     registerNow:"立即注册",
-    userCheck:"用户审核",
+    userCheck:"管理中心",
     ourAdvantages:"我们的优势",
     ourVision:"我们的愿景",
     contactUsTitle:"联络我们",
