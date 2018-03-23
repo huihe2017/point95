@@ -16,6 +16,7 @@
     "react-redux": "^5.0.6",
     "react-router": "2.7.0",
     "react-scripts-cssmodules": "1.0.142",
+    "react-simple-chatbot": "^0.2.9",
     "react-slick": "^0.19.0",
     "react-swipe": "^5.1.1",
     "redux": "^3.7.2",

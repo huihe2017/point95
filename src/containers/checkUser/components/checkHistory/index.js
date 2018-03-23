@@ -18,6 +18,9 @@ class CheckHistory extends React.Component {
             previewVisible: false,
             isBase:true,
             data:[],
+            data1:[],
+            data2:[],
+            data3:[],
             rejectData:[],
             passData:[],
             visible:false,
@@ -41,7 +44,10 @@ class CheckHistory extends React.Component {
                 token:localStorage.getItem('token')
             }})
             .then(function (response) {
-                console.log('ololol',response);
+                that.setState({
+                    data1:response.data.result,
+                    data:response.data.result
+                })
                 for(var i in response.data.result){
                     response.data.result[i].key=i;
                     if(response.data.result[i].applyType==2){
@@ -64,9 +70,17 @@ class CheckHistory extends React.Component {
                     response.data.result[i].email=response.data.result[i].applyer.email
                 }
 
-                that.setState({
-                    data:response.data.result
-                })
+                for(var i in that.state.data1){
+                    if(that.state.data1[i].pass==2){
+                        that.setState({
+                            data2:[that.state.data1[i],...that.state.data2]
+                        })
+                    }else if(that.state.data1[i].pass==3){
+                        that.setState({
+                            data3:[that.state.data1[i],...that.state.data3]
+                        })
+                    }
+                }
             })
             .catch(function (error) {
                 console.log(error);
@@ -158,10 +172,31 @@ class CheckHistory extends React.Component {
         }
     }
     onChange = (e) => {
-        console.log('radio checked', e.target.value);
-        this.setState({
-            value: e.target.value,
-        });
+        var that=this
+        console.log(e.target.value);
+        if(e.target.value==1){
+            that.setState({
+                value: e.target.value,
+                data:that.state.data1
+            },()=>{
+                console.log(that.state);
+            });
+        }else if(e.target.value==2){
+            that.setState({
+                value: e.target.value,
+                data:that.state.data2
+            },()=>{
+                console.log(that.state);
+            });
+        }else if(e.target.value==3){
+            that.setState({
+                value: e.target.value,
+                data:that.state.data3
+            },()=>{
+                console.log(that.state);
+            });
+        }
+
     }
 
 
@@ -202,9 +237,10 @@ class CheckHistory extends React.Component {
                 <Table className="components-table-demo-nested"
                        columns={columns}
                        expandedRowRender={
-                           record => record.reason
+                           record => '未通过理由：'+record.reason
                        }
                        dataSource={this.state.data}
+
                 />
             </div>
         )
@@ -222,6 +258,7 @@ function mapDispatchToProps(dispatch) {
 
     }
 }
+
 
 CheckHistory = connect(mapStateToProps, mapDispatchToProps)(CheckHistory)
 export default injectIntl(CheckHistory);

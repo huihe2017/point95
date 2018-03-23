@@ -14,6 +14,7 @@ import {bindActionCreators} from 'redux'
 import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
 import Check from './components/ckeck';
 import CheckHistory from './components/checkHistory';
+import Chat from './components/userChat';
 
 const ButtonGroup = Button.Group;
 const TabPane = Tabs.TabPane;
@@ -84,7 +85,7 @@ class PartnerEntry extends React.Component {
                                 <div className={style.tapcard}>
                                     <span className={style.tapword}>用户聊天</span>
                                 </div>} key="3">
-                                <p>我是第三页</p>
+                                <Chat/>
                             </TabPane>
                             <TabPane tab={<div className={style.tapcard}>
                                 <span className={style.tapword} style={{borderRight:'none'}}>发送邮件</span>
