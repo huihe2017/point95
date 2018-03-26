@@ -1,25 +1,12 @@
-import ChatBot from 'react-simple-chatbot';
 import React from "react";
 import io from 'socket.io-client'
 import {Launcher} from 'react-chat-window'
 
 
 const messageHistory = [
-    {
-        author: 'them',
-        type: 'text',
-        data: {
-            text: 'some text'
-        }
-    },
 
-    {
-        author: 'me',
-        type: 'emoji',
-        data: {
-            code: 'someCode'
-        }
-    }
+
+
 
 ];
 
@@ -31,9 +18,8 @@ class Chat extends React.Component {
         }
     }
 
-    componentWillMount(){
+    componentDidMount(){
         let socket=io.connect("ws://192.168.100.105:8000");
-
         socket.on('connected',(data)=>{
             console.log(4444444555555)
             socket.emit('setAdmin',{name:55})
@@ -43,9 +29,15 @@ class Chat extends React.Component {
             console.log('message');
             //this.props.shenList()
         })
+
+        window.socket = socket
     }
 
-    _onMessageWasSent(message) {
+    _onMessageWasSent(message) { 
+
+        window.socket.emit('transfer',{name:55})
+        // console.log(111);
+
         this.setState({
             messageList: [...this.state.messageList, message]
         })
@@ -79,4 +71,4 @@ class Chat extends React.Component {
 
 }
 
-export default Chat
+export default Chat;
