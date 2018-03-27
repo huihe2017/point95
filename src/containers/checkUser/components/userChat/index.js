@@ -35,7 +35,6 @@ class Chat extends React.Component {
             that.setState({
                 messageList:[...this.state.messageList,obj]
             })
-            //this.props.shenList()
         })
 
         window.socket = socket
@@ -64,7 +63,12 @@ class Chat extends React.Component {
 
         this.setState({
 
+
+
             messageList: [...this.state.messageList, message]
+
+
+
         })
     }
 
@@ -80,8 +84,10 @@ class Chat extends React.Component {
         }
     }
 
-    componentWillMount(){
+    ll(){
+        this.state.userData.map((v,i)=>{
 
+        })
     }
 
     chatWho(e){
@@ -89,14 +95,12 @@ class Chat extends React.Component {
         let datal=e.item.props.message
         let arr=[]
         datal.map((v,i)=>{
-            // console.log(v.content)
-            arr[i]={}
 
+            arr[i]={}
             arr[i].author=v._id==localStorage.getItem('id')?'me':'them';
             arr[i].type='text';
             arr[i].data={}
             arr[i].data.text=v.content;
-            // console.log(e.item.props.email)
             arr[i].email=e.item.props.email;
 
             this.setState({
@@ -113,7 +117,7 @@ class Chat extends React.Component {
         return(
             <div className={style.wlop}>
                 <div className={style.chatList}>
-                    <SideMenu  hh={1} userData={this.state.userData} page={this.chatWho.bind(this)}/>
+                    <SideMenu userData={this.state.userData} page={this.chatWho.bind(this)}/>
                 </div>
                 <div className={style.chatContent}>
                     <Launcher
@@ -124,7 +128,6 @@ class Chat extends React.Component {
                         onMessageWasSent={this._onMessageWasSent.bind(this)}
                         messageList={this.state.messageList}
                         showEmoji={false}
-
                     />
                 </div>
 

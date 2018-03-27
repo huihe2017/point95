@@ -23,21 +23,14 @@ class SideMenu extends React.Component {
         });
         this.props.page(e)
     }
-    componentDidMount(){
-        let that=this
-        console.log('1qqq',that.props.userData);
-        console.log('12qqq',that.props.hh);
-        // let that=this
-        // that.setState({
-        //     userData:this.props.userData
-        // },()=>{
-        //     console.log('qqq',this.state.userData);
-        // })
 
+    shouldComponentUpdate(pp){
+        console.log(565656,pp)
+        return true
     }
 
     render() {
-        // console.log('123',this.state.userData);
+
         return (
             <div style={{ width: 400 }}>
 
@@ -48,17 +41,16 @@ class SideMenu extends React.Component {
                     onClick={this.handleClick.bind(this)}
                     selectedKeys={[this.state.current]}
                 >
-
                     {
-                //        this.state.userData.map((v,i)=>{
-                //            // console.log(159,v);
-                //            return <Menu.Item message={v.messages} email={v.id.email} id={v.id._id} key={i}>
-                // <span className={style.titword}>
-                //      {v.id.email}
-                // </span>
-                //                 </Menu.Item>
-                //             }
-                //         )
+                        this.props.userData&&this.props.userData.map((v,i)=>{
+                           // console.log(159,v);
+                           return <Menu.Item message={v.messages} email={v.id.email} id={v.id._id} key={i}>
+                <span className={style.titword}>
+                     {v.id.email}
+                </span>
+                                </Menu.Item>
+                            }
+                        )
 
                     }
 
