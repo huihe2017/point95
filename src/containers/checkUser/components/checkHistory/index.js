@@ -237,7 +237,8 @@ class CheckHistory extends React.Component {
                 <Table className="components-table-demo-nested"
                        columns={columns}
                        expandedRowRender={
-                           record => '未通过理由：'+record.reason
+
+                           record => record.pass==2?'未通过理由：'+record.reason: null
                        }
                        dataSource={this.state.data}
 

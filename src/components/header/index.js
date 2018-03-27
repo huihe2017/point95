@@ -212,8 +212,10 @@ class Header extends React.Component {
     componentDidMount(){
         let socket=io.connect("ws://192.168.100.105:8000");
         socket.on('connected',(data)=>{
-            console.log(4444444555555)
-            socket.emit('setAdmin',{name:55})
+            if(localStorage.getItem('role')==1){
+                socket.emit('setAdmin',{name:55})
+            }
+
         })
 
         socket.on('message',(data)=>{
@@ -399,7 +401,7 @@ function mapDispatchToProps(dispatch) {
 var socket=io.connect("ws://192.168.100.105:8000",{withCredentials:''});
 
 socket.on('message',(data)=>{
-    alert(data.receiver)
+    // alert(data.receiver)
     console.log(this);
     //this.props.shenList()
 })

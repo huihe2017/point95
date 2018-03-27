@@ -2,6 +2,7 @@ import React from "react";
 import io from 'socket.io-client'
 import {Launcher} from 'react-chat-window'
 import style from './index.css'
+import SideMenu from './sideMenu'
 
 const messageHistory = [
 
@@ -21,7 +22,7 @@ class Chat extends React.Component {
     componentDidMount(){
         let socket=io.connect("ws://192.168.100.105:8000");
         socket.on('connected',(data)=>{
-            console.log(4444444555555)
+
             socket.emit('setAdmin',{name:55})
         })
 
@@ -55,18 +56,28 @@ class Chat extends React.Component {
         }
     }
 
+    chatWho(e){
+        console.log(e);
+    }
+
     render(){
         return(
             <div className={style.wlop}>
-                <Launcher
-                    agentProfile={{
-                        teamName: 'react-live-chat',
-                        imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
-                    }}
-                    onMessageWasSent={this._onMessageWasSent.bind(this)}
-                    messageList={this.state.messageList}
-                    showEmoji
-                />
+                <div className={style.chatList}>
+                    <SideMenu page={this.chatWho.bind(this)}/>
+                </div>
+                <div className={style.chatContent}>
+                    <Launcher
+                        agentProfile={{
+                            teamName: 'react-live-chat',
+                            imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
+                        }}
+                        onMessageWasSent={this._onMessageWasSent.bind(this)}
+                        messageList={this.state.messageList}
+                        showEmoji
+                    />
+                </div>
+
             </div>
 
         );

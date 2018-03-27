@@ -1,5 +1,14 @@
 
 :local(.wlop){
-    width: 800px;
+    width: 1200px;
     margin: 80px auto;
+    clear: both;
+}
+:local(.chatList){
+    width: 400px;
+    float: left;
+}
+:local(.chatContent){
+    width: 800px;
+    float: left;
 }
