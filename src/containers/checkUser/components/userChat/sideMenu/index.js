@@ -13,34 +13,73 @@ class SideMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            current: '1'
+            current: '1',
+            userData:[]
         }
     }
     handleClick(e){
+    // console.log(e)
         this.setState({
             current: e.key,
         });
         this.props.page(e)
     }
     componentWillMount(){
-        console.log(111);
+
         let that=this
         axios.get('http://192.168.100.105:8000/roomList', {
             params:{
                 token:localStorage.getItem('token')
             }})
             .then(function (response) {
-                console.log('lalalal',response);
+                console.log('lalalal',response.data.result);
+                that.setState({
+                    userData:response.data.result
+                })
             })
             .catch(function (error) {
                 console.log(error)
             });
     }
 
-    render() {
 
+
+    datalist(){
+        console.log(1111,this.state.userData);
+        // for(var i in this.state.userData){
+        //     // console.log(this.state.userData[i]);
+        //
+        //     // return(<Menu.Item key={i}>
+        //     //     <span className={style.titword}>
+        //     //         {this.state.userData[i].id.email}
+        //     //     </span>
+        //     // </Menu.Item>)
+        //
+        //     this.data(this.state.userData[i],i)
+        // }
+        // this.state.userData.map((value,index)=>{
+        //     return(<Menu.Item key={index}>
+        //              <span className={style.titword}>
+        //                  {value.id.email}
+        //              </span>
+        //          </Menu.Item>)
+        // })
+[1,1,1,1].map((a,b)=>{
+    return(<Menu.Item key={a}>
+                     <span className={style.titword}>
+                         {"ehwh"}
+                     </span>
+    </Menu.Item>)
+})
+
+
+
+    }
+
+    render() {
+        // console.log(this.state.userdata);
         return (
-            <div style={{ width: 256 }}>
+            <div style={{ width: 400 }}>
 
                 <Menu
                     defaultSelectedKeys={['1']}
@@ -49,18 +88,8 @@ class SideMenu extends React.Component {
                     onClick={this.handleClick.bind(this)}
                     selectedKeys={[this.state.current]}
                 >
-                    <Menu.Item key="1">
-                        <Icon type="idcard" />
-                        <span className={style.titword}><FormattedMessage id='basicVIP' defaultMessage='初级认证'/></span>
-                    </Menu.Item>
-                    <Menu.Item key="2">
-                        <Icon type="safety" />
-                        <span className={style.titword}><FormattedMessage id='advancedVIP' defaultMessage='高级认证'/></span>
-                    </Menu.Item>
-                    <Menu.Item key="3">
-                        <Icon type="contacts" />
-                        <span className={style.titword}><FormattedMessage id='linkman' defaultMessage='联系人'/></span>
-                    </Menu.Item>
+
+                    {this.datalist()}
 
                 </Menu>
             </div>

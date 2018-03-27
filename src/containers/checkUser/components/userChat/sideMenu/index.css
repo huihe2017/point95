@@ -4,4 +4,7 @@
 :local(.titword){
     font-size: 14px;
     font-weight: bold;
+    display: block;
+    border-bottom: 1px solid #000;
+
 }

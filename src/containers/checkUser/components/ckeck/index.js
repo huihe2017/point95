@@ -223,7 +223,7 @@ class Check extends React.Component {
 
     }
     fore1(a){
-        console.log(222,a)
+        // console.log(222,a)
         return(
             <div className={style.imgshow}>
                 <div className={style.imgl}>
