@@ -1,7 +1,7 @@
 import React from "react";
 import io from 'socket.io-client'
 import {Launcher} from 'react-chat-window'
-
+import style from './index.css'
 
 const messageHistory = [
 
@@ -33,7 +33,7 @@ class Chat extends React.Component {
         window.socket = socket
     }
 
-    _onMessageWasSent(message) { 
+    _onMessageWasSent(message) {
 
         window.socket.emit('transfer',{name:55})
         // console.log(111);
@@ -57,15 +57,18 @@ class Chat extends React.Component {
 
     render(){
         return(
-            <Launcher
-                agentProfile={{
-                    teamName: 'react-live-chat',
-                    imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
-                }}
-                onMessageWasSent={this._onMessageWasSent.bind(this)}
-                messageList={this.state.messageList}
-                showEmoji
-            />
+            <div className={style.wlop}>
+                <Launcher
+                    agentProfile={{
+                        teamName: 'react-live-chat',
+                        imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
+                    }}
+                    onMessageWasSent={this._onMessageWasSent.bind(this)}
+                    messageList={this.state.messageList}
+                    showEmoji
+                />
+            </div>
+
         );
     }
 

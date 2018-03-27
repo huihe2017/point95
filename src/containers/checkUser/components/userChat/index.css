@@ -1,3 +1,5 @@
-.sc-launcher{
-    display: none!important;
+
+:local(.wlop){
+    width: 800px;
+    margin: 80px auto;
 }

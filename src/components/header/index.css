@@ -130,3 +130,6 @@
 .ant-badge-count{
     right: 0!important;
 }
+:local(.chatBox){
+    margin: -16px;
+}

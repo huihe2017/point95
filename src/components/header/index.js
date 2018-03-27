@@ -9,14 +9,16 @@ import {logout} from '../../actions/user'
 import LoginBox from './components/loginBox'
 import RegisterBox from './components/registerBox'
 import ResetPwdBox from './components/resetPwdBox'
-import { Badge,message,Radio,Button  } from 'antd';
+import { Badge,message,Radio,Button,Modal  } from 'antd';
 import io from 'socket.io-client'
 import axios from  '../../common/axiosConf'
 import enUS from 'antd/lib/locale-provider/en_US';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import { IntlProvider,addLocaleData,FormattedMessage } from 'react-intl';
+import {Launcher} from 'react-chat-window'
 moment.locale('en');
+
 
 const ButtonGroup = Button.Group;
 
@@ -28,7 +30,9 @@ class Header extends React.Component {
             open: false,
             position: 'relative',
             otherStyle: true,
-            isManage:true
+            isManage:true,
+            visible:false,
+            messageList : []
 
         }
         this.choceType = this.choceType.bind(this)
@@ -36,7 +40,11 @@ class Header extends React.Component {
 
     }
 
-
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    }
     componentWillMount() {
         var that=this;
         var llll=window.location.hash.slice(3, -10)
@@ -72,6 +80,7 @@ class Header extends React.Component {
 
         this.choceType();
     }
+
 
     tozh(){
         //alert(this.props.auth.isEnglish)
@@ -126,9 +135,6 @@ class Header extends React.Component {
         }
     }
 
-    cli(){
-
-    }
     changeLocale(e){
         console.log('ee',e);
     }
@@ -203,6 +209,46 @@ class Header extends React.Component {
         }
     }
 
+    componentDidMount(){
+        let socket=io.connect("ws://192.168.100.105:8000");
+        socket.on('connected',(data)=>{
+            console.log(4444444555555)
+            socket.emit('setAdmin',{name:55})
+        })
+
+        socket.on('message',(data)=>{
+            console.log('message');
+            //this.props.shenList()
+        })
+
+        window.socket = socket
+    }
+    _onMessageWasSent(message) {
+
+        window.socket.emit('transfer',{token:localStorage.getItem('token'),role:localStorage.getItem('role'),content:message.data.text})
+        console.log(message.data.text);
+
+        this.setState({
+            messageList: [...this.state.messageList, message]
+        })
+    }
+
+    _sendMessage(text) {
+        if (text.length > 0) {
+            this.setState({
+                messageList: [...this.state.messageList, {
+                    author: 'them',
+                    type: 'text',
+                    data: { text }
+                }]
+            })
+        }
+    }
+
+    handleCancel = () => {
+        this.setState({ visible: false });
+    }
+
     render() {
 
         return (
@@ -238,6 +284,13 @@ class Header extends React.Component {
                                                 id='contactUs' defaultMessage='联系我们'/>
                                         </Link>
                                     </span>
+                                    <span onClick={this.showModal}>
+                                        {/*<Link to="/aboutUs">*/}
+                                            {/*<FormattedMessage*/}
+                                                {/*id='contactUs' defaultMessage=/>*/}
+                                        {/*</Link>*/}
+                                        联系管理员
+                                    </span>
                                     {/*<span >*/}
                                         {/*<Link to="/DolphinSchool">海豚学院</Link>*/}
                                     {/*</span>*/}
@@ -258,13 +311,40 @@ class Header extends React.Component {
                                         <Link to="/aboutUs"><FormattedMessage
                                             id='contactUs' defaultMessage='联系我们'/></Link>
                                     </span>
-                                    {/*<span >*/}
-                                        {/*<Link to="/DolphinSchool">海豚学院</Link>*/}
-                                    {/*</span>*/}
+                                    <span onClick={this.showModal}>
+                                        {/*<Link to="/aboutUs">*/}
+                                        {/*<FormattedMessage*/}
+                                        {/*id='contactUs' defaultMessage=/>*/}
+                                        {/*</Link>*/}
+                                        联系管理员
+                                    </span>
+
                                 </div>
 
                             </div>
                     }
+                    <Modal
+                        visible={this.state.visible}
+                        width={800}
+                        onCancel={this.handleCancel}
+                        style={{backgroundColor:'transparent',borderTopLeftRadius: 9,
+                            borderTopRightRadius: 9,overflow:'hidden'}}
+                    >
+                        <div className={style.chatBox}>
+                            <Launcher
+                                agentProfile={{
+                                    teamName: 'react-live-chat',
+                                    imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
+                                }}
+                                onMessageWasSent={this._onMessageWasSent.bind(this)}
+                                messageList={this.state.messageList}
+                                showEmoji
+                            />
+                        </div>
+
+                    </Modal>
+
+
                     <ButtonGroup>
                         <Button onClick={this.tozh.bind(this)}>中文</Button>
                         <Button onClick={this.toen.bind(this)}>English</Button>
