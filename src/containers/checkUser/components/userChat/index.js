@@ -23,7 +23,7 @@ class Chat extends React.Component {
         let socket=io.connect("ws://192.168.100.105:8000");
         socket.on('connected',(data)=>{
 
-            socket.emit('setAdmin',{name:55})
+            socket.emit('setAdmin',{token:localStorage.getItem('token')})
         })
 
         socket.on('message',(data)=>{

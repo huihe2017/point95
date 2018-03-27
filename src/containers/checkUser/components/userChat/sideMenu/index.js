@@ -51,7 +51,7 @@ class SideMenu extends React.Component {
             <div style={{ width: 400 }}>
 
                 <Menu
-                    defaultSelectedKeys={['1']}
+                    defaultSelectedKeys={['0']}
                     defaultOpenKeys={['sub1']}
                     mode="inline"
                     onClick={this.handleClick.bind(this)}
@@ -60,7 +60,7 @@ class SideMenu extends React.Component {
 
                     {
                        this.state.userData.map((v,i)=>{
-                           console.log(159,v);
+                           // console.log(159,v);
                            return <Menu.Item message={v.messages} email={v.id.email} key={i}>
                 <span className={style.titword}>
                      {v.id.email}
