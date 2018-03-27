@@ -58,6 +58,24 @@ class Chat extends React.Component {
 
     chatWho(e){
         console.log(e);
+        let datal=e.item.props.message
+        let arr=[]
+        datal.map((v,i)=>{
+            console.log(v.content)
+            arr[i]={}
+
+            arr[i].author=v._id==localStorage.getItem('id')?'me':'them';
+            arr[i].type='text';
+            arr[i].data={}
+            arr[i].data.text=v.content;
+            console.log(e.item.props.email)
+            arr[i].email=e.item.props.email;
+
+            this.setState({
+                messageList:arr
+            })
+        })
+
     }
 
     render(){
@@ -75,6 +93,7 @@ class Chat extends React.Component {
                         onMessageWasSent={this._onMessageWasSent.bind(this)}
                         messageList={this.state.messageList}
                         showEmoji
+
                     />
                 </div>
 

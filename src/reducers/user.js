@@ -27,11 +27,13 @@ export default function sign(state = initialState, action = {}) {
 
         case 'LOGIN':
             console.log(159,action.data)
-            const {token,role,email,unReadMsg} = action.data
+            const {token,role,email,unReadMsg,_id} = action.data
             state.userName = email
             localStorage.setItem('token', token)
             localStorage.setItem('role', role)
             localStorage.setItem('userName',email);
+            localStorage.setItem('userName',email);
+            localStorage.setItem('id',_id);
             // localStorage.setItem('MT4', mt4_live_id)
             // localStorage.setItem('status', (status===11?"2":status))
             // localStorage.setItem('address', address)
