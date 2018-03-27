@@ -14,7 +14,7 @@ class SideMenu extends React.Component {
         super(props);
         this.state = {
             current: '1',
-            userData:[]
+
         }
     }
     handleClick(e){
@@ -23,25 +23,21 @@ class SideMenu extends React.Component {
         });
         this.props.page(e)
     }
-    componentWillMount(){
-
+    componentDidMount(){
         let that=this
-        axios.get('http://192.168.100.105:8000/roomList', {
-            params:{
-                token:localStorage.getItem('token')
-            }})
-            .then(function (response) {
-                that.setState({
-                    userData:response.data.result
-                })
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
+        console.log('1qqq',that.props.userData);
+        console.log('12qqq',that.props.hh);
+        // let that=this
+        // that.setState({
+        //     userData:this.props.userData
+        // },()=>{
+        //     console.log('qqq',this.state.userData);
+        // })
+
     }
 
     render() {
-        // console.log(this.state.userdata);
+        // console.log('123',this.state.userData);
         return (
             <div style={{ width: 400 }}>
 
@@ -54,53 +50,21 @@ class SideMenu extends React.Component {
                 >
 
                     {
-                       this.state.userData.map((v,i)=>{
-                           // console.log(159,v);
-                           return <Menu.Item message={v.messages} email={v.id.email} key={i}>
-                <span className={style.titword}>
-                     {v.id.email}
-                </span>
-                                </Menu.Item>
-                            }
-                        )
+                //        this.state.userData.map((v,i)=>{
+                //            // console.log(159,v);
+                //            return <Menu.Item message={v.messages} email={v.id.email} id={v.id._id} key={i}>
+                // <span className={style.titword}>
+                //      {v.id.email}
+                // </span>
+                //                 </Menu.Item>
+                //             }
+                //         )
 
                     }
 
                 </Menu>
             </div>
         );
-    }
-
-    datalist(){
-        console.log(1111,this.state.userData);
-        for(var i in this.state.userData){
-            // console.log(this.state.userData[i]);
-
-            return(<Menu.Item key={i}>
-                <span className={style.titword}>
-                    {this.state.userData[i].id.email}
-                </span>
-            </Menu.Item>)
-
-            // this.data(this.state.userData[i],i)
-        }
-        // this.state.userData.map((value,index)=>{
-        //     return(<Menu.Item key={index}>
-        //              <span className={style.titword}>
-        //                  {value.id.email}
-        //              </span>
-        //          </Menu.Item>)
-        // })
-        [1,1,1,1].map((a,b)=>{
-            return(<Menu.Item key={a}>
-                     <span className={style.titword}>
-                         {"ehwh"}
-                     </span>
-            </Menu.Item>)
-        })
-
-
-
     }
 }
 

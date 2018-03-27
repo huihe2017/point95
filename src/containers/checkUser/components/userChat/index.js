@@ -3,6 +3,7 @@ import io from 'socket.io-client'
 import {Launcher} from 'react-chat-window'
 import style from './index.css'
 import SideMenu from './sideMenu'
+import axios from "../../../../common/axiosConf";
 
 const messageHistory = [];
 
@@ -10,7 +11,8 @@ class Chat extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            messageList : messageHistory
+            messageList : messageHistory,
+
         }
     }
 
@@ -23,7 +25,6 @@ class Chat extends React.Component {
         })
 
         socket.on('message',(data)=>{
-            console.log('message');
             console.log('dda',data);
             let obj={}
             obj.author='them';
@@ -38,14 +39,31 @@ class Chat extends React.Component {
         })
 
         window.socket = socket
+
+        axios.get('http://192.168.100.105:8000/roomList', {
+            params:{
+                token:localStorage.getItem('token')
+            }})
+            .then(function (response) {
+                that.setState({
+                    userData:response.data.result
+                },()=>{
+                    console.log(666,that.state.userData);
+                })
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
     }
 
     _onMessageWasSent(message) {
+        // console.log(message.data.text);
 
-        window.socket.emit('transfer',{name:55})
+        window.socket.emit('transfer',{id:this.state.id,content:message.data.text, })
         // console.log(111);
 
         this.setState({
+
             messageList: [...this.state.messageList, message]
         })
     }
@@ -62,34 +80,40 @@ class Chat extends React.Component {
         }
     }
 
+    componentWillMount(){
+
+    }
+
     chatWho(e){
-        console.log(e);
+        console.log('dian',e);
         let datal=e.item.props.message
         let arr=[]
         datal.map((v,i)=>{
-            console.log(v.content)
+            // console.log(v.content)
             arr[i]={}
 
             arr[i].author=v._id==localStorage.getItem('id')?'me':'them';
             arr[i].type='text';
             arr[i].data={}
             arr[i].data.text=v.content;
-            console.log(e.item.props.email)
+            // console.log(e.item.props.email)
             arr[i].email=e.item.props.email;
 
             this.setState({
                 messageList:arr,
-                email:e.item.props.email
+                email:e.item.props.email,
+                id:e.item.props.id,
             })
         })
 
     }
 
     render(){
+        console.log(999,this.state.userData);
         return(
             <div className={style.wlop}>
                 <div className={style.chatList}>
-                    <SideMenu page={this.chatWho.bind(this)}/>
+                    <SideMenu  hh={1} userData={this.state.userData} page={this.chatWho.bind(this)}/>
                 </div>
                 <div className={style.chatContent}>
                     <Launcher
