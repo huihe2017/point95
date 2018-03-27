@@ -15,6 +15,7 @@ import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } fro
 import Check from './components/ckeck';
 import CheckHistory from './components/checkHistory';
 import Chat from './components/userChat';
+import SendEmail from "./components/sendMail";
 
 const ButtonGroup = Button.Group;
 const TabPane = Tabs.TabPane;
@@ -90,7 +91,7 @@ class PartnerEntry extends React.Component {
                             <TabPane tab={<div className={style.tapcard}>
                                 <span className={style.tapword} style={{borderRight:'none'}}>发送邮件</span>
                             </div>} key="4">
-                                <p>我是第四页</p>
+                                <SendEmail/>
                             </TabPane>
                         </Tabs>
                     </div>

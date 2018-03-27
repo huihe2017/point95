@@ -4,12 +4,7 @@ import {Launcher} from 'react-chat-window'
 import style from './index.css'
 import SideMenu from './sideMenu'
 
-const messageHistory = [
-
-
-
-
-];
+const messageHistory = [];
 
 class Chat extends React.Component {
     constructor(props) {
@@ -20,6 +15,7 @@ class Chat extends React.Component {
     }
 
     componentDidMount(){
+        let that=this
         let socket=io.connect("ws://192.168.100.105:8000");
         socket.on('connected',(data)=>{
 
@@ -28,6 +24,16 @@ class Chat extends React.Component {
 
         socket.on('message',(data)=>{
             console.log('message');
+            console.log('dda',data);
+            let obj={}
+            obj.author='them';
+            obj.type='text';
+            obj.data={}
+            obj.data.text=data.content;
+            obj.email=this.state.email;
+            that.setState({
+                messageList:[...this.state.messageList,obj]
+            })
             //this.props.shenList()
         })
 
@@ -72,7 +78,8 @@ class Chat extends React.Component {
             arr[i].email=e.item.props.email;
 
             this.setState({
-                messageList:arr
+                messageList:arr,
+                email:e.item.props.email
             })
         })
 
@@ -92,7 +99,7 @@ class Chat extends React.Component {
                         }}
                         onMessageWasSent={this._onMessageWasSent.bind(this)}
                         messageList={this.state.messageList}
-                        showEmoji
+                        showEmoji={false}
 
                     />
                 </div>

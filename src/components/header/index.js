@@ -79,6 +79,20 @@ class Header extends React.Component {
             });
 
         this.choceType();
+
+        axios.get('http://192.168.100.105:8000/roomList', {
+            params:{
+                token:localStorage.getItem('token')
+            }})
+            .then(function (response) {
+                console.log('lalalal',response.data.result);
+                that.setState({
+                    userData:response.data.result
+                })
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
     }
 
 

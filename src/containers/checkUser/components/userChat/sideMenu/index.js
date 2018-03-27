@@ -31,7 +31,6 @@ class SideMenu extends React.Component {
                 token:localStorage.getItem('token')
             }})
             .then(function (response) {
-                console.log('lalalal',response.data.result);
                 that.setState({
                     userData:response.data.result
                 })
@@ -40,10 +39,6 @@ class SideMenu extends React.Component {
                 console.log(error)
             });
     }
-
-
-
-
 
     render() {
         // console.log(this.state.userdata);
