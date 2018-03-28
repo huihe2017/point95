@@ -96,6 +96,7 @@ class Chat extends React.Component {
 
     _onMessageWasSent(message) {
 
+        console.log(this.state.id);
         window.socket.emit('transfer',{roomId:this.state.id,content:message.data.text, token:localStorage.getItem('token'),role:localStorage.getItem('role'),socketId:this.state.socketId?this.state.socketId:''})
 
         // this.setState({
@@ -164,6 +165,7 @@ class Chat extends React.Component {
                     arr[i].data.text=v.content;
                     arr[i].email=e.item.props.email;
                 })
+                console.log(6666,e.item.props.id);
                 this.setState({
                     messageList:arr,
                     email:e.item.props.email,
