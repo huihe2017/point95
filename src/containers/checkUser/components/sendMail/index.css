@@ -1,0 +1,14 @@
+/*this.state.userData.map((v,i)=>{*/
+
+/*if(v.id.email==e.item.props.email){*/
+/*console.log(123,v)*/
+/*v.messages.map((v,i)=>{*/
+                         /*console.log(333,v);*/
+                     /*})*/
+/*this.setState({*/
+    /*messageList:v.messages,*/
+    /*email:e.item.props.email,*/
+    /*id:e.item.props.id,*/
+/*})*/
+/*}*/
+/*})*/

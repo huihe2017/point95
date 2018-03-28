@@ -12,7 +12,7 @@ class Chat extends React.Component {
         super(props);
         this.state = {
             messageList : messageHistory,
-
+            userData:[]
         }
     }
 
@@ -32,9 +32,31 @@ class Chat extends React.Component {
             obj.data={}
             obj.data.text=data.content;
             obj.email=this.state.email;
-            that.setState({
-                messageList:[...this.state.messageList,obj]
+            let arr=[]
+            this.state.userData.map((v,i)=>{
+                // console.log('lplp',v.id.email);
+                // console.log('lplp',this.state);
+
+                if(v.id.email==that.state.email){
+                    let arr=[]
+                    v.messages.map((v,i)=>{
+
+                        arr[i]={}
+                        arr[i].author=v._id==localStorage.getItem('id')?'me':'them';
+                        arr[i].type='text';
+                        arr[i].data={}
+                        arr[i].data.text=v.content;
+                        arr[i].email=that.state.email;
+                    })
+                    this.setState({
+                        messageList:[...arr,obj],
+
+                    })
+
+                }
             })
+
+
         })
 
         window.socket = socket
@@ -46,8 +68,6 @@ class Chat extends React.Component {
             .then(function (response) {
                 that.setState({
                     userData:response.data.result
-                },()=>{
-                    console.log(666,that.state.userData);
                 })
             })
             .catch(function (error) {
@@ -56,20 +76,18 @@ class Chat extends React.Component {
     }
 
     _onMessageWasSent(message) {
-        // console.log(message.data.text);
 
         window.socket.emit('transfer',{id:this.state.id,content:message.data.text, })
-        // console.log(111);
 
-        this.setState({
-
-
-
-            messageList: [...this.state.messageList, message]
-
-
-
-        })
+        // this.setState({
+        //
+        //
+        //
+        //     messageList: [...this.state.messageList, message]
+        //
+        //
+        //
+        // })
     }
 
     _sendMessage(text) {
@@ -86,34 +104,67 @@ class Chat extends React.Component {
 
     ll(){
         this.state.userData.map((v,i)=>{
+            let arr=[]
+            if(v.id.email==this.state.email){
 
+
+                v.messages.map((v,i)=>{
+
+                    arr[i]={}
+                    arr[i].author=v._id==localStorage.getItem('id')?'me':'them';
+                    arr[i].type='text';
+                    arr[i].data={}
+                    arr[i].data.text=v.content;
+                    arr[i].email=this.state.email;
+                })
+                console.log(654654,arr);
+                return arr
+            }
+            console.log(654,arr);
+            return arr
         })
+        return
     }
 
     chatWho(e){
         console.log('dian',e);
-        let datal=e.item.props.message
-        let arr=[]
-        datal.map((v,i)=>{
 
-            arr[i]={}
-            arr[i].author=v._id==localStorage.getItem('id')?'me':'them';
-            arr[i].type='text';
-            arr[i].data={}
-            arr[i].data.text=v.content;
-            arr[i].email=e.item.props.email;
+        // this.ll()
+        this.state.userData.map((v,i)=>{
 
-            this.setState({
-                messageList:arr,
-                email:e.item.props.email,
-                id:e.item.props.id,
-            })
+            if(v.id.email==e.item.props.email){
+
+                let arr=[]
+                v.messages.map((v,i)=>{
+
+                    arr[i]={}
+                    arr[i].author=v._id==localStorage.getItem('id')?'me':'them';
+                    arr[i].type='text';
+                    arr[i].data={}
+                    arr[i].data.text=v.content;
+                    arr[i].email=e.item.props.email;
+                })
+                this.setState({
+                    messageList:arr,
+                    email:e.item.props.email,
+                    id:e.item.props.id,
+                })
+            }
         })
 
+
+
+    }
+
+    xxx(alldata){
+        alldata
+        this.state.currId
+        return
     }
 
     render(){
         console.log(999,this.state.userData);
+        console.log(111111111,this.ll());
         return(
             <div className={style.wlop}>
                 <div className={style.chatList}>
@@ -126,7 +177,7 @@ class Chat extends React.Component {
                             imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
                         }}
                         onMessageWasSent={this._onMessageWasSent.bind(this)}
-                        messageList={this.state.messageList}
+                        messageList={this.ll()}
                         showEmoji={false}
                     />
                 </div>
