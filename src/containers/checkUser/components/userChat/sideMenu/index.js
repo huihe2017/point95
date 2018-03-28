@@ -13,7 +13,7 @@ class SideMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            current: '1',
+            current: '0',
 
         }
     }
@@ -30,7 +30,11 @@ class SideMenu extends React.Component {
     }
 
     render() {
-
+        // if(this.props.active){
+        //     this.setState({
+        //         current: '0',
+        //     });
+        // }
         return (
             <div style={{ width: 400 }}>
 

@@ -25,35 +25,54 @@ class Chat extends React.Component {
         })
 
         socket.on('message',(data)=>{
-            console.log('dda',data);
-            let obj={}
-            obj.author='them';
-            obj.type='text';
-            obj.data={}
-            obj.data.text=data.content;
-            obj.email=this.state.email;
-            let arr=[]
+            // console.log('dda',this.state.userData);
+            // console.log('dda',data);
+            data._id=data.roomId
+            let meslist={}
             this.state.userData.map((v,i)=>{
-                // console.log('lplp',v.id.email);
-                // console.log('lplp',this.state);
+                // console.log('lplp',v);
+                // console.log('lplp',this.state.id);
+                // console.log('lplp',data.socketId);
+                this.setState({
+                    socketId:data.socketId
+                })
 
-                if(v.id.email==that.state.email){
-                    let arr=[]
-                    v.messages.map((v,i)=>{
+                if(v.id._id==data.roomId){
+                    // console.log(657,v.messages);
+                    meslist.id={}
+                    meslist.id._id=data.roomId;
+                    meslist.id.email=v.id.email;
 
-                        arr[i]={}
-                        arr[i].author=v._id==localStorage.getItem('id')?'me':'them';
-                        arr[i].type='text';
-                        arr[i].data={}
-                        arr[i].data.text=v.content;
-                        arr[i].email=that.state.email;
-                    })
-                    this.setState({
-                        messageList:[...arr,obj],
-
-                    })
+                    meslist.messages=[...v.messages,data];
 
                 }
+
+                console.log(555,meslist.messages);
+                // this.state.userData.map((a)=>{
+                //     if(v.id._id==data.roomId){
+                //         alert(211)
+                //         a.message = meslist.messages
+                //     }
+                //     this.setState({
+                //         userDat:this.state.userData
+                //     })
+                // })
+
+
+            })
+
+
+
+
+
+
+            let newarr=this.state.userData.filter((item)=>{return item.id._id!==data.roomId})
+            // console.log('null',meslist);
+            let alllist=[meslist,...newarr]
+            // console.log('dda12323',alllist);
+
+            this.setState({
+                userData:alllist
             })
 
 
@@ -77,7 +96,7 @@ class Chat extends React.Component {
 
     _onMessageWasSent(message) {
 
-        window.socket.emit('transfer',{id:this.state.id,content:message.data.text, })
+        window.socket.emit('transfer',{roomId:this.state.id,content:message.data.text, token:localStorage.getItem('token'),role:localStorage.getItem('role'),socketId:this.state.socketId?this.state.socketId:''})
 
         // this.setState({
         //
@@ -103,10 +122,12 @@ class Chat extends React.Component {
     }
 
     ll(){
+        let arr=[]
         this.state.userData.map((v,i)=>{
-            let arr=[]
-            if(v.id.email==this.state.email){
-
+            console.log(9898123,v);
+            //console.log(9898321,this.state.email);
+            if((v.id.email?v.id.email:v)==this.state.email){
+                console.log(98981,v);
 
                 v.messages.map((v,i)=>{
 
@@ -117,17 +138,16 @@ class Chat extends React.Component {
                     arr[i].data.text=v.content;
                     arr[i].email=this.state.email;
                 })
-                console.log(654654,arr);
-                return arr
+
             }
-            console.log(654,arr);
-            return arr
+
+
         })
-        return
+        return arr
     }
 
     chatWho(e){
-        console.log('dian',e);
+        //console.log('dian',e);
 
         // this.ll()
         this.state.userData.map((v,i)=>{
@@ -156,24 +176,19 @@ class Chat extends React.Component {
 
     }
 
-    xxx(alldata){
-        alldata
-        this.state.currId
-        return
-    }
 
     render(){
-        console.log(999,this.state.userData);
-        console.log(111111111,this.ll());
+        // console.log(999,this.state.userData);
+        // console.log(111111111,this.ll());
         return(
             <div className={style.wlop}>
                 <div className={style.chatList}>
-                    <SideMenu userData={this.state.userData} page={this.chatWho.bind(this)}/>
+                    <SideMenu userData={this.state.userData} page={this.chatWho.bind(this)} active={this.state.active}/>
                 </div>
                 <div className={style.chatContent}>
                     <Launcher
                         agentProfile={{
-                            teamName: 'react-live-chat',
+                            teamName: this.state.email,
                             imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
                         }}
                         onMessageWasSent={this._onMessageWasSent.bind(this)}
