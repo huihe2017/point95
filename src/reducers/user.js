@@ -50,6 +50,7 @@ export default function sign(state = initialState, action = {}) {
             localStorage.removeItem('userName')
             localStorage.removeItem('role')
             localStorage.removeItem('meslist')
+            localStorage.removeItem('id')
             // localStorage.removeItem('MT4')
             // localStorage.removeItem('status')
             // localStorage.removeItem('address')

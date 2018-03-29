@@ -222,6 +222,71 @@ class Header extends React.Component {
         }
     }
 
+    isManage1(){
+
+        if(localStorage.getItem('role')==1){
+            return(
+                    <div>
+                        <div className={style.linet}>
+
+                        </div>
+                        <span  >
+                                        <Link to="/">
+                                            <FormattedMessage
+                                                id='home'
+                                                defaultMessage='首页'
+                                            />
+                                        </Link>
+                                    </span>
+                        <span  >
+                                        <Link to="/aboutUs">
+                                            <FormattedMessage
+                                                id='contactUs' defaultMessage='联系我们'/>
+                                        </Link>
+                                    </span>
+
+
+                    </div>
+
+                    )
+        }else {
+            return(
+
+                    <div>
+                        <div className={style.linet}>
+
+                        </div>
+                        <span  >
+                                        <Link to="/">
+                                            <FormattedMessage
+                                                id='home'
+                                                defaultMessage='首页'
+                                            />
+                                        </Link>
+                                    </span>
+                        <span  >
+                                        <Link to="/aboutUs">
+                                            <FormattedMessage
+                                                id='contactUs' defaultMessage='联系我们'/>
+                                        </Link>
+                                    </span>
+                        <span onClick={this.showModal}>
+                                        {/*<Link to="/aboutUs">*/}
+                            {/*<FormattedMessage*/}
+                            {/*id='contactUs' defaultMessage=/>*/}
+                            {/*</Link>*/}
+                            联系管理员
+                                    </span>
+                        {/*<span >*/}
+                        {/*<Link to="/DolphinSchool">海豚学院</Link>*/}
+                        {/*</span>*/}
+                    </div>
+
+                )
+        }
+
+    }
+
     componentDidMount(){
         let that=this
         let socket=io.connect("ws://192.168.100.105:8000");
@@ -246,21 +311,18 @@ class Header extends React.Component {
             }})
             .then(function (response) {
                 console.log(957,response.data.result);
-                console.log(957,localStorage.getItem('userName'));
+                console.log(957,localStorage.getItem('id'));
                 let newarr=response.data.result.filter((item)=>{return item.id.email==localStorage.getItem('userName')})
             // console.log(597,newarr)
-                that.setState({
-                    email:response.data.result[0].id.email
-                })
                 let arr=[]
                 newarr[0].messages.map((v,i)=>{
 
                     arr[i]={}
-                    arr[i].author=that.state.email==localStorage.getItem('userName')?'me':'them';
+                    arr[i].author=v.sender==localStorage.getItem('id')?'me':'them';
                     arr[i].type='text';
                     arr[i].data={}
                     arr[i].data.text=v.content;
-                    arr[i].email='';
+                    arr[i].email=v.sender==localStorage.getItem('id')?'':'管理员';
                 })
                 that.setState({
                     messageList:arr
@@ -314,61 +376,12 @@ class Header extends React.Component {
                     {
                         this.state.otherStyle ?
                             <div className={style.headnav}>
-                                <div>
-                                    <div className={style.linet}>
+                                {this.isManage1()}
+                            </div>
 
-                                    </div>
-                                    <span  >
-                                        <Link to="/">
-                                            <FormattedMessage
-                                            id='home'
-                                            defaultMessage='首页'
-                                        />
-                                        </Link>
-                                    </span>
-                                    <span  >
-                                        <Link to="/aboutUs">
-                                            <FormattedMessage
-                                                id='contactUs' defaultMessage='联系我们'/>
-                                        </Link>
-                                    </span>
-                                    <span onClick={this.showModal}>
-                                        {/*<Link to="/aboutUs">*/}
-                                            {/*<FormattedMessage*/}
-                                                {/*id='contactUs' defaultMessage=/>*/}
-                                        {/*</Link>*/}
-                                        联系管理员
-                                    </span>
-                                    {/*<span >*/}
-                                        {/*<Link to="/DolphinSchool">海豚学院</Link>*/}
-                                    {/*</span>*/}
-                                </div>
-                            </div>:
+                            :
                             <div className={style.headnavt}>
-                                <div>
-                                    <div className={style.linet}>
-                                    </div>
-                                    <span >
-                                        <Link to="/">
-                                            <FormattedMessage
-                                                id='home'
-                                                defaultMessage='首页'
-                                            /></Link>
-                                    </span>
-                                    <span >
-                                        <Link to="/aboutUs"><FormattedMessage
-                                            id='contactUs' defaultMessage='联系我们'/></Link>
-                                    </span>
-                                    <span onClick={this.showModal}>
-                                        {/*<Link to="/aboutUs">*/}
-                                        {/*<FormattedMessage*/}
-                                        {/*id='contactUs' defaultMessage=/>*/}
-                                        {/*</Link>*/}
-                                        联系管理员
-                                    </span>
-
-                                </div>
-
+                                {this.isManage1()}
                             </div>
                     }
                     <Modal

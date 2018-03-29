@@ -47,16 +47,24 @@ class Chat extends React.Component {
 
                 }
 
-                console.log(555,meslist.messages);
-                // this.state.userData.map((a)=>{
-                //     if(v.id._id==data.roomId){
-                //         alert(211)
-                //         a.message = meslist.messages
-                //     }
-                //     this.setState({
-                //         userDat:this.state.userData
-                //     })
-                // })
+
+                console.log(555,meslist.messages!==undefined);
+                if(meslist.messages!==undefined){
+                    let newUserData= this.state.userData
+                    newUserData.map((v,i)=>{
+                        if(v.id._id==data.roomId){
+                            // alert(211)
+                            v.messages = meslist.messages
+
+                        }
+
+                    })
+                    console.log(684,newUserData);
+                    this.setState({
+                        userData:newUserData
+                    })
+                }
+
 
 
             })
@@ -66,14 +74,14 @@ class Chat extends React.Component {
 
 
 
-            let newarr=this.state.userData.filter((item)=>{return item.id._id!==data.roomId})
-            // console.log('null',meslist);
-            let alllist=[meslist,...newarr]
-            // console.log('dda12323',alllist);
-
-            this.setState({
-                userData:alllist
-            })
+            // let newarr=this.state.userData.filter((item)=>{return item.id._id!==data.roomId})
+            // // console.log('null',meslist);
+            // let alllist=[meslist,...newarr]
+            // // console.log('dda12323',alllist);
+            //
+            // this.setState({
+            //     userData:alllist
+            // })
 
 
         })
@@ -96,7 +104,7 @@ class Chat extends React.Component {
 
     _onMessageWasSent(message) {
 
-        console.log(this.state.id);
+        // console.log(this.state.id);
         window.socket.emit('transfer',{roomId:this.state.id,content:message.data.text, token:localStorage.getItem('token'),role:localStorage.getItem('role'),socketId:this.state.socketId?this.state.socketId:''})
 
         // this.setState({
@@ -122,9 +130,9 @@ class Chat extends React.Component {
         }
     }
 
-    ll(){
+    ll(e){
         let arr=[]
-        this.state.userData.map((v,i)=>{
+        e.map((v,i)=>{
             console.log(9898123,v);
             //console.log(9898321,this.state.email);
             if((v.id.email?v.id.email:v)==this.state.email){
@@ -133,7 +141,7 @@ class Chat extends React.Component {
                 v.messages.map((v,i)=>{
 
                     arr[i]={}
-                    arr[i].author=v._id==localStorage.getItem('id')?'me':'them';
+                    arr[i].author=v.sender==localStorage.getItem('id')?'me':'them';
                     arr[i].type='text';
                     arr[i].data={}
                     arr[i].data.text=v.content;
@@ -194,7 +202,7 @@ class Chat extends React.Component {
                             imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
                         }}
                         onMessageWasSent={this._onMessageWasSent.bind(this)}
-                        messageList={this.ll()}
+                        messageList={this.ll(this.state.userData)}
                         showEmoji={false}
                     />
                 </div>
