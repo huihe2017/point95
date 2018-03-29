@@ -80,19 +80,18 @@ class Header extends React.Component {
 
         this.choceType();
 
-        axios.get('http://192.168.100.105:8000/roomList', {
-            params:{
-                token:localStorage.getItem('token')
-            }})
-            .then(function (response) {
-                console.log('lalalal',response.data.result);
-                that.setState({
-                    userData:response.data.result
-                })
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
+        // axios.get('http://192.168.100.105:8000/roomList', {
+        //     params:{
+        //         token:localStorage.getItem('token')
+        //     }})
+        //     .then(function (response) {
+        //         that.setState({
+        //             userData:response.data.result
+        //         })
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error)
+        //     });
     }
 
 
@@ -224,6 +223,7 @@ class Header extends React.Component {
     }
 
     componentDidMount(){
+        let that=this
         let socket=io.connect("ws://192.168.100.105:8000");
         socket.on('connected',(data)=>{
             if(localStorage.getItem('role')==1){
@@ -232,12 +232,44 @@ class Header extends React.Component {
 
         })
 
+
         socket.on('message',(data)=>{
             console.log('message');
             //this.props.shenList()
         })
 
         window.socket = socket
+
+        axios.get('http://192.168.100.105:8000/roomList', {
+            params:{
+                token:localStorage.getItem('token')
+            }})
+            .then(function (response) {
+                console.log(957,response.data.result);
+                console.log(957,localStorage.getItem('userName'));
+                let newarr=response.data.result.filter((item)=>{return item.id.email==localStorage.getItem('userName')})
+            // console.log(597,newarr)
+                that.setState({
+                    email:response.data.result[0].id.email
+                })
+                let arr=[]
+                newarr[0].messages.map((v,i)=>{
+
+                    arr[i]={}
+                    arr[i].author=that.state.email==localStorage.getItem('userName')?'me':'them';
+                    arr[i].type='text';
+                    arr[i].data={}
+                    arr[i].data.text=v.content;
+                    arr[i].email='';
+                })
+                that.setState({
+                    messageList:arr
+                })
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
+
     }
     _onMessageWasSent(message) {
 
@@ -266,7 +298,7 @@ class Header extends React.Component {
     }
 
     render() {
-
+        // console.log(this.state.messageList);
         return (
             <div>
                 <div
