@@ -17,7 +17,8 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import { IntlProvider,addLocaleData,FormattedMessage } from 'react-intl';
 import {Launcher} from '../../components/chat'
-import '../../components/main.css'
+import '../../components/styles3'
+// import {Launcher} from 'react-chat-window'
 import webLink from '../../common/webLink'
 moment.locale('en');
 
@@ -78,7 +79,6 @@ class Header extends React.Component {
         }else {
             this.warning()
         }
-
 
     }
     componentWillMount() {

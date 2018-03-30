@@ -10,6 +10,7 @@
   border-radius: 50%;
   box-shadow: none;
   transition: box-shadow 0.2s ease-in-out;
+  display: none;
 }
 
 .sc-launcher:before {
@@ -30,12 +31,14 @@
   right: 25px;
   bottom: 25px;
   transition: opacity 100ms ease-in-out, transform 100ms ease-in-out;
+  display: none;
 }
 
 .sc-launcher .sc-closed-icon {
   transition: opacity 100ms ease-in-out, transform 100ms ease-in-out;
   width: 60px;
   height: 60px;
+  display: none;
 }
 
 .sc-launcher .sc-open-icon {

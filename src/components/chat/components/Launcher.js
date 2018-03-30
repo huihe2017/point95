@@ -40,7 +40,7 @@ var Launcher = function (_Component) {
 
     _this.state = {
       launcherIcon: _logoNoBg2.default,
-      isOpen: false
+      isOpen: true
     };
     return _this;
   }

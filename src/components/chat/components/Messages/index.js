@@ -52,9 +52,7 @@ var Message = function (_Component) {
       _react2.default.createElement(
         'div',
         { className: contentClassList.join(" ") },
-        _react2.default.createElement('div', { className: 'sc-message--avatar', style: {
-            backgroundImage: 'url(' + _chatIcon2.default + ')'
-          } }),
+          this.props.message.author === "me" ?'':this.props.message.email,
         this._renderMessageOfType(this.props.message.type)
       )
     );

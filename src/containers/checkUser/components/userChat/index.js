@@ -1,6 +1,7 @@
 import React from "react";
 import io from 'socket.io-client'
-import {Launcher} from 'react-chat-window'
+import {Launcher} from '../../../../components/chat'
+import '../../../../components/styles3'
 import style from './index.css'
 import SideMenu from './sideMenu'
 import axios from "../../../../common/axiosConf";

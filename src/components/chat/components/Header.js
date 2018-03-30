@@ -31,19 +31,7 @@ var Header = function (_Component) {
     return _react2.default.createElement(
       'div',
       { className: 'sc-header' },
-      _react2.default.createElement('img', { className: 'sc-header--img', src: this.props.imageUrl, alt: '' }),
-      _react2.default.createElement(
-        'div',
-        { className: 'sc-header--team-name' },
-        ' ',
-        this.props.teamName,
-        ' '
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'sc-header--close-button', onClick: this.props.onClose },
-        _react2.default.createElement('img', { src: _closeIcon2.default, alt: '' })
-      )
+      ''
     );
   };
 

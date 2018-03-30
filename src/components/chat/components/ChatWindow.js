@@ -49,14 +49,14 @@ var ChatWindow = function (_Component) {
 
   ChatWindow.prototype.render = function render() {
     var messageList = this.props.messageList || [];
-    var classList = ["sc-chat-window", this.props.isOpen ? "opened" : "closed"];
+    var classList = ["sc-chat-windows", this.props.isOpen ? "opened" : "closed"];
     return _react2.default.createElement(
       'div',
       { className: classList.join(' ') },
       _react2.default.createElement(_Header2.default, {
-        teamName: this.props.agentProfile.teamName,
-        imageUrl: this.props.agentProfile.imageUrl,
-        onClose: this.props.onClose
+        // teamName: this.props.agentProfile.teamName,
+        // imageUrl: this.props.agentProfile.imageUrl,
+        // onClose: this.props.onClose
       }),
       _react2.default.createElement(_MessageList2.default, {
         messages: messageList,
