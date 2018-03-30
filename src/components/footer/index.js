@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 import ImportPwd from '../header/components/importPwd'
 import { IntlProvider,addLocaleData,FormattedMessage } from 'react-intl';
 
+
 class Footer extends React.Component {
     constructor(props) {
         console.log(hashHistory)
@@ -21,10 +22,11 @@ class Footer extends React.Component {
             <div className={style.footer}>
                 <div className={style.blueLine}></div>
                 <p className={style.foottitle}>
-                    免责声明
+                    <FormattedMessage id='disclaimer' defaultMessage='免责声明'/>
                 </p>
                 <p className={style.footcon}>
-                    本网站提供的信息是严格的意见，八角策略有限公司（“公司”），是专为信息的目的并不是要解释，在任何情况下，以暗示或其他方式，如出售要约或招揽购买或 <br/>交易的任何商品或证券或其他资产。信息来源于被认为是可靠的，但决不保证。没有任何保证是隐含的或可能的，对未来条件的预测是尝试的。
+                    <FormattedMessage id='disclaimer1' defaultMessage=''/><br/><FormattedMessage id='disclaimer2' defaultMessage=''/><br/><FormattedMessage id='disclaimer3' defaultMessage=''/>
+
                 </p>
                 <div className={style.footline}>
 

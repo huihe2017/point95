@@ -11,6 +11,7 @@ import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } fro
 import {forgetPwdSet} from "../../../../actions/user";
 import {hideAuth, showLogin} from "../../../../actions/auth";
 import {connect} from "react-redux";
+import webLink from '../../../../common/webLink'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -37,7 +38,7 @@ class UserData extends React.Component {
     componentWillMount(){
         var that=this;
         //获取初级认证的资料
-        axios.get('http://192.168.100.105:8000/primaryAuthMsg', {params:{
+        axios.get(`${webLink}/primaryAuthMsg`, {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
             if (response.data.code === 0) {
@@ -211,7 +212,7 @@ class UserData extends React.Component {
             if (!err) {
                 //提交初级认证资料
                 //console.log(147,this.state);
-                axios.post('http://192.168.100.105:8000/primaryAuth',
+                axios.post(`${webLink}/primaryAuth`,
                     {
                         frontCard: this.state.url,
                         backCard: this.state.url1,

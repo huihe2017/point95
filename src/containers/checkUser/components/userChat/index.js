@@ -4,6 +4,7 @@ import {Launcher} from 'react-chat-window'
 import style from './index.css'
 import SideMenu from './sideMenu'
 import axios from "../../../../common/axiosConf";
+import webLink from "../../../../common/webLink";
 
 const messageHistory = [];
 
@@ -12,7 +13,8 @@ class Chat extends React.Component {
         super(props);
         this.state = {
             messageList : messageHistory,
-            userData:[]
+            userData:[],
+            id:''
         }
     }
 
@@ -38,7 +40,6 @@ class Chat extends React.Component {
                 })
 
                 if(v.id._id==data.roomId){
-                    // console.log(657,v.messages);
                     meslist.id={}
                     meslist.id._id=data.roomId;
                     meslist.id.email=v.id.email;
@@ -47,21 +48,16 @@ class Chat extends React.Component {
 
                 }
 
-
-                console.log(555,meslist.messages!==undefined);
                 if(meslist.messages!==undefined){
                     let newUserData= this.state.userData
                     newUserData.map((v,i)=>{
                         if(v.id._id==data.roomId){
-                            // alert(211)
                             v.messages = meslist.messages
-
                         }
-
                     })
-                    console.log(684,newUserData);
                     this.setState({
-                        userData:newUserData
+                        userData:newUserData,
+
                     })
                 }
 
@@ -88,13 +84,15 @@ class Chat extends React.Component {
 
         window.socket = socket
 
-        axios.get('http://192.168.100.105:8000/roomList', {
+        axios.get(`${webLink}/roomList`, {
             params:{
                 token:localStorage.getItem('token')
             }})
             .then(function (response) {
+                // console.log(1111,response.data.result[0].id._id);
                 that.setState({
-                    userData:response.data.result
+                    userData:response.data.result,
+                    id:response.data.result[0].id._id
                 })
             })
             .catch(function (error) {
@@ -104,9 +102,36 @@ class Chat extends React.Component {
 
     _onMessageWasSent(message) {
 
-        // console.log(this.state.id);
+
         window.socket.emit('transfer',{roomId:this.state.id,content:message.data.text, token:localStorage.getItem('token'),role:localStorage.getItem('role'),socketId:this.state.socketId?this.state.socketId:''})
 
+        console.log(696,message);
+        console.log(696,this.state.socketId);
+        console.log(696,localStorage.getItem('id'));
+        let newmes={}
+        newmes.content=  message.data.text;
+        newmes.sender=localStorage.getItem('id');
+        newmes.receiver=this.state.id;
+        let mes={};
+        this.state.userData.map((v,i)=> {
+            if(v.id._id==this.state.id) {
+                mes.id = {}
+                mes.id._id = this.state.id;
+                mes.id.email = this.state.email;
+                mes.messages = [...v.messages, newmes];
+            }
+            if(mes.messages!==undefined){
+                let newUserData= this.state.userData
+                newUserData.map((v,i)=>{
+                    if(v.id._id==this.state.id){
+                        v.messages = mes.messages
+                    }
+                })
+                this.setState({
+                    userData:newUserData
+                })
+            }
+        })
         // this.setState({
         //
         //
@@ -132,26 +157,43 @@ class Chat extends React.Component {
 
     ll(e){
         let arr=[]
-        e.map((v,i)=>{
-            console.log(9898123,v);
-            //console.log(9898321,this.state.email);
-            if((v.id.email?v.id.email:v)==this.state.email){
-                console.log(98981,v);
+        if(!this.state.email){
 
-                v.messages.map((v,i)=>{
-
+            if(e.length>0){
+                // console.log(659,e[0].id.email);
+                e[0].messages.map((v,i)=>{
                     arr[i]={}
                     arr[i].author=v.sender==localStorage.getItem('id')?'me':'them';
                     arr[i].type='text';
                     arr[i].data={}
                     arr[i].data.text=v.content;
-                    arr[i].email=this.state.email;
+                    arr[i].email=e[0].id.email;
                 })
-
             }
+        }else {
+            e.map((v,i)=>{
+                // console.log(9898123,v);
+                //console.log(9898321,this.state.email);
+                if((v.id.email?v.id.email:v)==this.state.email){
+                    // console.log(98981,v);
+
+                    v.messages.map((v,i)=>{
+
+                        arr[i]={}
+                        arr[i].author=v.sender==localStorage.getItem('id')?'me':'them';
+                        arr[i].type='text';
+                        arr[i].data={}
+                        arr[i].data.text=v.content;
+                        arr[i].email=this.state.email;
+                    })
+
+                }
 
 
-        })
+            })
+        }
+
+
         return arr
     }
 
@@ -198,7 +240,7 @@ class Chat extends React.Component {
                 <div className={style.chatContent}>
                     <Launcher
                         agentProfile={{
-                            teamName: this.state.email,
+
                             imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
                         }}
                         onMessageWasSent={this._onMessageWasSent.bind(this)}

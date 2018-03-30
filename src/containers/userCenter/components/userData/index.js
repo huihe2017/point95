@@ -4,8 +4,8 @@ import style from './index.css';
 import axios from  '../../../../common/axiosConf';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import webLink from '../../../../common/webLink'
 moment.locale('zh-cn');
-
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -25,7 +25,7 @@ class UserData extends React.Component {
     componentWillMount(){
         var that=this;
         //获取自处资料的信息
-        axios.get('http://192.168.100.105:8000/baseMsg', {params:{
+        axios.get(`${webLink}/baseMsg`, {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
             if (response.data.code === 0) {
@@ -53,7 +53,7 @@ class UserData extends React.Component {
             if (!err) {
 
                 //修改基础资料的提交
-                axios.post('http://192.168.100.105:8000/editBaseMsg', {
+                axios.post(`${webLink}/editBaseMsg`, {
                     nickname: values.nickname,
                     birthday: values.birthday._d,
                     gender: values.gender,

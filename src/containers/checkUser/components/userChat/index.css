@@ -6,10 +6,12 @@
     margin-top: 10px;
 }
 :local(.chatList){
-    width: 400px;
+    width: 300px;
     float: left;
 }
 :local(.chatContent){
     width: 800px;
     float: left;
+    margin-left: 50px;
+    padding-bottom: 20px;
 }

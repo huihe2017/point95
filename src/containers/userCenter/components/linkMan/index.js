@@ -2,6 +2,8 @@ import React from "react";
 import style from "./index.css";
 import qiniu from "qiniu";
 import axios from  '../../../../common/axiosConf'
+import webLink from  '../../../../common/webLink'
+
 import { message } from 'antd';
 
 class LinkMan extends React.Component{
@@ -9,7 +11,7 @@ class LinkMan extends React.Component{
         var that=this;
 
         //获取高级认证的资料
-        axios.get('http://192.168.100.105:8000/primaryAuthMsg', {params:{
+        axios.get(`${webLink}/primaryAuthMsg`, {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
             if(response.data.result["0"].primaryCertified==3){

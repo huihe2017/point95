@@ -37,6 +37,26 @@
 :local(.headnav){
     float: left;
 }
+:local(.language){
+    color: #fff;
+    padding-right: 24px;
+    border-right: 1px solid rgba(59,61,64,.5);
+    float: right;
+}:local(.languaget){
+    color: #656b6f;
+    padding-right: 24px;
+    border-right: 1px solid rgba(59,61,64,.5);
+    float: right;
+}
+:local(.hover){
+    line-height: 68px;
+    display: inline-block;
+    width: 100px;
+    float: right;
+
+
+
+}
 :local(.headnavt){
     float: left;
 }
@@ -133,3 +153,9 @@
 :local(.chatBox){
     margin: -16px;
 }
+a:hover {
+    /* color: #49a9ee; */
+}
+/*.sc-launcher{*/
+    /*display: none!important;*/
+/*}*/

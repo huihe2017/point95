@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Table,  Modal,Popconfirm,Input,Form  } from 'antd'
 import style from './index.css';
 import axios from  '../../../../common/axiosConf'
+import webLink from  '../../../../common/webLink'
 import Countdown from '../../../../components/countdown/index'
 import Toast from 'antd-mobile/lib/toast';
 import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
@@ -33,7 +34,7 @@ class Check extends React.Component {
 
         var that=this;
         //获取自处资料的信息
-        axios.get('http://192.168.100.105:8000/verifyList', {params:{
+        axios.get(`${webLink}/verifyList`, {params:{
                 token:localStorage.getItem('token')
             }})
             .then(function (response) {
@@ -82,7 +83,7 @@ class Check extends React.Component {
         var that=this;
         console.log(this.state.data[i])
         if(this.state.data["0"].primaryCertified==1){
-            axios.post('http://192.168.100.105:8000/primaryVerify',
+            axios.post(`${webLink}/primaryVerify`,
                 {
                     email:this.state.data[i].email,
                     token:localStorage.getItem('token'),
@@ -99,7 +100,7 @@ class Check extends React.Component {
                     console.log(error)
                 });
         }else if(this.state.data["0"].seniorCertified==1){
-            axios.post('http://192.168.100.105:8000/seniorVerify',
+            axios.post(`${webLink}/seniorVerify`,
                 {
                     email:this.state.data[i].email,
                     token:localStorage.getItem('token'),
@@ -137,7 +138,7 @@ class Check extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 if(this.state.data["0"].primaryCertified==1){
-                    axios.post('http://192.168.100.105:8000/primaryVerify',
+                    axios.post(`${webLink}/primaryVerify`,
                         {
                             email:this.state.data[i].email,
                             token:localStorage.getItem('token'),
@@ -155,7 +156,7 @@ class Check extends React.Component {
                             console.log(error)
                         });
                 }else if(this.state.data["0"].seniorCertified==1){
-                    axios.post('http://192.168.100.105:8000/seniorVerify',
+                    axios.post(`${webLink}/seniorVerify`,
                         {
                             email:this.state.data[i].email,
                             token:localStorage.getItem('token'),

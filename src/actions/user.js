@@ -1,11 +1,12 @@
 import axios from '../common/axiosConf'
+import webLink from '../common/webLink'
 import { hashHistory } from 'react-router'
 import { message } from 'antd';
 import Toast from 'antd-mobile/lib/toast';
 //登陆
 export function login(data, callback) {
     return dispatch => {
-        axios.post('http://192.168.100.105:8000/login', {
+        axios.post(`${webLink}/login`, {
             email: data.email,
             pwd: data.pwd,
             code: data.code
@@ -69,7 +70,7 @@ export function modifyPwd(data, callback) {
 //注册
 export function register(data, callback) {
     return dispatch => {
-        axios.post('http://192.168.100.105:8000/regist', {
+        axios.post(`${webLink}/regist`, {
             email: data.email,
             pwd: data.pwd,
             code: data.code
@@ -108,7 +109,7 @@ export function postBaseUserMsg(data, callback) {
 //获取初级认证资料
 export function getDetailMsg(data, callback) {
     return dispatch => {
-        axios.get('http://192.168.100.105:8000/primaryAuthMsg', {
+        axios.get(`${webLink}/primaryAuthMsg`, {
             params:{
                 token:localStorage.getItem('token')
             }})
@@ -123,7 +124,7 @@ export function getDetailMsg(data, callback) {
 
 export function resetPwd(data, callback) {
     return dispatch => {
-        axios.post('http://192.168.100.105:8000/forgetPwd', {
+        axios.post(`${webLink}/forgetPwd`, {
             email: data.email,
             // pwd: data.pwd,
             code: data.code
@@ -147,7 +148,7 @@ export function resetPwd(data, callback) {
 
 export function forgetPwdSet(data, callback) {
     return dispatch => {
-        axios.post('http://192.168.100.105:8000/forgetPwdSet', {
+        axios.post(`${webLink}/forgetPwdSet`, {
             pwd: data.pwd,
             // pwd: data.pwd,
             token: data.token,
@@ -200,7 +201,7 @@ export function forgetPwdSet(data, callback) {
 
 export function getCaptcha(data, callback) {
     return dispatch => {
-        axios.post('http://192.168.100.105:8000/forgetPwdSet', {
+        axios.post(`${webLink}/forgetPwdSet`, {
             pwd: data.pwd,
             // pwd: data.pwd,
             token: data.token,

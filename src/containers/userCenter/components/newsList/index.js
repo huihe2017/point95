@@ -7,6 +7,7 @@ import ContentList from '../../../../components/contentList'
 import ToolBar from '../../../../components/toolBar'
 import Crumb from '../../../../components/crumbs'
 import axios from  '../../../../common/axiosConf';
+import webLink from  '../../../../common/webLink';
 import {showLogin} from '../../../../actions/auth'
 import {bindActionCreators} from 'redux'
 import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
@@ -27,7 +28,7 @@ class NewsLink extends React.Component {
     componentWillMount(){
         var that=this;
         //获取自处资料的信息
-        axios.get('http://192.168.100.105:8000/message', {params:{
+        axios.get(`${webLink}/message`, {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
 

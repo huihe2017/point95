@@ -73,23 +73,23 @@ class PartnerEntry extends React.Component {
                         <Tabs type="card">
                             <TabPane tab={
                                 <div className={style.tapcard}>
-                                    <span className={style.tapword}>用户审核</span></div>} key="1" >
+                                    <span className={style.tapword}><FormattedMessage id='userCheckList' defaultMessage='用户审核'/></span></div>} key="1" >
                                 <Check/>
 
                             </TabPane>
                             <TabPane tab={<div className={style.tapcard}>
-                                <span className={style.tapword} >审核历史</span>
+                                <span className={style.tapword} ><FormattedMessage id='checkHistory' defaultMessage='审核历史'/></span>
                             </div>} key="2">
                                 <CheckHistory/>
                             </TabPane>
                             <TabPane tab={
                                 <div className={style.tapcard}>
-                                    <span className={style.tapword}>用户聊天</span>
+                                    <span className={style.tapword}><FormattedMessage id='userChat' defaultMessage='用户聊天'/></span>
                                 </div>} key="3">
                                 <Chat/>
                             </TabPane>
                             <TabPane tab={<div className={style.tapcard}>
-                                <span className={style.tapword} style={{borderRight:'none'}}>发送邮件</span>
+                                <span className={style.tapword} style={{borderRight:'none'}}><FormattedMessage id='sendMail' defaultMessage='发送邮件'/></span>
                             </div>} key="4">
                                 <SendEmail/>
                             </TabPane>

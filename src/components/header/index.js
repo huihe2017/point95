@@ -9,15 +9,18 @@ import {logout} from '../../actions/user'
 import LoginBox from './components/loginBox'
 import RegisterBox from './components/registerBox'
 import ResetPwdBox from './components/resetPwdBox'
-import { Badge,message,Radio,Button,Modal  } from 'antd';
+import { Badge,message,Radio,Button,Modal,Menu, Dropdown, Icon  } from 'antd';
 import io from 'socket.io-client'
 import axios from  '../../common/axiosConf'
 import enUS from 'antd/lib/locale-provider/en_US';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import { IntlProvider,addLocaleData,FormattedMessage } from 'react-intl';
-import {Launcher} from 'react-chat-window'
+import {Launcher} from '../../components/chat'
+import '../../components/main.css'
+import webLink from '../../common/webLink'
 moment.locale('en');
+
 
 
 const ButtonGroup = Button.Group;
@@ -41,11 +44,45 @@ class Header extends React.Component {
     }
 
     showModal = () => {
-        this.setState({
-            visible: true,
-        });
+        let that=this
+        if(localStorage.getItem('token')){
+            axios.get(`${webLink}/roomList`, {
+                params:{
+                    token:localStorage.getItem('token')
+                }})
+                .then(function (response) {
+                    console.log(957,response.data.result);
+                    console.log(957,localStorage.getItem('id'));
+                    let newarr=response.data.result.filter((item)=>{return item.id.email==localStorage.getItem('userName')})
+                    // console.log(597,newarr)
+                    let arr=[]
+                    newarr[0].messages.map((v,i)=>{
+
+                        arr[i]={}
+                        arr[i].author=v.sender==localStorage.getItem('id')?'me':'them';
+                        arr[i].type='text';
+                        arr[i].data={}
+                        arr[i].data.text=v.content;
+                        arr[i].email=v.sender==localStorage.getItem('id')?'':<FormattedMessage id='admin' defaultMessage='管理员'/>;
+                    })
+                    that.setState({
+                        messageList:arr
+                    })
+                })
+                .catch(function (error) {
+                    console.log(error)
+                });
+            this.setState({
+                visible: true,
+            });
+        }else {
+            this.warning()
+        }
+
+
     }
     componentWillMount() {
+        console.log(process.env.NODE_ENV);
         var that=this;
         var llll=window.location.hash.slice(3, -10)
         if(llll.indexOf('email')>0&&llll.indexOf('token')==0){
@@ -54,7 +91,7 @@ class Header extends React.Component {
             var slisr=sli1.split("&");
             var slisr1=slisr[0].split("=");
             var slisr2=slisr[1].split("=");
-            axios.post('http://192.168.100.105:8000/active', {
+            axios.post(`${webLink}/active`, {
                 email:slisr2[1],
                 token:slisr1[1]
             }).then(function(response){
@@ -68,15 +105,15 @@ class Header extends React.Component {
                     console.log(22,err);
                 });
         }
-        axios.get('http://192.168.100.105:8000/unRead', {
-            params: {
-                token:localStorage.getItem('token')
-            }
-        }).then(function(response){
-            console.log(response);
-        }).catch(function(err){
-                console.log(err);
-            });
+        // axios.get('http://192.168.100.105:8000/unRead', {
+        //     params: {
+        //         token:localStorage.getItem('token')
+        //     }
+        // }).then(function(response){
+        //     console.log(response);
+        // }).catch(function(err){
+        //         console.log(err);
+        //     });
 
         this.choceType();
 
@@ -149,7 +186,7 @@ class Header extends React.Component {
     }
 
     changeLocale(e){
-        console.log('ee',e);
+        // console.log('ee',e);
     }
 
     openSlider = () => {
@@ -174,24 +211,24 @@ class Header extends React.Component {
                 return(<div><h5 className={style.authtp}>{this.props.user.userName}</h5>
 
                         <Link to="/userCenter">
-                            <Badge dot={localStorage.getItem('unReadMsg')==2?true:false}>
+                            {/*<Badge dot={localStorage.getItem('unReadMsg')==2?true:false}>*/}
                                 <h5 className={style.authtp}>
                                     <FormattedMessage
                                     id='userCenter'
                                     defaultMessage='用户中心'
                                 />
                                 </h5>
-                            </Badge>
+                            {/*</Badge>*/}
                         </Link>
 
                     <Link to="/checkUser" >
-                        <Badge dot={this.props.auth.shenList}>
+                        {/*<Badge dot={this.props.auth.shenList}>*/}
                         <h5 className={style.authtp}>
                             <FormattedMessage
                             id='userCheck'
                             defaultMessage='用户审核'
                         /></h5>
-                        </Badge>
+                        {/*</Badge>*/}
                     </Link>
 
                     <h5  className={style.authtp} onClick={this.logout} ><FormattedMessage
@@ -238,12 +275,12 @@ class Header extends React.Component {
                                             />
                                         </Link>
                                     </span>
-                        <span  >
-                                        <Link to="/aboutUs">
-                                            <FormattedMessage
-                                                id='contactUs' defaultMessage='联系我们'/>
-                                        </Link>
-                                    </span>
+                        {/*<span  >*/}
+                                        {/*<Link to="/aboutUs">*/}
+                                            {/*<FormattedMessage*/}
+                                                {/*id='contactUs' defaultMessage='联系我们'/>*/}
+                                        {/*</Link>*/}
+                                    {/*</span>*/}
 
 
                     </div>
@@ -264,19 +301,20 @@ class Header extends React.Component {
                                             />
                                         </Link>
                                     </span>
-                        <span  >
-                                        <Link to="/aboutUs">
-                                            <FormattedMessage
-                                                id='contactUs' defaultMessage='联系我们'/>
-                                        </Link>
-                                    </span>
-                        <span onClick={this.showModal}>
+                        {/*<span  >*/}
+                                        {/*<Link to="/aboutUs">*/}
+                                            {/*<FormattedMessage*/}
+                                                {/*id='contactUs' defaultMessage='联系我们'/>*/}
+                                        {/*</Link>*/}
+                                    {/*</span>*/}
+                       <span onClick={this.showModal}>
                                         {/*<Link to="/aboutUs">*/}
                             {/*<FormattedMessage*/}
                             {/*id='contactUs' defaultMessage=/>*/}
                             {/*</Link>*/}
-                            联系管理员
-                                    </span>
+                            <FormattedMessage
+                                id='contactAdmin' defaultMessage='联系管理员'/>
+                       </span>
                         {/*<span >*/}
                         {/*<Link to="/DolphinSchool">海豚学院</Link>*/}
                         {/*</span>*/}
@@ -289,48 +327,33 @@ class Header extends React.Component {
 
     componentDidMount(){
         let that=this
+
         let socket=io.connect("ws://192.168.100.105:8000");
         socket.on('connected',(data)=>{
-            if(localStorage.getItem('role')==1){
-                socket.emit('setAdmin',{name:55})
-            }
-
+            // if(localStorage.getItem('role')==1){
+            //     socket.emit('setAdmin',{name:55})
+            // }
+            socket.emit('setSocketId',{id:localStorage.getItem('id')})
         })
-
-
         socket.on('message',(data)=>{
-            console.log('message');
-            //this.props.shenList()
+            console.log(826548,data);
+            let newmes={}
+            newmes={}
+            newmes.author='them';
+            newmes.type='text';
+            newmes.data={}
+            newmes.data.text=data.content;
+            newmes.email=<FormattedMessage id='admin' defaultMessage='管理员'/>;
+                that.setState({
+                    messageList:[...that.state.messageList,newmes]
+                })
         })
+
+
 
         window.socket = socket
 
-        axios.get('http://192.168.100.105:8000/roomList', {
-            params:{
-                token:localStorage.getItem('token')
-            }})
-            .then(function (response) {
-                console.log(957,response.data.result);
-                console.log(957,localStorage.getItem('id'));
-                let newarr=response.data.result.filter((item)=>{return item.id.email==localStorage.getItem('userName')})
-            // console.log(597,newarr)
-                let arr=[]
-                newarr[0].messages.map((v,i)=>{
 
-                    arr[i]={}
-                    arr[i].author=v.sender==localStorage.getItem('id')?'me':'them';
-                    arr[i].type='text';
-                    arr[i].data={}
-                    arr[i].data.text=v.content;
-                    arr[i].email=v.sender==localStorage.getItem('id')?'':'管理员';
-                })
-                that.setState({
-                    messageList:arr
-                })
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
 
     }
     _onMessageWasSent(message) {
@@ -341,6 +364,13 @@ class Header extends React.Component {
         this.setState({
             messageList: [...this.state.messageList, message]
         })
+    }
+
+    warning() {
+        Modal.warning({
+            title: '提示',
+            content: '请先完成登录，再进行操作',
+        });
     }
 
     _sendMessage(text) {
@@ -361,6 +391,18 @@ class Header extends React.Component {
 
     render() {
         // console.log(this.state.messageList);
+
+        const menu = (
+            <Menu>
+                <Menu.Item key="0">
+                    <a target="_blank" rel="noopener noreferrer" onClick={this.tozh.bind(this)}>中文</a>
+                </Menu.Item>
+                <Menu.Item key="1">
+                    <a target="_blank" rel="noopener noreferrer" onClick={this.toen.bind(this)}>English</a>
+                </Menu.Item>
+            </Menu>
+        );
+
         return (
             <div>
                 <div
@@ -398,17 +440,13 @@ class Header extends React.Component {
                                 }}
                                 onMessageWasSent={this._onMessageWasSent.bind(this)}
                                 messageList={this.state.messageList}
-                                showEmoji
+                                showEmoji={false}
                             />
                         </div>
 
                     </Modal>
 
 
-                    <ButtonGroup>
-                        <Button onClick={this.tozh.bind(this)}>中文</Button>
-                        <Button onClick={this.toen.bind(this)}>English</Button>
-                    </ButtonGroup>
                     <div onMouseOver={this.openSlider} onMouseLeave={this.closeSlider} className={style.sider} hidden={true}>
                         全部导航
                         <SideBar show={this.state.open}/>
@@ -426,6 +464,19 @@ class Header extends React.Component {
                                 }
                             </div>
                     }
+                    <Dropdown overlay={menu}>
+                        <div className={style.hover}>
+                            {this.state.otherStyle ?
+                            <a className={style.languaget} href="javascript:void (0)">
+                                <FormattedMessage
+                                    id='language' defaultMessage='语言'/> <Icon type="down" />
+                            </a>:<a className={style.language} href="javascript:void (0)">
+                                    <FormattedMessage
+                                        id='language' defaultMessage='语言'/> <Icon type="down" />
+                                </a>}
+                        </div>
+
+                    </Dropdown>
 
 
                 </div>

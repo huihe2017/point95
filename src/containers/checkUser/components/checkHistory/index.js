@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Table,  Modal,Popconfirm,Radio  } from 'antd'
 import style from './index.css';
 import axios from  '../../../../common/axiosConf'
+import webLink from  '../../../../common/webLink'
 import Countdown from '../../../../components/countdown/index'
 import Toast from 'antd-mobile/lib/toast';
 import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
@@ -40,7 +41,7 @@ class CheckHistory extends React.Component {
 
         var that=this;
         //获取自处资料的信息
-        axios.get('http://192.168.100.105:8000/auditRecord', {params:{
+        axios.get(`${webLink}/auditRecord`, {params:{
                 token:localStorage.getItem('token')
             }})
             .then(function (response) {
@@ -104,7 +105,7 @@ class CheckHistory extends React.Component {
         var that=this;
         console.log(this.state.data[i])
         if(this.state.data["0"].primaryCertified==1){
-            axios.post('http://192.168.100.105:8000/primaryVerify',
+            axios.post(`${webLink}/primaryVerify`,
                 {
                     email:this.state.data[i].email,
                     token:localStorage.getItem('token'),
@@ -120,7 +121,7 @@ class CheckHistory extends React.Component {
                     console.log(error)
                 });
         }else if(this.state.data["0"].seniorCertified==1){
-            axios.post('http://192.168.100.105:8000/seniorVerify',
+            axios.post(`${webLink}/seniorVerify`,
                 {
                     email:this.state.data[i].email,
                     token:localStorage.getItem('token'),
@@ -214,6 +215,7 @@ class CheckHistory extends React.Component {
         const basicCheck = formatMessage({id:'basicCheck'});
         const advancedCheck = formatMessage({id:'advancedCheck'});
         const userCheck = formatMessage({id:'userCheck'});
+        const notReason = formatMessage({id:'notReason'});
 
         const columns = [
             { title: userCheck1, dataIndex: 'nickname', key: 'nickname',width:150},
@@ -228,9 +230,9 @@ class CheckHistory extends React.Component {
             <div className={style.wlop}>
                 <div className={style.radioGroup}>
                     <RadioGroup onChange={this.onChange} value={this.state.value}>
-                        <Radio value={1}>全选</Radio>
-                        <Radio value={2}>未通过</Radio>
-                        <Radio value={3}>已通过</Radio>
+                        <Radio value={1}><FormattedMessage id='all' defaultMessage='全部'/></Radio>
+                        <Radio value={2}><FormattedMessage id='noPass' defaultMessage='不通过'/></Radio>
+                        <Radio value={3}><FormattedMessage id='passed' defaultMessage='已通过'/></Radio>
                     </RadioGroup>
                 </div>
 
@@ -238,7 +240,7 @@ class CheckHistory extends React.Component {
                        columns={columns}
                        expandedRowRender={
 
-                           record => record.pass==2?'未通过理由：'+record.reason: null
+                           record => record.pass==2?notReason+record.reason: null
                        }
                        dataSource={this.state.data}
 

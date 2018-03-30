@@ -90,6 +90,8 @@
     color:rgba(168,168,168,1);
     line-height:18px;
     text-align: center;
+    width: 1200px;
+    margin: 0 auto;
 }
 :local(.footline){
     width:206px;

@@ -35,8 +35,10 @@ class SideMenu extends React.Component {
         //         current: '0',
         //     });
         // }
+        console.log(5555,this.props.userData);
         return (
-            <div style={{ width: 400 }}>
+
+            <div className={style.sidbox} >
 
                 <Menu
                     defaultSelectedKeys={['0']}

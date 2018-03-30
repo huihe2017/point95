@@ -1,18 +1,19 @@
 import React from "react";
 import { Table, Button } from 'antd';
-
+import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
 import style from './index.css'
 import axios from "../../../../common/axiosConf";
+import webLink from "../../../../common/webLink";
 
 
 const columns = [{
-    title: '账号',
+    title: <FormattedMessage id='userCheck2' defaultMessage='账号'/>,
     dataIndex: 'email',
 }, {
-    title: '注册时间',
+    title: <FormattedMessage id='createTime' defaultMessage='注册时间'/>,
     dataIndex: 'createAt',
 }, {
-    title: '审核等级',
+    title: <FormattedMessage id='userCheck3' defaultMessage='审核等级'/>,
     dataIndex: 'grade',
 }];
 
@@ -31,13 +32,13 @@ class SendEmail extends React.Component {
         super(props);
         this.state = {
             selectedRowKeys: [], // Check here to configure the default column
-            loading: false,
+
         };
     }
 
     componentWillMount(){
         let that=this
-        axios.get('http://192.168.100.105:8000/userList', {
+        axios.get(`${webLink}/userList`, {
             params:{
                 token:localStorage.getItem('token')
             }})
@@ -48,11 +49,11 @@ class SendEmail extends React.Component {
                     response.data.result[i].createAt=new Date( response.data.result[i].createAt).getFullYear()+'/'+mouth+'/'+new Date(response.data.result[i].createAt).getDate()
                     console.log(new Date(response.data.result[i].createAt).getFullYear()+'/'+new Date(response.data.result[i].createAt).getMonth()+'/'+new Date(response.data.result[i].createAt).getDate());
                     if(response.data.result[i].primaryCertified==3&&response.data.result[i].seniorCertified==3){
-                        response.data.result[i].grade='高级审核'
+                        response.data.result[i].grade=<FormattedMessage id='advancedCheck' defaultMessage='高级审核'/>
                     }else if(response.data.result[i].primaryCertified==3&&response.data.result[i].seniorCertified!==3){
-                        response.data.result[i].grade='初级审核'
+                        response.data.result[i].grade=<FormattedMessage id='basicCheck' defaultMessage='初级审核'/>
                     }else if(response.data.result[i].primaryCertified!==3&&response.data.result[i].seniorCertified!==3){
-                        response.data.result[i].grade='未审核'
+                        response.data.result[i].grade=<FormattedMessage id='unreviewed' defaultMessage='未审核'/>
                     }
                 })
 
@@ -66,15 +67,26 @@ class SendEmail extends React.Component {
             });
     }
 
-    start = () => {
-        this.setState({ loading: true });
+    start = (e) => {
+        console.log(this.state.selectedRowKeys)
+        console.log(this.state.userList[4]);
+        let arr=[]
+        this.state.selectedRowKeys.map((v,i)=>{
+            arr.push(this.state.userList[v].email)
+        })
+        console.log('hahah',arr.join(";"));
+        this.setState({
+            address:arr.join(";")
+        })
+
+
         // ajax request after empty completing
         setTimeout(() => {
             this.setState({
                 selectedRowKeys: [],
-                loading: false,
+
             });
-        }, 1000);
+        }, 2000);
     }
     onSelectChange = (selectedRowKeys) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
@@ -87,18 +99,24 @@ class SendEmail extends React.Component {
             onChange: this.onSelectChange,
         };
         const hasSelected = selectedRowKeys.length > 0;
+        const { intl: { formatMessage } } = this.props
+        const userCheck1 = formatMessage({id:'userCheck1'});
+        const selected = formatMessage({id:'selected'});
+        const items = formatMessage({id:'items'});
+
         return (
             <div>
-                <div style={{ marginBottom: 16 }}>
-                    <Button
-                        type="primary"
+                <div>
+                    <a
+                        className={style.btn}
                         onClick={this.start}
                         disabled={!hasSelected}
+                        href={"Mailto:"+this.state.address}
                     >
-                        Send
-                    </Button>
+                        <FormattedMessage id='send' defaultMessage='发送'/>
+                    </a>
                     <span style={{ marginLeft: 8 }}>
-            {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+            {hasSelected ? `${selected} ${selectedRowKeys.length} ${items}` : ''}
           </span>
                 </div>
                 <Table rowSelection={rowSelection} columns={columns} dataSource={this.state.userList} />
@@ -107,5 +125,5 @@ class SendEmail extends React.Component {
     }
 }
 
-export default SendEmail
+export default injectIntl(SendEmail)
 

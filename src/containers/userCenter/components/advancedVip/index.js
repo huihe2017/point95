@@ -5,6 +5,7 @@ import UploadImg from '../../../../components/uploadImg'
 import QQiniu from 'react-qiniu';
 import qiniu from "qiniu";
 import axios from  '../../../../common/axiosConf'
+import webLink from '../../../../common/webLink'
 import Countdown from '../../../../components/countdown/index'
 import Toast from 'antd-mobile/lib/toast';
 import moment from "moment/moment";
@@ -43,7 +44,7 @@ class AdvanVip extends React.Component {
         var that=this;
         console.log(moment(this.state.passportTime,dateFormat)._d=='Invalid Date')
         //获取高级认证的资料
-        axios.get('http://192.168.100.105:8000/seniorAuthMsg', {params:{
+        axios.get(`${webLink}/seniorAuthMsg`, {params:{
             token:localStorage.getItem('token')
         }}).then(function (response) {
             if (response.data.code === 0) {
@@ -196,7 +197,7 @@ class AdvanVip extends React.Component {
             if (!err) {
                 //提交初级认证资料
                 // console.log(this.state);
-                axios.post('http://192.168.100.105:8000/seniorAuth',
+                axios.post(`${webLink}/seniorAuth`,
                     {
                         passport: this.state.url,
                         token:localStorage.getItem('token'),
