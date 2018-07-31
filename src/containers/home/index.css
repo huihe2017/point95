@@ -250,7 +250,7 @@
     text-align: center;
 }
 :local(.concontent){
-    width: 630px;
+    width: 440px;
     margin: 0 auto;
     font-size: 48px;
     color: rgba(255,255,255,0.5);

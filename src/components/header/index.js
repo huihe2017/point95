@@ -28,7 +28,7 @@ const ButtonGroup = Button.Group;
 
 class Header extends React.Component {
     constructor(props) {
-        console.log(hashHistory)
+        // console.log(hashHistory)
         super(props);
         this.state = {
             open: false,
@@ -52,13 +52,15 @@ class Header extends React.Component {
                     token:localStorage.getItem('token')
                 }})
                 .then(function (response) {
-                    console.log(957,response.data.result);
-                    console.log(957,localStorage.getItem('id'));
+                    // console.log(957,response.data.result);
+                    // console.log(957,localStorage.getItem('id'));
+                    // alert(1)
                     let newarr=response.data.result.filter((item)=>{return item.id.email==localStorage.getItem('userName')})
+                    // alert(11)
                     // console.log(597,newarr)
                     let arr=[]
                     newarr[0].messages.map((v,i)=>{
-
+// alert(111)
                         arr[i]={}
                         arr[i].author=v.sender==localStorage.getItem('id')?'me':'them';
                         arr[i].type='text';
@@ -84,6 +86,7 @@ class Header extends React.Component {
     componentWillMount() {
         console.log(process.env.NODE_ENV);
         var that=this;
+        // console.log(window.location.hash);
         var llll=window.location.hash.slice(3, -10)
         if(llll.indexOf('email')>0&&llll.indexOf('token')==0){
             //console.log(window.location.hash.slice(3,-10));
@@ -95,7 +98,8 @@ class Header extends React.Component {
                 email:slisr2[1],
                 token:slisr1[1]
             }).then(function(response){
-                console.log(response.data.code);if(response.data.code==1){
+                // console.log(response.data.code);
+                if(response.data.code==1){
                     that.props.showLogin()
                     }else if(response.data.code==0){
                         message.error(response.data.message);
@@ -328,7 +332,7 @@ class Header extends React.Component {
     componentDidMount(){
         let that=this
 
-        let socket=io.connect("ws://192.168.100.105:8000");
+        let socket=io.connect(`${webLink}`);
         socket.on('connected',(data)=>{
             // if(localStorage.getItem('role')==1){
             //     socket.emit('setAdmin',{name:55})
@@ -336,7 +340,7 @@ class Header extends React.Component {
             socket.emit('setSocketId',{id:localStorage.getItem('id')})
         })
         socket.on('message',(data)=>{
-            console.log(826548,data);
+            // console.log(826548,data);
             let newmes={}
             newmes={}
             newmes.author='them';
@@ -359,7 +363,7 @@ class Header extends React.Component {
     _onMessageWasSent(message) {
 
         window.socket.emit('transfer',{token:localStorage.getItem('token'),role:localStorage.getItem('role'),content:message.data.text})
-        console.log(message.data.text);
+        // console.log(message.data.text);
 
         this.setState({
             messageList: [...this.state.messageList, message]
@@ -507,14 +511,7 @@ function mapDispatchToProps(dispatch) {
         isEnglish:bindActionCreators(isEnglish,dispatch),
     }
 }
-var socket=io.connect("ws://192.168.100.105:8000",{withCredentials:''});
 
-socket.on('message',(data)=>{
-    // alert(data.receiver)
-    console.log(this);
-    //this.props.shenList()
-})
-window.socket = socket
 
 
 Header = connect(mapStateToProps, mapDispatchToProps)(Header)

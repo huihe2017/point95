@@ -6,7 +6,7 @@ import Footer from '../../components/footer'
 import SideBar from '../../components/header/components/sideBar'
 import ToolBar from '../../components/toolBar'
 import {hashHistory} from 'react-router'
-import PageTable from './components/pageTable'
+
 import Qcode from '../../components/Qcode'
 import HomeSwiper from './homeSwiper'
 import {connect} from 'react-redux'
@@ -43,10 +43,10 @@ class Home extends React.Component {
                         <Button onClick={this.props.showRegister} type="primary"
                                 style={localStorage.getItem('token')?{width: '200', height: '60', fontSize: '24px',display:'none'}:{width: '200', height: '60', fontSize: '24px',display:'block'}} ><FormattedMessage id='registerNow' defaultMessage='立即注册'/></Button>
                     </div>
-                    <div style={{width: 420, top: 67, position: 'absolute', right: 0}} hidden={true}><PageTable/></div>
+
                 </div>
                 <div className="section">
-                    <div className={style.superiority}>
+                    <div className={style.superiority} hidden={true}>
                         <div className={style.suptitle}>
                             <FormattedMessage id='ourAdvantages' defaultMessage='我们的优势'/>
                             <p className={style.supdtitle} hidden={this.props.auth.isEnglish}>
@@ -67,10 +67,10 @@ class Home extends React.Component {
                             </p>
                         </div>
                     </div>
-                    <div className={style.mt4}>
+                    <div className={style.mt4} hidden={true}>
                         <HomeSwiper/>
                     </div>
-                    <div className={style.vision}>
+                    <div className={style.vision} hidden={true}>
                         <div className={style.viscontent}>
                             <p className={style.vistitle} style={this.props.auth.isEnglish?{marginTop:'120px'}:{}}>
                                 <FormattedMessage id='ourVision' defaultMessage='我们的愿景'/>
@@ -99,7 +99,7 @@ class Home extends React.Component {
                         </p>
                         <div className={style.concontent}>
                             <img src={require('./images/userbg.png')} alt=""/>
-                            info@point95global.com
+                            info@p95g.com
                         </div>
                     </div>
                     {this.state.showQcode ? <Qcode path={this.state.QcodePath} onClose={()=>{this.setState({showQcode:false})}} /> : ''}

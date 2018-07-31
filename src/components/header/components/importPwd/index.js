@@ -18,7 +18,7 @@ const Option = Select.Option;
 
 
 function handleChange(value) {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
 }
 
 

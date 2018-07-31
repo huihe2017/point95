@@ -21,21 +21,15 @@ class Chat extends React.Component {
 
     componentDidMount(){
         let that=this
-        let socket=io.connect("ws://192.168.100.105:8000");
+        let socket=io.connect(`${webLink}`);
         socket.on('connected',(data)=>{
 
             socket.emit('setAdmin',{token:localStorage.getItem('token')})
         })
-
         socket.on('message',(data)=>{
-            // console.log('dda',this.state.userData);
-            // console.log('dda',data);
             data._id=data.roomId
             let meslist={}
             this.state.userData.map((v,i)=>{
-                // console.log('lplp',v);
-                // console.log('lplp',this.state.id);
-                // console.log('lplp',data.socketId);
                 this.setState({
                     socketId:data.socketId
                 })
@@ -44,9 +38,7 @@ class Chat extends React.Component {
                     meslist.id={}
                     meslist.id._id=data.roomId;
                     meslist.id.email=v.id.email;
-
                     meslist.messages=[...v.messages,data];
-
                 }
 
                 if(meslist.messages!==undefined){
@@ -61,26 +53,7 @@ class Chat extends React.Component {
 
                     })
                 }
-
-
-
             })
-
-
-
-
-
-
-            // let newarr=this.state.userData.filter((item)=>{return item.id._id!==data.roomId})
-            // // console.log('null',meslist);
-            // let alllist=[meslist,...newarr]
-            // // console.log('dda12323',alllist);
-            //
-            // this.setState({
-            //     userData:alllist
-            // })
-
-
         })
 
         window.socket = socket
@@ -90,7 +63,7 @@ class Chat extends React.Component {
                 token:localStorage.getItem('token')
             }})
             .then(function (response) {
-                // console.log(1111,response.data.result[0].id._id);
+                console.log(1111,response.data.result[0]);
                 that.setState({
                     userData:response.data.result,
                     id:response.data.result[0].id._id

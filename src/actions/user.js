@@ -13,7 +13,7 @@ export function login(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 1) {
-                    console.log(response.data.result.unReadMsg);
+                    // console.log(response.data.result.unReadMsg);
                     dispatch({type: 'LOGIN', data: response.data.result})
                     dispatch({type: 'HIDE_AUTH'})
                     if(response.data.result.unReadMsg==1){
@@ -52,12 +52,12 @@ export function modifyPwd(data, callback) {
                 if (response.data.code === 0) {
                     // dispatch({type: 'MODIFYPWD'})
                     // callback()
-                    console.log(response.data.message)
+                    // console.log(response.data.message)
                     Toast.hide()
                     message.error(response.data.message);
                 }else if (response.data.code === 1) {
 
-                    console.log(response.data.message)
+                    // console.log(response.data.message)
                     Toast.hide()
                     message.error(response.data.message);
                 }
@@ -130,7 +130,7 @@ export function resetPwd(data, callback) {
             code: data.code
         })
             .then(function (response) {
-                console.log(response)
+                // console.log(response)
                 if (response.data.code === 0) {
                     Toast.hide()
                     message.error(data.language?response.data.message.en:response.data.message.zh);
@@ -155,7 +155,7 @@ export function forgetPwdSet(data, callback) {
             email:data.email
         })
             .then(function (response) {
-                console.log(response)
+                // console.log(response)
                 if (response.data.code === 0) {
                     // dispatch({type: 'MODIFYPWD'})
                     // callback()
@@ -208,7 +208,7 @@ export function getCaptcha(data, callback) {
             email:data.email
         })
             .then(function (response) {
-                console.log(response)
+                // console.log(response)
                 if (response.data.code === 0) {
                     // dispatch({type: 'MODIFYPWD'})
                     // callback()

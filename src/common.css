@@ -48,3 +48,9 @@ body,html{
 .ant-tabs-bar{
     border-bottom: none;
 }
+.has-success.has-feedback:after{
+    content: '' ;
+}
+.has-error.has-feedback:after{
+    content: '';
+}

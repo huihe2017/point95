@@ -34,7 +34,7 @@ class NewsLink extends React.Component {
 
             for(var i in response.data.result){
                 response.data.result[i].key=i;
-                console.log(response.data.result[i].createAt);
+                // console.log(response.data.result[i].createAt);
                 var m=new Date(response.data.result[i].createAt).getMonth()+1
                 var mm=m<10?'0'+m:m
                 var d=new Date(response.data.result[i].createAt).getDate()<10?'0'+new Date(response.data.result[i].createAt).getDate():new Date(response.data.result[i].createAt).getDate()

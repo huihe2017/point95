@@ -16,9 +16,9 @@ import IntlProviderWrap from './intlProviderWrap';
 addLocaleData([...en,...zh]);
 
 const store = configureStore(window.__initState__)
-console.log(store.getState())
+// console.log(store.getState())
 let state=store.getState();
-console.log(state);
+// console.log(state);
 
 
 class App extends Component {

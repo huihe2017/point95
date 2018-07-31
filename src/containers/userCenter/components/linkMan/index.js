@@ -3,7 +3,7 @@ import style from "./index.css";
 import qiniu from "qiniu";
 import axios from  '../../../../common/axiosConf'
 import webLink from  '../../../../common/webLink'
-
+import { IntlProvider,addLocaleData,FormattedMessage,injectIntl, intlShape } from 'react-intl';
 import { message } from 'antd';
 
 class LinkMan extends React.Component{
@@ -40,13 +40,16 @@ class LinkMan extends React.Component{
 
     }
     render(){
+        const { intl: { formatMessage } } = this.props
+        const basicCant = formatMessage({id:'basicCant'});
+        const RMwechat = formatMessage({id:'RMwechat'});
         return(
             <div className={style.wlop} >
-                {this.state.canChange?'联系人微信：lalala':'初级审核未通过'}
+                {this.state.canChange?`${RMwechat}：fuchina888`:basicCant}
 
             </div>
         )
     }
 }
 
-export default LinkMan;
+export default injectIntl(LinkMan);
